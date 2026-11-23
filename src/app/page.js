@@ -1,10 +1,11 @@
-import Footer from "@/components/footer/Footer";
-import Image from "next/image";
+// import Footer from "@/components/footer/Footer";
+import HomePage from "@/views/HomePage";
 
 export default function Home() {
   return (
     <>
-    <Footer />npm
+      <HomePage />
+      {/* <Footer /> */}
     </>
   );
 }
