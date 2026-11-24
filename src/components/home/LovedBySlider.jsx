@@ -16,7 +16,7 @@ const testimonials = [
     clientType: "Residential Customer",
     name: "Aarav M.",
     role: "Operations Manager",
-    avatar: "/reviews/avatar-aarav.png",
+    avatar: "/assets/images/png/reviews/avatar-aarav.png",
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const testimonials = [
     clientType: "",
     name: "David K.",
     role: "Facility Director",
-    avatar: "/reviews/avatar-david.png",
+    avatar: "/assets/images/png/reviews/avatar-david.png",
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ const testimonials = [
     clientType: "",
     name: "Rina S.",
     role: "Sustainability Lead",
-    avatar: "/reviews/avatar-rina.png",
+    avatar: "/assets/images/png/reviews/avatar-rina.png",
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const testimonials = [
     clientType: "Residential Customer",
     name: "Grace T.",
     role: "Interior Stylist",
-    avatar: "/reviews/avatar-rina.png",
+    avatar: "/assets/images/png/reviews/avatar-rina.png",
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ const testimonials = [
     clientType: "Commercial Customer",
     name: "Daniel L.",
     role: "Business Owner",
-    avatar: "/reviews/avatar-david.png",
+    avatar: "/assets/images/png/reviews/avatar-david.png",
   },
 ];
 
@@ -68,7 +68,7 @@ export default function LovedBySlider() {
         aria-hidden="true"
       >
         <Image
-          src="/reviews/bg-curves.svg"
+          src="/assets/images/svg/reviews/bg-curves.svg"
           alt=""
           width={1203}
           height={1203}
@@ -135,7 +135,7 @@ export default function LovedBySlider() {
                       {/* Quote SVG */}
                       <div className="w-[25.2px] h-[17.1px] relative shrink-0">
                         <Image
-                          src="/reviews/quote.svg"
+                          src="/assets/images/svg/reviews/quote.svg"
                           alt=""
                           width={26}
                           height={18}
@@ -179,7 +179,7 @@ export default function LovedBySlider() {
                     <div className="flex items-center gap-2.5 shrink-0 pt-6">
                       <div className="w-6 h-6 shrink-0 relative flex items-center justify-center">
                         <Image
-                          src="/reviews/google-icon.png"
+                          src="/assets/images/png/reviews/google-icon.png"
                           alt="Google Review"
                           width={24}
                           height={24}
@@ -190,7 +190,7 @@ export default function LovedBySlider() {
                         {[...Array(5)].map((_, i) => (
                           <div key={i} className="w-5 h-5 shrink-0">
                             <Image
-                              src="/reviews/star.svg"
+                              src="/assets/images/svg/reviews/star.svg"
                               alt=""
                               width={20}
                               height={20}
