@@ -1,10 +1,9 @@
-import Footer from "@/components/footer/Footer";
-import Image from "next/image";
+import LovedBySlider from "@/components/LovedBySlider";
 
 export default function Home() {
   return (
-    <>
-    <Footer />npm
-    </>
+    <main>
+      <LovedBySlider />
+    </main>
   );
 }
