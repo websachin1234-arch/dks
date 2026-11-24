@@ -3,7 +3,7 @@
 ## links
 1. live link:- 
 2. repo link:- https://github.com/websachin1234-arch/dks
-3. figma link:- https://www.figma.com/design/eflyz2zXs9hkz5NPDhIW9t/Herbert--Copy---Copy---Copy---Copy-?node-id=12001-4799&t=NY7qxecu75H1oRF0-0
+3. figma link:- https://www.figma.com/design/rEtLMnofNSilt6KHhWo5Oz/DKS-Upholstery--Copy-?node-id=1658-3161&t=pZN8z7admkEc6fnd-0
 
 ## Description
 
