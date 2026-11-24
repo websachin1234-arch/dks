@@ -1,11 +1,21 @@
-// import Footer from "@/components/footer/Footer";
-import HomePage from "@/views/HomePage";
+import Testimonials from "@/components/home/Testimonials";
+import Hero from "@/components/home/Hero";
+import ServicesPreview from "@/components/home/ServicesPreview";
+import AboutPreview from "@/components/home/AboutPreview";
+import Process from "@/components/home/Process";
+import FAQ from "@/components/home/FAQ";
+import CTA from "@/components/home/CTA";
 
 export default function Home() {
   return (
-    <>
-      <HomePage />
-      {/* <Footer /> */}
-    </>
+    <main>
+      <Hero />
+      <ServicesPreview />
+      <AboutPreview />
+      <Process />
+      <Testimonials />
+      <FAQ />
+      <CTA />
+    </main>
   );
 }
