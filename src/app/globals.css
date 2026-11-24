@@ -8,19 +8,178 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-poppins), var(--font-geist-sans), Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
+
+/* ==========================================================================
+   Loved by Singapore Reviews Section - Figma Specification
+   ========================================================================== */
+
+.reviews-section {
+  position: relative;
+  width: 100%;
+  background: #ffffff;
+  overflow: hidden;
+  padding: 18px 0 22px;
+}
+
+@media (min-width: 1024px) {
+  .reviews-section {
+    padding: 28px 0 22px;
+  }
+}
+
+.reviews-swiper {
+  width: 100%;
+  overflow: visible !important;
+  padding: 8px 0;
+}
+
+.reviews-swiper .swiper-wrapper {
+  align-items: stretch;
+}
+
+/* 500px wide card on desktop as specified in Figma */
+.testimonial-slide {
+  width: 500px !important;
+  max-width: 88vw !important;
+  height: auto;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+@media (max-width: 639px) {
+  .testimonial-slide {
+    width: 320px !important;
+    max-width: 86vw !important;
+  }
+}
+
+/* Testimonial Card */
+.testimonial-card {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 282px;
+  height: 100%;
+  border-radius: 12px;
+  background: #fafafa;
+  border: 1px solid rgba(1, 1, 1, 0.16);
+  padding: 30px 32px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (max-width: 639px) {
+  .testimonial-card {
+    padding: 24px;
+    min-height: 282px;
+  }
+}
+
+/* Active slide card styling (Figma Frame 2147227783) */
+.reviews-swiper .swiper-slide-active .testimonial-card {
+  background: rgba(32, 174, 25, 0.06);
+  border-color: #010101;
+  box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.08);
+}
+
+.reviews-swiper .swiper-slide-active .testimonial-quote {
+  color: #010101;
+}
+
+/* Pagination Dots (Figma Frame 2147227155) */
+.reviews-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 32px;
+}
+
+.reviews-pagination .swiper-pagination-bullet {
+  width: 13.5px;
+  height: 13.5px;
+  margin: 0 !important;
+  background: #20ae19 !important;
+  opacity: 0.16 !important;
+  border-radius: 50%;
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.25s ease;
+  cursor: pointer;
+}
+
+.reviews-pagination .swiper-pagination-bullet-active {
+  background: #19ae1a !important;
+  opacity: 1 !important;
+  transform: scale(1.05);
+}
+
+/* Navigation Buttons (Figma Group 2085662873) */
+.review-nav-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  user-select: none;
+}
+
+.review-nav-btn:hover {
+  transform: scale(1.06);
+}
+
+.review-nav-btn:active {
+  transform: scale(0.96);
+}
+
+.review-nav-prev {
+  background: #fafafa;
+  border: 0.76px solid #19ae1a;
+  color: #19ae1a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.review-nav-prev:hover {
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(25, 174, 26, 0.2);
+}
+
+.review-nav-next {
+  background: #19ae1a;
+  border: none;
+  color: #fafafa;
+  box-shadow: 0 4px 12px rgba(25, 174, 26, 0.35);
+}
+
+.review-nav-next:hover {
+  background: #159b16;
+  box-shadow: 0 6px 16px rgba(25, 174, 26, 0.45);
+}
+
+@media (max-width: 768px) {
+  .review-nav-btn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+
