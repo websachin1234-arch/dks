@@ -1,13 +1,8 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
+import React from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
-// ==================== FOOTER MAP DATA ====================
 
 const FOOTER_NAV = [
     "Home",
@@ -47,185 +42,84 @@ const FOOTER_SERVICES_3 = [
     "Revarnishing",
 ];
 
-// ==================== COMPONENT ====================
+
+const FOOTER_ADDRESS = {
+    icon: "/assets/images/svg/Location_icon.svg",
+    alt: "location",
+    text: "Defu Industrial Estate Address: 37 Defu Lane 10, #01/41, Singapore 539214",
+};
+
+const FOOTER_SOCIALS = [
+    {
+        name: "Instagram",
+        href: "https://www.instagram.com",
+        icon: "/assets/images/svg/instagram_icon.svg",
+    },
+    {
+        name: "Facebook",
+        href: "https://www.facebook.com/",
+        icon: "/assets/images/svg/facebook_icon.svg",
+    },
+    {
+        name: "LinkedIn",
+        href: "https://www.linkedin.com",
+        icon: "/assets/images/svg/linkdin_icon.svg",
+    },
+];
+
+const FOOTER_CONTACT = [
+    {
+        type: "phone",
+        icon: "/assets/images/svg/whatsapp_icon.svg",
+        iconWidth: 16,
+        iconHeight: 16,
+        links: [
+            {
+                text: "98385685,",
+                href: "tel:98385685",
+            },
+            {
+                text: "93832006",
+                href: "tel:93832006",
+            },
+        ],
+    },
+    {
+        type: "phone",
+        icon: "/assets/images/svg/coll_icon.svg",
+        iconWidth: 15,
+        iconHeight: 15,
+        links: [
+            {
+                text: "62844186",
+                href: "tel:62844186",
+            },
+        ],
+    },
+    {
+        type: "email",
+        icon: "/assets/images/svg/dm_icon.svg",
+        iconWidth: 13,
+        iconHeight: 13,
+        links: [
+            {
+                text: "info@dksinternational.com",
+                href: "mailto:info@dksinternational.com",
+            },
+            {
+                text: "dks.int@live.com",
+                href: "mailto:dks.int@live.com",
+            },
+        ],
+    },
+];
+
 
 const Footer = () => {
-    const footerRef = useRef(null);
-
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            const mm = gsap.matchMedia();
-
-            mm.add("(min-width: 1025px)", () => {
-                const leftItems = gsap.utils.toArray(".footer-left-animate");
-
-                const rightItems = gsap.utils.toArray(".footer-right-animate");
-
-                const galleryItems = gsap.utils.toArray(".footer-gallery-item");
-
-                const tl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: footerRef.current,
-                        start: "top 82%",
-                        once: true,
-                    },
-                });
-
-                tl.fromTo(
-                    leftItems,
-                    {
-                        y: 35,
-                        opacity: 0,
-                    },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 0.7,
-                        stagger: 0.12,
-                        ease: "power3.out",
-                    },
-                )
-                    .fromTo(
-                        rightItems,
-                        {
-                            y: 35,
-                            opacity: 0,
-                        },
-                        {
-                            y: 0,
-                            opacity: 1,
-                            duration: 0.7,
-                            stagger: 0.08,
-                            ease: "power3.out",
-                        },
-                        "-=0.4",
-                    )
-                    .fromTo(
-                        galleryItems,
-                        {
-                            y: 25,
-                            opacity: 0,
-                        },
-                        {
-                            y: 0,
-                            opacity: 1,
-                            duration: 0.55,
-                            stagger: 0.07,
-                            ease: "power3.out",
-                        },
-                        "-=0.3",
-                    );
-
-                tl.eventCallback("onComplete", () => {
-                    gsap.set(footerRef.current, {
-                        clearProps: "transform",
-                    });
-
-                    gsap.set(
-                        footerRef.current.querySelectorAll(
-                            ".footer-left-animate, .footer-right-animate, .footer-gallery-item",
-                        ),
-                        {
-                            clearProps: "opacity,transform,visibility",
-                        },
-                    );
-                });
-
-                galleryItems.forEach((item) => {
-                    const img = item.querySelector("img");
-
-                    if (!img) return;
-
-                    item.addEventListener("mouseenter", () => {
-                        gsap.to(img, {
-                            scale: 1.06,
-                            duration: 0.45,
-                            ease: "power2.out",
-                            overwrite: true,
-                        });
-                    });
-
-                    item.addEventListener("mouseleave", () => {
-                        gsap.to(img, {
-                            scale: 1,
-                            duration: 0.5,
-                            ease: "power3.out",
-                            overwrite: true,
-                        });
-                    });
-                });
-            });
-
-            mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
-                const items = gsap.utils.toArray(
-                    ".footer-left-animate, .footer-right-animate, .footer-gallery-item",
-                );
-
-                gsap.fromTo(
-                    items,
-                    {
-                        opacity: 0,
-                        y: 25,
-                    },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.65,
-                        stagger: 0.08,
-                        ease: "power3.out",
-                        scrollTrigger: {
-                            trigger: footerRef.current,
-                            start: "top 88%",
-                            once: true,
-                        },
-                        clearProps: "opacity,transform,visibility",
-                    },
-                );
-            });
-
-            mm.add("(max-width: 768px)", () => {
-                const items = gsap.utils.toArray(
-                    ".footer-left-animate, .footer-right-animate, .footer-gallery-item",
-                );
-
-                gsap.fromTo(
-                    items,
-                    {
-                        opacity: 0,
-                        y: 20,
-                    },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.55,
-                        stagger: 0.06,
-                        ease: "power2.out",
-                        scrollTrigger: {
-                            trigger: footerRef.current,
-                            start: "top 92%",
-                            once: true,
-                        },
-                        clearProps: "opacity,transform,visibility",
-                    },
-                );
-            });
-
-            mm.add("(prefers-reduced-motion: reduce)", () => {
-                gsap.set(footerRef.current.querySelectorAll("*"), {
-                    clearProps: "opacity,transform,visibility,clipPath",
-                });
-            });
-
-            return () => {
-                mm.revert();
-            };
-        }, footerRef);
-
-        return () => ctx.revert();
-    }, []);
+    const currentYear = new Date().getFullYear();
 
     return (
-        <footer ref={footerRef} className="bg-soft-ivory overflow-x-hidden">
+        <footer className="bg-soft-ivory overflow-x-hidden">
             <div
                 className="
                     footer-container
@@ -255,15 +149,16 @@ const Footer = () => {
                         max-sm:gap-7
                     "
                 >
+
                     <div
                         className="
                             max-w-133.75
                             w-full
-                            footer-left-animate
 
                             max-lg:max-w-full
                         "
                     >
+
                         <div
                             className="
                                 border-b
@@ -309,6 +204,7 @@ const Footer = () => {
                             </p>
                         </div>
 
+
                         <div
                             className="
                                 flex
@@ -323,7 +219,6 @@ const Footer = () => {
                                 max-sm:gap-5
                             "
                         >
-                            {/* Address / Social */}
 
                             <div
                                 className="
@@ -333,6 +228,7 @@ const Footer = () => {
                                     max-md:max-w-full
                                 "
                             >
+
                                 <div
                                     className="
                                         flex
@@ -344,8 +240,8 @@ const Footer = () => {
                                 >
                                     <div className="min-w-5 h-5">
                                         <Image
-                                            src="/assets/images/svg/Location_icon.svg"
-                                            alt="location"
+                                            src={FOOTER_ADDRESS.icon}
+                                            alt={FOOTER_ADDRESS.alt}
                                             width="11"
                                             height="16"
                                         />
@@ -361,10 +257,10 @@ const Footer = () => {
                                             max-sm:text-sm
                                         "
                                     >
-                                        Defu Industrial Estate Address: 37 Defu Lane 10, #01/41,
-                                        Singapore 539214
+                                        {FOOTER_ADDRESS.text}
                                     </p>
                                 </div>
+
 
                                 <div
                                     className="
@@ -377,13 +273,15 @@ const Footer = () => {
                                         max-[420px]:items-start
                                     "
                                 >
+
                                     <div className="flex gap-2 items-center">
                                         <div className="w-5 h-5 flex items-center">
                                             <Image
-                                            width={16}
-                                            height={14}
-                                            src="/assets/images/svg/follow_icon.svg"
-                                        />
+                                                width={16}
+                                                height={14}
+                                                src="/assets/images/svg/follow_icon.svg"
+                                                alt="follow"
+                                            />
                                         </div>
 
                                         <p className="text-rich-black font-medium text-base max-sm:text-sm leading-163">
@@ -391,41 +289,30 @@ const Footer = () => {
                                         </p>
                                     </div>
 
+
                                     <div className="flex gap-3">
-                                        <a href="https://www.instagram.com" target="_blank">
-                                            <div className="w-5 h-5">
-                                                <Image
-                                            width={20}
-                                            height={20}
-                                            src="/assets/images/svg/instagram_icon.svg"
-                                        />
-                                            </div>
-                                        </a>
-
-                                        <a href="https://www.facebook.com/" target="_blank">
-                                            <div className="w-5 h-5">
-                                                <Image
-                                            width={20}
-                                            height={20}
-                                            src="/assets/images/svg/facebook_icon.svg"
-                                        />
-                                            </div>
-                                        </a>
-
-                                        <a href="https://www.linkedin.com   " target="_blank">
-                                            <div className="w-5 h-5">
-                                                <Image
-                                            width={20}
-                                            height={20}
-                                            src="/assets/images/svg/linkdin_icon.svg"
-                                        />
-                                            </div>
-                                        </a>
+                                        {FOOTER_SOCIALS.map((social) => (
+                                            <a
+                                                key={social.name}
+                                                href={social.href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                aria-label={social.name}
+                                            >
+                                                <div className="w-5 h-5">
+                                                    <Image
+                                                        width={20}
+                                                        height={20}
+                                                        src={social.icon}
+                                                        alt={social.name}
+                                                    />
+                                                </div>
+                                            </a>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Contact */}
 
                             <div
                                 className="
@@ -435,106 +322,86 @@ const Footer = () => {
                                     max-md:max-w-full
                                 "
                             >
-                                <div className="flex gap-2 mb-2.25 items-center">
-                                    <div className="w-5 h-5 shrink-0 flex justify-center items-center">
-                                        <Image
-                                            width={16}
-                                            height={16}
-                                            src="/assets/images/svg/whatsapp_icon.svg"
-                                        />
-                                    </div>
-
-                                    <div className="flex flex-wrap">
-                                        <a
-                                            href="tel:98385685"
-                                            className="text-dark-gray text-base leading-163 max-sm:text-sm transition-all duration-300 hover:text-vivid-green"
-                                        >
-                                            98385685,
-                                        </a>
-
-                                        <a
-                                            href="tel:93832006"
-                                            className="text-dark-gray text-base leading-163 max-sm:text-sm transition-all duration-300 hover:text-vivid-green"
-                                        >
-                                            93832006
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div className="flex gap-2 mb-2.25 items-center">
-                                    <div className="w-5 h-5 shrink-0 flex items-center">
-                                        <Image
-                                            width={15}
-                                            height={15}
-                                            src="/assets/images/svg/coll_icon.svg"
-                                        />
-                                    </div>
-
-                                    <a
-                                        href="tel:62844186"
-                                        className="text-dark-gray text-base leading-163 max-sm:text-sm transition-all duration-300 hover:text-vivid-green"
+                                {FOOTER_CONTACT.map((contact) => (
+                                    <div
+                                        key={contact.icon}
+                                        className={`
+                                            flex
+                                            gap-2
+                                            mb-2.25
+                                            ${
+                                                contact.type === "email"
+                                                    ? "items-start"
+                                                    : "items-center"
+                                            }
+                                        `}
                                     >
-                                        62844186
-                                    </a>
-                                </div>
-
-                                <div className="flex gap-2 mb-2.25 items-start">
-                                    <div className="w-5 h-5 shrink-0 items-center flex">
-                                        <Image
-                                            width={13}
-                                            height={13}
-                                            src="/assets/images/svg/dm_icon.svg"
-                                        />
-                                    </div>
-
-                                    <div className="min-w-0">
-                                        <a
-                                            href="mailto:info@dksinternational.com"
-                                            className="
-                                                text-dark-gray
-                                                text-base
-                                                leading-163
-                                                break-all
-                                                max-sm:text-sm
-                                                transition-all
-                                                duration-300
-                                                hover:text-vivid-green
-                                            "
+                                        <div
+                                            className={`
+                                                w-5
+                                                h-5
+                                                shrink-0
+                                                flex
+                                                ${
+                                                    contact.type === "email"
+                                                        ? "items-center"
+                                                        : "justify-center items-center"
+                                                }
+                                            `}
                                         >
-                                            info@dksinternational.com
-                                        </a>
+                                            <Image
+                                                width={contact.iconWidth}
+                                                height={contact.iconHeight}
+                                                src={contact.icon}
+                                                alt={contact.type}
+                                            />
+                                        </div>
 
-                                        <br />
-
-                                        <a
-                                            href="mailto:dks.int@live.com"
-                                            className="
-                                                text-dark-gray
-                                                text-base
-                                                leading-163
-                                                break-all
-                                                max-sm:text-sm
-                                                transition-all
-                                                duration-300
-                                                hover:text-vivid-green
-                                            "
+                                        <div
+                                            className={
+                                                contact.type === "email"
+                                                    ? "min-w-0"
+                                                    : "flex flex-wrap"
+                                            }
                                         >
-                                            dks.int@live.com
-                                        </a>
+                                            {contact.links.map((link, index) => (
+                                                <React.Fragment key={link.href}>
+                                                    <a
+                                                        href={link.href}
+                                                        className="
+                                                            text-dark-gray
+                                                            text-base
+                                                            leading-163
+                                                            max-sm:text-sm
+                                                            transition-all
+                                                            duration-300
+                                                            hover:text-vivid-green
+                                                            break-all
+                                                        "
+                                                    >
+                                                        {link.text}
+                                                    </a>
+
+                                                    {contact.type === "email" &&
+                                                        index !==
+                                                            contact.links.length - 1 && (
+                                                            <br />
+                                                        )}
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>
 
-                    {/* ==================== RIGHT CONTENT ==================== */}
 
                     <div
                         className="
                             pl-19.5
                             border-l
                             border-soft-black
-                            footer-right-animate
 
                             max-lg:border-l-0
                             max-lg:border-t
@@ -547,7 +414,6 @@ const Footer = () => {
                             max-sm:pt-6
                         "
                     >
-                        {/* ==================== NAV ==================== */}
 
                         <div
                             className="
@@ -594,7 +460,6 @@ const Footer = () => {
                             ))}
                         </div>
 
-                        {/* ==================== GALLERY ==================== */}
 
                         <div
                             className="
@@ -619,7 +484,6 @@ const Footer = () => {
                                 <div
                                     key={img}
                                     className="
-                                        footer-gallery-item
                                         overflow-hidden
                                         shrink-0
 
@@ -651,7 +515,6 @@ const Footer = () => {
                             ))}
                         </div>
 
-                        {/* ==================== SERVICES ROW 1 ==================== */}
 
                         <div
                             className="
@@ -704,8 +567,6 @@ const Footer = () => {
                             ))}
                         </div>
 
-                        {/* ==================== SERVICES ROW 2 ==================== */}
-
                         <div
                             className="
                                 gap-2.5
@@ -751,7 +612,6 @@ const Footer = () => {
                             ))}
                         </div>
 
-                        {/* ==================== SERVICES ROW 3 ==================== */}
 
                         <div
                             className="
@@ -795,7 +655,6 @@ const Footer = () => {
                             ))}
                         </div>
 
-                        {/* Terms */}
 
                         <a
                             href="#"
@@ -817,7 +676,6 @@ const Footer = () => {
                 </div>
             </div>
 
-            {/* ==================== COPYRIGHT ==================== */}
 
             <div
                 className="
@@ -844,7 +702,7 @@ const Footer = () => {
                         max-sm:text-xs
                     "
                 >
-                    Copyright © 2026 DKS Upholstery Pte Ltd | DKS International Supplier &
+                    Copyright © {currentYear} DKS Upholstery Pte Ltd | DKS International Supplier &
                     Services. All Rights Reserved.
                 </p>
             </div>
