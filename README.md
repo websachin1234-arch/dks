@@ -2,7 +2,7 @@
 
 ## NOTES (imp)
 
--- Whoever is making the navbar and footer please add them to components/common folder
+-- PLEASE GET YOUR FOLDER STR UPDATED!!!!!!!!!
 
 ## Links
 1. live link:- 
