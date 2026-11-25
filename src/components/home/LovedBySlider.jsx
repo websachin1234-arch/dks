@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import Icon from "@/components/common/Icons";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -16,7 +17,7 @@ const testimonials = [
     clientType: "Residential Customer",
     name: "Aarav M.",
     role: "Operations Manager",
-    avatar: "/assets/images/png/reviews/avatar-aarav.png",
+    avatar: "/assets/images/png/avatar-aarav.png",
   },
   {
     id: 2,
@@ -25,7 +26,7 @@ const testimonials = [
     clientType: "",
     name: "David K.",
     role: "Facility Director",
-    avatar: "/assets/images/png/reviews/avatar-david.png",
+    avatar: "/assets/images/png/avatar-david.png",
   },
   {
     id: 3,
@@ -34,7 +35,7 @@ const testimonials = [
     clientType: "",
     name: "Rina S.",
     role: "Sustainability Lead",
-    avatar: "/assets/images/png/reviews/avatar-rina.png",
+    avatar: "/assets/images/png/avatar-rina.png",
   },
   {
     id: 4,
@@ -43,7 +44,7 @@ const testimonials = [
     clientType: "Residential Customer",
     name: "Grace T.",
     role: "Interior Stylist",
-    avatar: "/assets/images/png/reviews/avatar-rina.png",
+    avatar: "/assets/images/png/avatar-rina.png",
   },
   {
     id: 5,
@@ -52,7 +53,7 @@ const testimonials = [
     clientType: "Commercial Customer",
     name: "Daniel L.",
     role: "Business Owner",
-    avatar: "/assets/images/png/reviews/avatar-david.png",
+    avatar: "/assets/images/png/avatar-david.png",
   },
 ];
 
@@ -68,7 +69,7 @@ export default function LovedBySlider() {
         aria-hidden="true"
       >
         <Image
-          src="/assets/images/svg/reviews/bg-curves.svg"
+          src="/assets/images/svg/bg-curves.svg"
           alt=""
           width={1203}
           height={1203}
@@ -86,11 +87,13 @@ export default function LovedBySlider() {
               className="text-[32px] sm:text-[40px] lg:text-[48px] font-semibold text-[#010101] leading-[1.2] tracking-tight max-w-138.25"
             >
               Loved by Singapore{" "}
-              <span className="text-[#19AE1A] block">Homes &amp; Businesses</span>
+              <span className="text-[#19AE1A] block">
+                Homes &amp; Businesses
+              </span>
             </h2>
             <p className="text-[#4D4D4D] text-[15px] sm:text-[16px] leading-[1.6] max-w-106.75 lg:pt-1">
-              Over 100 five star reviews from customers who transformed their sofas,
-              chairs, and spaces with DKS Upholstery.
+              Over 100 five star reviews from customers who transformed their
+              sofas, chairs, and spaces with DKS Upholstery.
             </p>
           </header>
         </div>
@@ -114,7 +117,11 @@ export default function LovedBySlider() {
                   spaceBetween: 32,
                 },
               }}
-              autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
+              autoplay={{
+                delay: 4500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
               speed={650}
               navigation={{
                 nextEl: ".review-nav-next",
@@ -134,13 +141,7 @@ export default function LovedBySlider() {
                     <div className="flex flex-col gap-5 sm:gap-6">
                       {/* Quote SVG */}
                       <div className="w-[25.2px] h-[17.1px] relative shrink-0">
-                        <Image
-                          src="/assets/images/svg/reviews/quote.svg"
-                          alt=""
-                          width={26}
-                          height={18}
-                          className="w-full h-full object-contain"
-                        />
+                        <Icon name="quote" className="h-full w-full" />
                       </div>
 
                       {/* Testimonial Quote */}
@@ -179,18 +180,21 @@ export default function LovedBySlider() {
                     <div className="flex items-center gap-2.5 shrink-0 pt-6">
                       <div className="w-6 h-6 shrink-0 relative flex items-center justify-center">
                         <Image
-                          src="/assets/images/png/reviews/google-icon.png"
+                          src="/assets/images/png/google-icon.png"
                           alt="Google Review"
                           width={24}
                           height={24}
                           className="w-full h-full object-contain"
                         />
                       </div>
-                      <div className="flex items-center gap-1" aria-label="5 out of 5 stars">
+                      <div
+                        className="flex items-center gap-1"
+                        aria-label="5 out of 5 stars"
+                      >
                         {[...Array(5)].map((_, i) => (
                           <div key={i} className="w-5 h-5 shrink-0">
                             <Image
-                              src="/assets/images/svg/reviews/star.svg"
+                              src="/assets/images/svg/star.svg"
                               alt=""
                               width={20}
                               height={20}
@@ -214,19 +218,7 @@ export default function LovedBySlider() {
               aria-label="Previous testimonial"
             >
               <div className="w-4.5 h-4.5 rotate-180 flex items-center justify-center">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 60 60"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-full h-full"
-                >
-                  <path
-                    d="M35.6533 31.3191L28.2195 38.753L26.3613 36.8949L32.8661 30.39L26.3613 23.8852L28.2195 22.0271L35.6533 29.461C35.8997 29.7074 36.0381 30.0416 36.0381 30.39C36.0381 30.7385 35.8997 31.0727 35.6533 31.3191Z"
-                    fill="currentColor"
-                  />
-                </svg>
+                <Icon name="chevron" className="h-full w-full" />
               </div>
             </button>
 
@@ -236,19 +228,7 @@ export default function LovedBySlider() {
               aria-label="Next testimonial"
             >
               <div className="w-4.5 h-4.5 flex items-center justify-center">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 60 60"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-full h-full"
-                >
-                  <path
-                    d="M35.6533 31.3191L28.2195 38.753L26.3613 36.8949L32.8661 30.39L26.3613 23.8852L28.2195 22.0271L35.6533 29.461C35.8997 29.7074 36.0381 30.0416 36.0381 30.39C36.0381 30.7385 35.8997 31.0727 35.6533 31.3191Z"
-                    fill="currentColor"
-                  />
-                </svg>
+                <Icon name="chevron" className="h-full w-full" />
               </div>
             </button>
           </div>
