@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-poppins), var(--font-geist-sans), Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
+  --leading-163: 163%;
 }
 
 @media (prefers-color-scheme: dark) {
