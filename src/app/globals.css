@@ -20,6 +20,26 @@
   }
 }
 
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-poppins), var(--font-geist-sans), Arial, sans-serif;
+  --font-mono: var(--font-geist-mono);
+  --leading-163: 163%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+}
+
 
 
 
@@ -61,7 +81,7 @@ body {
 .testimonial-slide {
   width: 500px !important;
   max-width: 88vw !important;
-  height: auto;
+  height: 320px !important;
   box-sizing: border-box;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -77,8 +97,8 @@ body {
 .testimonial-card {
   box-sizing: border-box;
   width: 100%;
-  min-height: 282px;
   height: 100%;
+  min-height: 320px;
   border-radius: 12px;
   background: #fafafa;
   border: 1px solid rgba(1, 1, 1, 0.16);
@@ -93,7 +113,6 @@ body {
 @media (max-width: 639px) {
   .testimonial-card {
     padding: 24px;
-    min-height: 282px;
   }
 }
 
@@ -132,58 +151,6 @@ body {
   background: #19ae1a !important;
   opacity: 1 !important;
   transform: scale(1.05);
-}
-
-/* Navigation Buttons (Figma Group 2085662873) */
-.review-nav-btn {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-  user-select: none;
-}
-
-.review-nav-btn:hover {
-  transform: scale(1.06);
-}
-
-.review-nav-btn:active {
-  transform: scale(0.96);
-}
-
-.review-nav-prev {
-  background: #fafafa;
-  border: 0.76px solid #19ae1a;
-  color: #19ae1a;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.review-nav-prev:hover {
-  background: #ffffff;
-  box-shadow: 0 4px 14px rgba(25, 174, 26, 0.2);
-}
-
-.review-nav-next {
-  background: #19ae1a;
-  border: none;
-  color: #fafafa;
-  box-shadow: 0 4px 12px rgba(25, 174, 26, 0.35);
-}
-
-.review-nav-next:hover {
-  background: #159b16;
-  box-shadow: 0 6px 16px rgba(25, 174, 26, 0.45);
-}
-
-@media (max-width: 768px) {
-  .review-nav-btn {
-    width: 44px;
-    height: 44px;
-  }
 }
 
 
