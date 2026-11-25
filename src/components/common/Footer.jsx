@@ -639,12 +639,12 @@ const Footer = () => {
                                             transition-transform
                                             duration-500
 
-                                            max-md:w-[75px]
-                                            max-md:h-[65px]
+                                            max-md:w-18.75
+                                            max-md:h-16.25
 
                                             max-sm:w-full
                                             max-sm:h-auto
-                                            max-sm:aspect-[81/70]
+                                            max-sm:aspect-81/70
                                         "
                                     />
                                 </div>
