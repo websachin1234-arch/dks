@@ -9,13 +9,8 @@ export default function Navbar() {
         </Link>
         <div className="flex items-center gap-8">
           <Link href="/" className="text-gray-700 hover:text-green-600">Home</Link>
-          <Link href="/services" className="text-gray-700 hover:text-green-600">Our Services</Link>
-          <Link href="/gallery" className="text-gray-700 hover:text-green-600">Gallery</Link>
-          <Link href="/about" className="text-gray-700 hover:text-green-600">About</Link>
+          <Link href="/blog" className="text-gray-700 hover:text-green-600">Blog</Link>
         </div>
-        <Link href="/contact" className="bg-green-500 text-white px-5 py-2 rounded-lg hover:bg-green-600">
-          Contact Us
-        </Link>
       </div>
     </nav>
   );
