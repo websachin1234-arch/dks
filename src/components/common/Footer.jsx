@@ -1,69 +1,353 @@
-import React from "react";
-import Logo from "../../../public/images/svg/logo.svg";
-import Footer_img from "../../../public/images/png/footer_img.png";
-import Footer_img_1 from "../../../public/images/png/footer_img_1.png";
-import Footer_img_2 from "../../../public/images/png/footer_img_2.png";
-import Footer_img_3 from "../../../public/images/png/footer_img_3.png";
-import Footer_img_4 from "../../../public/images/png/footer_img_4.png";
-import Footer_img_5 from "../../../public/images/png/footer_img_5.png";
+"use client";
+
+import React, { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Footer = () => {
+  const footerRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 1025px)", () => {
+        const leftItems = gsap.utils.toArray(".footer-left-animate");
+
+        const rightItems = gsap.utils.toArray(".footer-right-animate");
+
+        const galleryItems = gsap.utils.toArray(".footer-gallery-item");
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top 82%",
+            once: true,
+          },
+        });
+
+        tl.fromTo(
+          leftItems,
+          {
+            y: 35,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            stagger: 0.12,
+            ease: "power3.out",
+          },
+        )
+          .fromTo(
+            rightItems,
+            {
+              y: 35,
+              opacity: 0,
+            },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.7,
+              stagger: 0.08,
+              ease: "power3.out",
+            },
+            "-=0.4",
+          )
+          .fromTo(
+            galleryItems,
+            {
+              y: 25,
+              opacity: 0,
+            },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.55,
+              stagger: 0.07,
+              ease: "power3.out",
+            },
+            "-=0.3",
+          );
+        tl.eventCallback("onComplete", () => {
+          gsap.set(footerRef.current, {
+            clearProps: "transform",
+          });
+
+          gsap.set(
+            footerRef.current.querySelectorAll(
+              ".footer-left-animate, .footer-right-animate, .footer-gallery-item",
+            ),
+            {
+              clearProps: "opacity,transform,visibility",
+            },
+          );
+        });
+        galleryItems.forEach((item) => {
+          const img = item.querySelector("img");
+
+          if (!img) return;
+
+          item.addEventListener("mouseenter", () => {
+            gsap.to(img, {
+              scale: 1.06,
+              duration: 0.45,
+              ease: "power2.out",
+              overwrite: true,
+            });
+          });
+
+          item.addEventListener("mouseleave", () => {
+            gsap.to(img, {
+              scale: 1,
+              duration: 0.5,
+              ease: "power3.out",
+              overwrite: true,
+            });
+          });
+        });
+      });
+      mm.add("(min-width: 769px) and (max-width: 1024px)", () => {
+        const items = gsap.utils.toArray(
+          ".footer-left-animate, .footer-right-animate, .footer-gallery-item",
+        );
+
+        gsap.fromTo(
+          items,
+          {
+            opacity: 0,
+            y: 25,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.65,
+            stagger: 0.08,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: footerRef.current,
+              start: "top 88%",
+              once: true,
+            },
+            clearProps: "opacity,transform,visibility",
+          },
+        );
+      });
+      mm.add("(max-width: 768px)", () => {
+        const items = gsap.utils.toArray(
+          ".footer-left-animate, .footer-right-animate, .footer-gallery-item",
+        );
+
+        gsap.fromTo(
+          items,
+          {
+            opacity: 0,
+            y: 20,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            stagger: 0.06,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: footerRef.current,
+              start: "top 92%",
+              once: true,
+            },
+            clearProps: "opacity,transform,visibility",
+          },
+        );
+      });
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        gsap.set(footerRef.current.querySelectorAll("*"), {
+          clearProps: "opacity,transform,visibility,clipPath",
+        });
+      });
+
+      return () => {
+        mm.revert();
+      };
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <footer className="bg-soft-ivory">
-      <div className="footer-container max-w-314.25x-5 mx-auto pt-[90px">
-        <div className="footer-row flex">
-          <div className="left max-w-133.75">
-            <a href="#">
-              <Image width={193} height={41} src={Logo} alt="logo" />
-            </a>
-            <p className="mt-6 mb-8 font-normal text-base text-dark-gray">
-              At DKS, we specialize in expert upholstery, custom furniture, and
-              repairs combining craftsmanship with care to bring new life to
-              your furniture.
-            </p>
-            <div className="flex max-w-133.75 justify-between gap-5">
-              <div className="left max-w-58.25">
-                <div className="flex gap-2 mb-6.75">
+    <footer ref={footerRef} className="bg-soft-ivory overflow-x-hidden">
+      <div
+        className="
+                    footer-container
+                    max-w-314.25
+                    px-5
+                    mx-auto
+                    pt-22.5
+                    pb-10
+
+                    max-xl:pt-20
+                    max-lg:pt-16
+                    max-md:pt-14
+                    max-sm:pt-12
+                "
+      >
+        <div
+          className="
+                        flex
+                        justify-between
+                        gap-5
+                        xl:gap-10
+
+                        max-lg:flex-col
+                        max-lg:gap-10
+
+                        max-md:gap-8
+                        max-sm:gap-7
+                    "
+        >
+          <div
+            className="
+                            max-w-133.75
+                            w-full
+                            footer-left-animate
+
+                            max-lg:max-w-full
+                        "
+          >
+            <div
+              className="
+                                border-b
+                                border-soft-black
+                                mb-5
+
+                                max-md:mb-4
+                            "
+            >
+              <a href="#" className="inline-block">
+                <Image
+                  width={193}
+                  height={41}
+                  src="/assets/images/svg/logo.svg"
+                  alt="DKS International"
+                  className="
+                                        w-48.25
+                                        h-auto
+
+                                        max-sm:w-40
+                                    "
+                />
+              </a>
+
+              <p
+                className="
+                                    mt-6
+                                    mb-8
+                                    font-normal
+                                    text-base
+                                    text-dark-gray
+                                    leading-163
+
+                                    max-md:mt-5
+                                    max-md:mb-6
+
+                                    max-sm:text-sm
+                                "
+              >
+                At DKS, we specialize in expert upholstery, custom furniture,
+                and repairs combining craftsmanship with care to bring new life
+                to your furniture.
+              </p>
+            </div>
+            <div
+              className="
+                                flex
+                                max-w-133.75
+                                w-full
+                                justify-between
+                                gap-5
+
+                                max-md:flex-col
+                                max-md:gap-6
+
+                                max-sm:gap-5
+                            "
+            >
+              <div
+                className="
+                                    max-w-58.25
+                                    w-full
+
+                                    max-md:max-w-full
+                                "
+              >
+                {/* Address */}
+                <div
+                  className="
+                                        flex
+                                        gap-2
+                                        mb-6.75
+
+                                        max-md:mb-5
+                                    "
+                >
                   <div className="min-w-5 h-5">
-                    <svg
-                      width="12"
-                      height="17"
-                      viewBox="0 0 12 17"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                    <svg width="12" height="17" viewBox="0 0 12 17" fill="none">
                       <path
                         d="M5.83333 7.91667C5.2808 7.91667 4.7509 7.69717 4.36019 7.30647C3.96949 6.91577 3.75 6.38587 3.75 5.83333C3.75 5.2808 3.96949 4.7509 4.36019 4.36019C4.7509 3.96949 5.2808 3.75 5.83333 3.75C6.38587 3.75 6.91577 3.96949 7.30647 4.36019C7.69717 4.7509 7.91667 5.2808 7.91667 5.83333C7.91667 6.10692 7.86278 6.37783 7.75808 6.63059C7.65339 6.88335 7.49993 7.11302 7.30647 7.30647C7.11302 7.49993 6.88335 7.65339 6.63059 7.75808C6.37783 7.86278 6.10692 7.91667 5.83333 7.91667ZM5.83333 0C4.28624 0 2.80251 0.614581 1.70854 1.70854C0.614582 2.80251 0 4.28624 0 5.83333C0 10.2083 5.83333 16.6667 5.83333 16.6667C5.83333 16.6667 11.6667 10.2083 11.6667 5.83333C11.6667 4.28624 11.0521 2.80251 9.95812 1.70854C8.86416 0.614581 7.38043 0 5.83333 0Z"
                         fill="#010101"
                       />
                     </svg>
                   </div>
-                  <p className="font-normal text-base">
+
+                  <p
+                    className="
+                                            font-normal
+                                            text-base
+                                            text-dark-gray
+                                            leading-163
+
+                                            max-sm:text-sm
+                                        "
+                  >
                     Defu Industrial Estate Address: 37 Defu Lane 10, #01/41,
                     Singapore 539214
                   </p>
                 </div>
-                <div className="flex justify-between">
-                  <div className="flex gap-2">
+
+                {/* Follow */}
+                <div
+                  className="
+                                        flex
+                                        justify-between
+                                        items-center
+                                        gap-4
+
+                                        max-[420px]:flex-col
+                                        max-[420px]:items-start
+                                    "
+                >
+                  <div className="flex gap-2 items-center">
                     <div className="w-5 h-5">
                       <svg
                         width="20"
                         height="20"
                         viewBox="0 0 20 20"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M7.68326 2.93197C6.34635 3.08736 5.19779 4.10447 4.8406 5.44931C4.77705 5.68853 4.7576 5.87634 4.7576 6.25009C4.7576 6.62384 4.77705 6.81166 4.8406 7.05088C5.11517 8.08466 5.84892 8.93056 6.82275 9.33595C7.2417 9.51037 7.60662 9.57908 8.10596 9.57763C9.42443 9.5738 10.5849 8.81349 11.1396 7.59009C11.4995 6.79646 11.4995 5.70373 11.1396 4.91009C10.7325 4.01224 9.95681 3.32474 9.04209 3.05103C8.8001 2.97861 8.1642 2.88338 8.0083 2.89619C7.97607 2.89881 7.82978 2.91494 7.68326 2.93197ZM15.2935 7.11756C15.105 7.18341 14.928 7.33615 14.8362 7.51213C14.7636 7.6513 14.7483 7.7565 14.7345 8.21298L14.7182 8.75009L14.2051 8.75095C13.7919 8.75166 13.6612 8.7658 13.534 8.82353C13.2188 8.9667 13.0673 9.25689 13.0935 9.66736C13.1128 9.97127 13.2468 10.1938 13.4869 10.3206C13.63 10.3962 13.726 10.4102 14.1856 10.4227L14.7184 10.4371L14.7331 10.9747C14.7473 11.4913 14.7525 11.5196 14.8648 11.7013C15.09 12.0656 15.5817 12.1931 15.9929 11.9941C16.3309 11.8304 16.4451 11.5279 16.4456 10.7949L16.4458 10.4373L16.9829 10.4238C17.486 10.4111 17.5316 10.4035 17.7027 10.3029C17.8427 10.2206 17.91 10.1451 17.9911 9.97927C18.0836 9.79025 18.0943 9.73064 18.0763 9.5058C18.051 9.19123 17.9165 8.97623 17.6604 8.84099C17.5053 8.75912 17.437 8.75009 16.9726 8.75009H16.4569L16.437 8.23048C16.4216 7.82588 16.3998 7.67146 16.3385 7.53287C16.1762 7.16584 15.6984 6.97599 15.2935 7.11756ZM7.34752 10.8674C6.65138 10.9447 5.74978 11.2319 5.0951 11.5846C3.48865 12.4503 2.2983 14.0597 1.97049 15.8091C1.85049 16.4495 1.94795 16.7847 2.31549 16.9952L2.48095 17.0899H8.06689H13.6528L13.8139 17.0038C14.0983 16.8516 14.2575 16.5866 14.2581 16.2642C14.2585 16.0628 14.1425 15.5134 14.016 15.1173C13.1221 12.3182 10.3264 10.5364 7.34752 10.8674Z"
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          d="M7.68326 2.93197C6.34635 3.08736 5.19779 4.10447 4.8406 5.44931C4.77705 5.68853 4.7576 5.87634 4.7576 6.25009C4.7576 6.62384 4.77705 6.81166 4.8406 7.05088C5.11517 8.08466 5.84892 8.93056 6.82275 9.33595C7.2417 9.51037 7.60662 9.57908 8.10596 9.57763C9.42443 9.5738 10.5849 8.81349 11.1396 7.59009C11.4995 6.79646 11.4995 5.70373 11.1396 4.91009C10.7325 4.01224 9.95681 3.32474 9.04209 3.05103C8.8001 2.97861 8.1642 2.88338 8.0083 2.89619C7.97607 2.89881 7.82978 2.91494 7.68326 2.93197ZM15.2935 7.11756C15.105 7.18341 14.928 7.33615 14.8362 7.51213C14.7636 7.6513 14.7483 7.7565 14.7345 8.21298L14.7182 8.75009L14.2051 8.75095C13.7919 8.75166 13.6612 8.7658 13.534 8.82353C13.2188 8.9667 13.0673 9.25689 13.0935 9.66736C13.1128 9.97127 13.2468 10.1938 13.4869 10.3206C13.63 10.3962 13.726 10.4102 14.1856 10.4227L14.7184 10.4371L14.7331 10.9747C14.7473 11.4913 14.7525 11.5195 14.8648 11.7013C15.09 12.0656 15.5817 12.1931 15.9929 11.9941C16.3309 11.8304 16.4456 11.5279 16.4456 10.7949L16.4458 10.4373L16.9829 10.4238C17.486 10.4111 17.5316 10.4035 17.7027 10.3029C17.8427 10.2206 17.91 10.1451 17.9911 9.97927C18.0836 9.79025 18.0943 9.73064 18.0763 9.5058C18.051 9.19123 17.9165 8.97623 17.6604 8.84099C17.5053 8.75912 17.437 8.75009 16.9726 8.75009H16.4569L16.437 8.23048C16.4216 7.82588 16.3998 7.67146 16.3385 7.53287C16.1762 7.16584 15.6984 6.97599 15.2935 7.11756ZM7.34752 10.8674C6.65138 10.9447 5.74978 11.2319 5.0951 11.5846C3.48865 12.4503 2.2983 14.0597 1.97049 15.8091C1.85049 16.4495 1.94795 16.7847 2.31549 16.9952L2.48095 17.0899H8.06689H13.6528L13.8139 17.0038C14.0983 16.8516 14.2575 16.5866 14.2581 16.2642C14.2585 16.0628 14.1425 15.5134 14.016 15.1173C13.1221 12.3182 10.3264 10.5364 7.34752 10.8674Z"
                           fill="#010101"
                         />
                       </svg>
                     </div>
-                    <p>Follow Us</p>
+
+                    <p className="text-rich-black font-medium text-base max-sm:text-sm leading-163">
+                      Follow Us
+                    </p>
                   </div>
+
                   <div className="flex gap-3">
                     <div className="w-5 h-5">
                       <svg
@@ -73,7 +357,7 @@ const Footer = () => {
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <g clip-path="url(#clip0_6054_283)">
+                        <g clip-path="url(#clip0_8016_92)">
                           <path
                             d="M10 1.80176C12.6703 1.80176 12.9862 1.81208 14.041 1.86011C15.0159 1.90457 15.5454 2.06732 15.8979 2.20427C16.3647 2.38568 16.6978 2.60241 17.0479 2.95212C17.398 3.30223 17.6147 3.63528 17.7958 4.10209C17.9327 4.45458 18.0954 4.98411 18.1399 5.95902C18.1879 7.01332 18.1982 7.3297 18.1982 9.99998C18.1982 12.6702 18.1879 12.9862 18.1399 14.0409C18.0954 15.0159 17.9327 15.5453 17.7958 15.8979C17.6143 16.3647 17.3976 16.6978 17.0479 17.0479C16.6978 17.398 16.3647 17.6147 15.8979 17.7957C15.5454 17.9327 15.0159 18.0954 14.041 18.1399C12.9867 18.1879 12.6703 18.1982 10 18.1982C7.32971 18.1982 7.01333 18.1879 5.95903 18.1399C4.98412 18.0954 4.45459 17.9327 4.1021 17.7957C3.63528 17.6143 3.30224 17.3976 2.95213 17.0479C2.60202 16.6978 2.38528 16.3647 2.20427 15.8979C2.06732 15.5453 1.90458 15.0159 1.86011 14.0409C1.81209 12.9867 1.80177 12.6702 1.80177 9.99998C1.80177 7.3297 1.81209 7.01372 1.86011 5.95902C1.90458 4.98411 2.06732 4.45458 2.20427 4.10209C2.38568 3.63528 2.60241 3.30223 2.95213 2.95212C3.30224 2.60201 3.63528 2.38528 4.1021 2.20427C4.45459 2.06732 4.98412 1.90457 5.95903 1.86011C7.01373 1.81208 7.32971 1.80176 10 1.80176ZM10 0C7.28406 0 6.94348 0.0115116 5.87687 0.0603366C4.81264 0.108765 4.08582 0.277866 3.44951 0.525166C2.79176 0.780802 2.23404 1.12258 1.67831 1.6787C1.12258 2.23443 0.780407 2.79216 0.525167 3.4495C0.277866 4.08581 0.108765 4.81263 0.0603367 5.87686C0.0115116 6.94347 0 7.28404 0 9.99998C0 12.7159 0.0115116 13.0566 0.0603367 14.1231C0.108765 15.1873 0.277866 15.9141 0.525167 16.5504C0.780803 17.2082 1.12258 17.7659 1.67871 18.3217C2.23483 18.8778 2.79216 19.2196 3.4499 19.4752C4.08582 19.7224 4.81303 19.8916 5.87727 19.94C6.94387 19.9889 7.28446 20.0003 10.0004 20.0003C12.7163 20.0003 13.0569 19.9889 14.1236 19.94C15.1878 19.8916 15.915 19.7224 16.5509 19.4752C17.2087 19.2196 17.7663 18.8778 18.3221 18.3217C18.8782 17.7656 19.22 17.2082 19.4757 16.5504C19.7229 15.9146 19.892 15.1873 19.9404 14.1231C19.9893 13.0566 20.0008 12.7159 20.0008 9.99998C20.0008 7.28404 19.9893 6.94347 19.9404 5.87686C19.892 4.81263 19.7229 4.08542 19.4757 3.4495C19.22 2.79176 18.8782 2.23403 18.3221 1.67831C17.766 1.12218 17.2087 0.780406 16.5509 0.524769C15.9142 0.277866 15.1873 0.108765 14.1231 0.0603366C13.0566 0.0115116 12.7159 0 10 0ZM9.99988 4.86491C7.16366 4.86491 4.86491 7.16406 4.86491 9.99988C4.86491 12.8357 7.16406 15.1349 9.99988 15.1349C12.8357 15.1349 15.1349 12.8357 15.1349 9.99988C15.1349 7.16406 12.8361 4.86491 9.99988 4.86491ZM9.99988 13.3331C8.15881 13.3331 6.66667 11.8406 6.66667 9.99988C6.66667 8.15881 8.15921 6.66667 9.99988 6.66667C11.8406 6.66667 13.3331 8.15921 13.3331 9.99988C13.3331 11.8409 11.8409 13.3331 9.99988 13.3331ZM16.5381 4.66189C16.5381 5.32462 16.0009 5.86188 15.3381 5.86188C14.6754 5.86188 14.1382 5.32462 14.1382 4.66189C14.1382 3.99917 14.6754 3.46191 15.3381 3.46191C16.0009 3.46191 16.5381 3.99917 16.5381 4.66189Z"
                             fill-rule="evenodd"
@@ -82,62 +366,54 @@ const Footer = () => {
                           />
                         </g>
                         <defs>
-                          <clipPath id="clip0_6054_283">
+                          <clipPath id="clip0_8016_92">
                             <rect width="20" height="20" fill="white" />
                           </clipPath>
                         </defs>
                       </svg>
                     </div>
+
                     <div className="w-5 h-5">
                       <svg
                         width="20"
                         height="20"
                         viewBox="0 0 20 20"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <g clip-path="url(#clip0_6054_283)">
-                          <path
-                            d="M10 1.80176C12.6703 1.80176 12.9862 1.81208 14.041 1.86011C15.0159 1.90457 15.5454 2.06732 15.8979 2.20427C16.3647 2.38568 16.6978 2.60241 17.0479 2.95212C17.398 3.30223 17.6147 3.63528 17.7958 4.10209C17.9327 4.45458 18.0954 4.98411 18.1399 5.95902C18.1879 7.01332 18.1982 7.3297 18.1982 9.99998C18.1982 12.6702 18.1879 12.9862 18.1399 14.0409C18.0954 15.0159 17.9327 15.5453 17.7958 15.8979C17.6143 16.3647 17.3976 16.6978 17.0479 17.0479C16.6978 17.398 16.3647 17.6147 15.8979 17.7957C15.5454 17.9327 15.0159 18.0954 14.041 18.1399C12.9867 18.1879 12.6703 18.1982 10 18.1982C7.32971 18.1982 7.01333 18.1879 5.95903 18.1399C4.98412 18.0954 4.45459 17.9327 4.1021 17.7957C3.63528 17.6143 3.30224 17.3976 2.95213 17.0479C2.60202 16.6978 2.38528 16.3647 2.20427 15.8979C2.06732 15.5453 1.90458 15.0159 1.86011 14.0409C1.81209 12.9867 1.80177 12.6702 1.80177 9.99998C1.80177 7.3297 1.81209 7.01372 1.86011 5.95902C1.90458 4.98411 2.06732 4.45458 2.20427 4.10209C2.38568 3.63528 2.60241 3.30223 2.95213 2.95212C3.30224 2.60201 3.63528 2.38528 4.1021 2.20427C4.45459 2.06732 4.98412 1.90457 5.95903 1.86011C7.01373 1.81208 7.32971 1.80176 10 1.80176ZM10 0C7.28406 0 6.94348 0.0115116 5.87687 0.0603366C4.81264 0.108765 4.08582 0.277866 3.44951 0.525166C2.79176 0.780802 2.23404 1.12258 1.67831 1.6787C1.12258 2.23443 0.780407 2.79216 0.525167 3.4495C0.277866 4.08581 0.108765 4.81263 0.0603367 5.87686C0.0115116 6.94347 0 7.28404 0 9.99998C0 12.7159 0.0115116 13.0566 0.0603367 14.1231C0.108765 15.1873 0.277866 15.9141 0.525167 16.5504C0.780803 17.2082 1.12258 17.7659 1.67871 18.3217C2.23483 18.8778 2.79216 19.2196 3.4499 19.4752C4.08582 19.7224 4.81303 19.8916 5.87727 19.94C6.94387 19.9889 7.28446 20.0003 10.0004 20.0003C12.7163 20.0003 13.0569 19.9889 14.1236 19.94C15.1878 19.8916 15.915 19.7224 16.5509 19.4752C17.2087 19.2196 17.7663 18.8778 18.3221 18.3217C18.8782 17.7656 19.22 17.2082 19.4757 16.5504C19.7229 15.9146 19.892 15.1873 19.9404 14.1231C19.9893 13.0566 20.0008 12.7159 20.0008 9.99998C20.0008 7.28404 19.9893 6.94347 19.9404 5.87686C19.892 4.81263 19.7229 4.08542 19.4757 3.4495C19.22 2.79176 18.8782 2.23403 18.3221 1.67831C17.766 1.12218 17.2087 0.780406 16.5509 0.524769C15.9142 0.277866 15.1873 0.108765 14.1231 0.0603366C13.0566 0.0115116 12.7159 0 10 0ZM9.99988 4.86491C7.16366 4.86491 4.86491 7.16406 4.86491 9.99988C4.86491 12.8357 7.16406 15.1349 9.99988 15.1349C12.8357 15.1349 15.1349 12.8357 15.1349 9.99988C15.1349 7.16406 12.8361 4.86491 9.99988 4.86491ZM9.99988 13.3331C8.15881 13.3331 6.66667 11.8406 6.66667 9.99988C6.66667 8.15881 8.15921 6.66667 9.99988 6.66667C11.8406 6.66667 13.3331 8.15921 13.3331 9.99988C13.3331 11.8409 11.8409 13.3331 9.99988 13.3331ZM16.5381 4.66189C16.5381 5.32462 16.0009 5.86188 15.3381 5.86188C14.6754 5.86188 14.1382 5.32462 14.1382 4.66189C14.1382 3.99917 14.6754 3.46191 15.3381 3.46191C16.0009 3.46191 16.5381 3.99917 16.5381 4.66189Z"
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            fill="#010101"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_6054_283">
-                            <rect width="20" height="20" fill="white" />
-                          </clipPath>
-                        </defs>
+                        <path
+                          d="M20 10C20 4.47714 15.5229 0 10 0C4.47714 0 0 4.47714 0 10C0 14.9912 3.65683 19.1283 8.4375 19.8786V12.8907H5.89843V10H8.4375V7.79688C8.4375 5.29062 9.93047 3.90624 12.2147 3.90624C13.3088 3.90624 14.4531 4.10157 14.4531 4.10157V6.5625H13.1922C11.95 6.5625 11.5624 7.3334 11.5624 8.12422V10H14.3359L13.8926 12.8907H11.5624V19.8786C16.3431 19.1283 20 14.9912 20 10Z"
+                          fill="#010101"
+                        />
                       </svg>
                     </div>
+
                     <div className="w-5 h-5">
                       <svg
                         width="20"
                         height="20"
                         viewBox="0 0 20 20"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <g clip-path="url(#clip0_6054_287)">
-                          <path
-                            d="M18.4488 0H1.49584C0.66482 0 0 0.666667 0 1.44444V18.5556C0 19.3333 0.66482 20 1.49584 20H18.5041C19.3352 20 20 19.3333 20 18.5556V1.44444C19.9446 0.666667 19.2798 0 18.4488 0ZM5.92798 17.0556H2.93629V7.5H5.87258V17.0556H5.92798ZM4.43213 6.16667C3.4903 6.16667 2.71468 5.38889 2.71468 4.44444C2.71468 3.5 3.4903 2.77778 4.43213 2.77778C5.37397 2.77778 6.14959 3.55556 6.14959 4.5C6.14959 5.44445 5.37397 6.16667 4.43213 6.16667ZM17.0083 17.0556H14.072V12.3889C14.072 11.2778 14.072 9.83333 12.5208 9.83333C10.9695 9.83333 10.7479 11.0556 10.7479 12.2778V17H7.75623V7.5H10.5817V8.77778H10.6371C11.0249 8 12.0221 7.22222 13.4626 7.22222C16.4543 7.22222 17.0083 9.22222 17.0083 11.7778V17.0556Z"
-                            fill="#010101"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_6054_287">
-                            <rect width="20" height="20" fill="white" />
-                          </clipPath>
-                        </defs>
+                        <path
+                          d="M18.4488 0H1.49584C0.66482 0 0 0.666667 0 1.44444V18.5556C0 19.3333 0.66482 20 1.49584 20H18.5041C19.3352 20 20 19.3333 20 18.5556V1.44444C19.9446 0.666667 19.2798 0 18.4488 0ZM5.92798 17.0556H2.93629V7.5H5.87258V17.0556H5.92798ZM4.43213 6.16667C3.4903 6.16667 2.71468 5.38889 2.71468 4.44444C2.71468 3.5 3.4903 2.77778 4.43213 2.77778C5.37397 2.77778 6.14959 3.55556 6.14959 4.5C6.14959 5.44445 5.37397 6.16667 4.43213 6.16667ZM17.0083 17.0556H14.072V12.3889C14.072 11.2778 14.072 9.83333 12.5208 9.83333C10.9695 9.83333 10.7479 11.0556 10.7479 12.2778V17H7.75623V7.5H10.5817V8.77778H10.6371C11.0249 8 12.0221 7.22222 13.4626 7.22222C16.4543 7.22222 17.0083 9.22222 17.0083 11.7778V17.0556Z"
+                          fill="#010101"
+                        />
                       </svg>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="right max-w-60.75">
-                <div className="flex gap-2 mb-2.25">
-                  <div className="w-5 h-5">
+
+              <div
+                className="
+                                    max-w-61
+                                    w-full
+
+                                    max-md:max-w-full
+                                "
+              >
+                <div className="flex gap-2 mb-2.25 items-center">
+                  <div className="w-5 h-5 shrink-0 flex justify-center items-center">
                     <svg
                       width="17"
                       height="17"
@@ -151,141 +427,410 @@ const Footer = () => {
                       />
                     </svg>
                   </div>
-                  <div className="flex">
+
+                  <div className="flex flex-wrap">
                     <a
-                      className="text-dark-gray"
                       href="tel:98385685"
-                      className="text-primary"
+                      className="text-dark-gray text-base leading-163 max-sm:text-sm transition-all duration-300 hover:text-vivid-green"
                     >
                       98385685,
                     </a>
+
                     <a
-                      className="text-dark-gray"
                       href="tel:93832006"
-                      className="text-primary"
+                      className="text-dark-gray text-base leading-163 max-sm:text-sm transition-all duration-300 hover:text-vivid-green"
                     >
-                      {" "}
                       93832006
                     </a>
                   </div>
                 </div>
-                <div className="flex gap-2 mb-2.25">
-                  <div className="w-5 h-5 flex justify-center items-center">
-                    <svg
-                      width="15"
-                      height="15"
-                      viewBox="0 0 15 15"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+
+                <div className="flex gap-2 mb-2.25 items-center">
+                  <div className="w-5 h-5 shrink-0 flex items-center">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                       <path
                         d="M14.125 15C12.3889 15 10.6736 14.6217 8.97917 13.865C7.28472 13.1083 5.74306 12.0353 4.35417 10.6458C2.96528 9.25639 1.8925 7.71472 1.13583 6.02083C0.379167 4.32694 0.000555556 2.61167 0 0.875C0 0.625 0.0833333 0.416667 0.25 0.25C0.416667 0.0833333 0.625 0 0.875 0H4.25C4.44444 0 4.61806 0.066111 4.77083 0.198333C4.92361 0.330555 5.01389 0.486667 5.04167 0.666667L5.58333 3.58333C5.61111 3.80556 5.60417 3.99306 5.5625 4.14583C5.52083 4.29861 5.44444 4.43056 5.33333 4.54167L3.3125 6.58333C3.59028 7.09722 3.92 7.59361 4.30167 8.0725C4.68333 8.55139 5.10361 9.01333 5.5625 9.45833C5.99306 9.88889 6.44444 10.2883 6.91667 10.6567C7.38889 11.025 7.88889 11.3617 8.41667 11.6667L10.375 9.70833C10.5 9.58333 10.6633 9.48972 10.865 9.4275C11.0667 9.36528 11.2644 9.34778 11.4583 9.375L14.3333 9.95833C14.5278 10.0139 14.6875 10.1147 14.8125 10.2608C14.9375 10.4069 15 10.57 15 10.75V14.125C15 14.375 14.9167 14.5833 14.75 14.75C14.5833 14.9167 14.375 15 14.125 15Z"
                         fill="#010101"
                       />
                     </svg>
                   </div>
-                  <a className="text-dark-gray" href="tel:62844186">
+
+                  <a
+                    href="tel:62844186"
+                    className="text-dark-gray text-base leading-163 max-sm:text-sm transition-all duration-300 hover:text-vivid-green"
+                  >
                     62844186
                   </a>
                 </div>
-                <div className="flex gap-2 mb-2.25">
-                  <div className="w-5 h-5 flex justify-center items-center">
-                    <svg
-                      width="14"
-                      height="11"
-                      viewBox="0 0 14 11"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+
+                <div className="flex gap-2 mb-2.25 items-start">
+                  <div className="w-5 h-5 shrink-0 items-center flex">
+                    <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
                       <path
                         d="M1.33333 10.6667C0.966667 10.6667 0.652889 10.5362 0.392 10.2753C0.131111 10.0144 0.000444444 9.70045 0 9.33333V1.33333C0 0.966667 0.130667 0.652889 0.392 0.392C0.653333 0.131111 0.967111 0.000444444 1.33333 0H12C12.3667 0 12.6807 0.130667 12.942 0.392C13.2033 0.653333 13.3338 0.967111 13.3333 1.33333V9.33333C13.3333 9.7 13.2029 10.014 12.942 10.2753C12.6811 10.5367 12.3671 10.6671 12 10.6667H1.33333ZM6.66667 6L12 2.66667V1.33333L6.66667 4.66667L1.33333 1.33333V2.66667L6.66667 6Z"
                         fill="#010101"
                       />
                     </svg>
                   </div>
-                  <a
-                    className="text-dark-gray"
-                    href="mailto:info@dksinternational.com"
-                  >
-                    info@dksinternational.com
-                  </a>
-                </div>
-                <div className="pl-7">
-                  <a href="mailto:dks.int@live.com">dks.int@live.com</a>
+
+                  <div className="min-w-0">
+                    <a
+                      href="mailto:info@dksinternational.com"
+                      className="
+                                                text-dark-gray
+                                                text-base
+                                                leading-163
+                                                break-all
+                                                max-sm:text-sm transition-all duration-300 hover:text-vivid-green
+                                            "
+                    >
+                      info@dksinternational.com
+                    </a>
+
+                    <br />
+
+                    <a
+                      href="mailto:dks.int@live.com"
+                      className="
+                                                text-dark-gray
+                                                text-base
+                                                leading-163
+                                                break-all
+                                                max-sm:text-sm
+                                            "
+                    >
+                      dks.int@live.com
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="right pl-19.5">
-            <div>
-              <div>
-                <div>
-                  <p>Home</p>
-                </div>
-                <div>
-                  <p>Services</p>
-                </div>
-                <div>
-                  <p>Gallery</p>
-                </div>
-                <div>
-                  <p>About Us</p>
-                </div>
-                <div>
-                  <p>Blog</p>
-                </div>
-                <div>
-                  <p>FAQs</p>
-                </div>
-                <div>
-                  <p>Contact</p>
-                </div>
-              </div>
-              <div className="gap-3.75 flex pt-8 mb-8.75">
-                <Image
-                  width={81}
-                  height={70}
-                  src={Footer_img}
-                  alt="Footer_img"
-                />
-                <Image
-                  width={81}
-                  height={70}
-                  src={Footer_img_1}
-                  alt="Footer_img"
-                />
-                <Image
-                  width={81}
-                  height={70}
-                  src={Footer_img_2}
-                  alt="Footer_img"
-                />
-                <Image
-                  width={81}
-                  height={70}
-                  src={Footer_img_3}
-                  alt="Footer_img"
-                />
-                <Image
-                  width={81}
-                  height={70}
-                  src={Footer_img_4}
-                  alt="Footer_img"
-                />
-                <Image
-                  width={81}
-                  height={70}
-                  src={Footer_img_5}
-                  alt="Footer_img"
-                />
-              </div>
+          <div
+            className="
+                            pl-19.5
+                            border-l
+                            border-soft-black
+                            footer-right-animate
+
+                            max-lg:border-l-0
+                            max-lg:border-t
+                            max-lg:pl-0
+                            max-lg:pt-8
+                            max-lg:w-full
+
+                            max-md:pt-7
+
+                            max-sm:pt-6
+                        "
+          >
+            {/* Navigation */}
+            <div
+              className="
+                                flex
+                                pb-8
+                                gap-3.25
+                                flex-wrap
+                                items-center
+
+                                max-md:pb-6
+                                max-md:gap-2.5
+
+                                max-sm:gap-2
+                            "
+            >
+              {[
+                "Home",
+                "Services",
+                "Gallery",
+                "About Us",
+                "Blog",
+                "FAQs",
+                "Contact",
+              ].map((item, index) => (
+                <React.Fragment key={item}>
+                  <a
+                    href="#"
+                    className="
+                                            text-rich-black
+                                            font-normal
+                                            text-base
+                                            leading-163
+                                            transition-transform
+                                            duration-300
+                                            hover:translate-x-1
+
+                                            max-sm:text-sm
+                                        "
+                  >
+                    {item}
+                  </a>
+
+                  {index !== 6 && (
+                    <Image
+                      width={1}
+                      height={20}
+                      src="/assets/images/svg/footer_line.svg"
+                      alt=""
+                      className="max-sm:h-4"
+                    />
+                  )}
+                </React.Fragment>
+              ))}
             </div>
+
+            <div
+              className="
+                                gap-3.75
+                                flex
+                                pt-8
+                                pb-8.75
+                                border-y
+                                border-soft-black
+                                flex-wrap
+
+                                max-md:gap-3
+                                max-md:pt-6
+                                max-md:pb-6
+
+                                max-sm:gap-3
+                                max-sm:pt-5
+                                max-sm:pb-5
+                            "
+            >
+              {[
+                "/assets/images/png/footer_img.png",
+                "/assets/images/png/footer_img_1.png",
+                "/assets/images/png/footer_img_2.png",
+                "/assets/images/png/footer_img_3.png",
+                "/assets/images/png/footer_img_4.png",
+                "/assets/images/png/footer_img_5.png",
+              ].map((img, index) => (
+                <div
+                  key={index}
+                  className="
+                                        footer-gallery-item
+                                        overflow-hidden
+                                        shrink-0
+
+                                        max-sm:w-[calc(50%-6px)]
+                                    "
+                >
+                  <Image
+                    width={81}
+                    height={70}
+                    src={img}
+                    alt={`Gallery ${index + 1}`}
+                    className="
+                                            w-20.25
+                                            h-17.5
+                                            object-cover
+                                            block
+                                            transition-transform
+                                            duration-500
+
+                                            max-md:w-18.75
+                                            max-md:h-16.25
+
+                                            max-sm:w-full
+                                            max-sm:h-auto
+                                            max-sm:aspect-81/70
+                                        "
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Services */}
+            <div
+              className="
+                                gap-2.5
+                                flex
+                                pt-5
+                                pb-3
+                                flex-wrap
+                                items-center
+
+                                max-md:pt-5
+                                max-md:gap-2
+
+                                max-sm:pt-4
+                                max-sm:pb-2
+                            "
+            >
+              {["Reupholstery", "Covers & Cushions", "Foam & Filling"].map(
+                (item, index) => (
+                  <React.Fragment key={item}>
+                    <a
+                      href="#"
+                      className="
+                                            font-normal
+                                            text-base
+                                            text-dark-gray
+                                            leading-163
+                                            transition-all
+                                            duration-300
+                                            hover:translate-x-1
+
+                                            max-sm:text-sm
+                                        "
+                    >
+                      {item}
+                    </a>
+
+                    {index !== 2 && (
+                      <Image
+                        width={1}
+                        height={20}
+                        src="/assets/images/svg/footer_line.svg"
+                        alt=""
+                        className="max-sm:h-4"
+                      />
+                    )}
+                  </React.Fragment>
+                ),
+              )}
+            </div>
+
+            <div
+              className="
+                                gap-2.5
+                                flex
+                                pb-3
+                                flex-wrap
+                                items-center
+
+                                max-sm:gap-2
+                            "
+            >
+              {["Beds & Headboards", "Built Ins", "Custom Furniture"].map(
+                (item, index) => (
+                  <React.Fragment key={item}>
+                    <a
+                      href="#"
+                      className="
+                                            font-normal
+                                            text-base
+                                            text-dark-gray
+                                            leading-163
+                                            transition-all
+                                            duration-300
+                                            hover:translate-x-1
+
+                                            max-sm:text-sm
+                                        "
+                    >
+                      {item}
+                    </a>
+
+                    {index !== 2 && (
+                      <Image
+                        width={1}
+                        height={20}
+                        src="/assets/images/svg/footer_line.svg"
+                        alt=""
+                        className="max-sm:h-4"
+                      />
+                    )}
+                  </React.Fragment>
+                ),
+              )}
+            </div>
+
+            <div
+              className="
+                                gap-2.5
+                                flex
+                                pb-3
+                                flex-wrap
+                                items-center
+
+                                max-sm:gap-2
+                            "
+            >
+              {[
+                "Repairs & On Site",
+                "Outdoor & Commercial",
+                "Cleaning",
+                "Revarnishing",
+              ].map((item, index) => (
+                <React.Fragment key={item}>
+                  <a
+                    href="#"
+                    className="
+                                            font-normal
+                                            text-base
+                                            text-dark-gray
+                                            leading-163
+                                            transition-all
+                                            duration-300
+                                            hover:translate-x-1
+
+                                            max-sm:text-sm
+                                        "
+                  >
+                    {item}
+                  </a>
+
+                  {index !== 3 && (
+                    <Image
+                      width={1}
+                      height={20}
+                      src="/assets/images/svg/footer_line.svg"
+                      alt=""
+                      className="max-sm:h-4"
+                    />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+
+            <a
+              href="#"
+              className="
+                                font-normal
+                                text-base
+                                text-dark-gray
+                                leading-163
+                                transition-all
+                                duration-300
+                                hover:translate-x-1
+
+                                max-sm:text-sm
+                            "
+            >
+              Terms of Service
+            </a>
           </div>
         </div>
       </div>
-      <div className="py-4.25">
-        <p className="text-center text-base font-normal">
-          Copyright © 2025 DKS Upholstery Pte Ltd | DKS International Supplier &
+
+      <div
+        className="
+                    py-4.25
+                    border-t
+                    border-soft-black
+                    max-w-337
+                    px-5
+                    mx-auto
+
+                    max-md:py-4
+                    max-sm:py-3.5
+                "
+      >
+        <p
+          className="
+                        text-center
+                        text-base
+                        font-normal
+                        text-rich-black
+                        leading-163
+
+                        max-md:text-sm
+                        max-sm:text-xs
+                    "
+        >
+          Copyright © 2026 DKS Upholstery Pte Ltd | DKS International Supplier &
           Services. All Rights Reserved.
         </p>
       </div>

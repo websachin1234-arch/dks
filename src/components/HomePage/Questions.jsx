@@ -82,7 +82,7 @@ const Questions = () => {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="px-[clamp(12px,1.5vw,16px)] pb-[clamp(12px,1.5vw,16px)] max-w-126.5 w-full text-black text-[clamp(14px,1.3vw,16px)] leading-143">
+                      <p className="px-[clamp(12px,1.5vw,16px)] pb-[clamp(12px,1.5vw,16px)] max-w-142.75 w-full text-black text-[clamp(14px,1.3vw,16px)] leading-143">
                         {answer}
                       </p>
                     </div>
