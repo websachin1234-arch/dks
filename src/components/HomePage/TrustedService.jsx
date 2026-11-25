@@ -1,30 +1,18 @@
 import Image from "next/image";
-import NightclubImg from "../../../public/images/HomePage/svg/nightclub.svg";
-import SMUImg from "../../../public/images/HomePage/svg/smu.svg";
-import TsuiWahImg from "../../../public/images/HomePage/svg/tsui wah.svg";
-import EducationImg from "../../../public/images/HomePage/svg/education.svg";
-import PancakeImg from "../../../public/images/HomePage/svg/pancakes.svg";
-import RonzetImg from "../../../public/images/HomePage/svg/ronzet.svg";
-import ParliamentImg from "../../../public/images/HomePage/svg/parliament.svg";
-import APSNImg from "../../../public/images/HomePage/svg/apsn.svg";
-import DnataImg from "../../../public/images/HomePage/svg/dnata.svg";
-import MercureImg from "../../../public/images/HomePage/svg/grand mercure.svg";
-import ChloeImg from "../../../public/images/HomePage/svg/chloe.svg";
-import EmbassyImg from "../../../public/images/HomePage/svg/embassy.svg";
 
 const logos = [
-  { src: NightclubImg, w: 111, h: 37 },
-  { src: SMUImg, w: 111, h: 37 },
-  { src: TsuiWahImg, w: 85, h: 69 },
-  { src: EducationImg, w: 85, h: 69 },
-  { src: PancakeImg, w: 64, h: 62 },
-  { src: RonzetImg, w: 124, h: 36 },
-  { src: ParliamentImg, w: 142, h: 77 },
-  { src: APSNImg, w: 152, h: 40 },
-  { src: DnataImg, w: 123, h: 55 },
-  { src: MercureImg, w: 114, h: 66 },
-  { src: ChloeImg, w: 121, h: 40 },
-  { src: EmbassyImg, w: 85, h: 78 },
+  { src: "/assets/images/svg/nightclub.svg", w: 111, h: 37 },
+  { src: "/assets/images/svg/smu.svg", w: 111, h: 37 },
+  { src: "/assets/images/svg/tsuiwah.svg", w: 85, h: 69 },
+  { src: "/assets/images/svg/education.svg", w: 85, h: 69 },
+  { src: "/assets/images/svg/pancakes.svg", w: 64, h: 62 },
+  { src: "/assets/images/svg/ronzet.svg", w: 124, h: 36 },
+  { src: "/assets/images/svg/parliament.svg", w: 142, h: 77 },
+  { src: "/assets/images/svg/apsn-logo.svg", w: 152, h: 40 },
+  { src: "/assets/images/svg/dnata.svg", w: 123, h: 55 },
+  { src: "/assets/images/svg/grand mercure.svg", w: 114, h: 66 },
+  { src: "/assets/images/svg/chloe.svg", w: 121, h: 40 },
+  { src: "/assets/images/svg/embassy.svg", w: 85, h: 78 },
 ];
 
 const LogoGroup = ({ hidden = false }) => (
@@ -44,8 +32,9 @@ const LogoGroup = ({ hidden = false }) => (
           <Image
             src={src}
             alt={hidden ? "" : "Client logo"}
-            fill
             sizes="152px"
+            width={w}
+            height={h}
             className="object-contain pointer-events-none"
           />
         </div>

@@ -86,11 +86,13 @@ export default function LovedBySlider() {
               className="text-[32px] sm:text-[40px] lg:text-[48px] font-semibold text-[#010101] leading-[1.2] tracking-tight max-w-138.25"
             >
               Loved by Singapore{" "}
-              <span className="text-[#19AE1A] block">Homes &amp; Businesses</span>
+              <span className="text-custom-green block">
+                Homes &amp; Businesses
+              </span>
             </h2>
             <p className="text-[#4D4D4D] text-[15px] sm:text-[16px] leading-[1.6] max-w-106.75 lg:pt-1">
-              Over 100 five star reviews from customers who transformed their sofas,
-              chairs, and spaces with DKS Upholstery.
+              Over 100 five star reviews from customers who transformed their
+              sofas, chairs, and spaces with DKS Upholstery.
             </p>
           </header>
         </div>
@@ -114,7 +116,11 @@ export default function LovedBySlider() {
                   spaceBetween: 32,
                 },
               }}
-              autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
+              autoplay={{
+                delay: 4500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
               speed={650}
               navigation={{
                 nextEl: ".review-nav-next",
@@ -186,7 +192,10 @@ export default function LovedBySlider() {
                           className="w-full h-full object-contain"
                         />
                       </div>
-                      <div className="flex items-center gap-1" aria-label="5 out of 5 stars">
+                      <div
+                        className="flex items-center gap-1"
+                        aria-label="5 out of 5 stars"
+                      >
                         {[...Array(5)].map((_, i) => (
                           <div key={i} className="w-5 h-5 shrink-0">
                             <Image

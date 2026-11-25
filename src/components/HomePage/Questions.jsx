@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import ArrowUpImg from "../../../public/images/HomePage/svg/arrow-up.svg";
 
 const ANSWER =
   "A dining chair with a seat cushion typically starts from $75 per chair, while a fixed cushion 3 seater sofa starts from $1380. Prices vary depending on size, design, and material (fabric, leather, or foam). The best way to get an accurate quote is to send us a photo of your furniture.";
@@ -61,8 +60,10 @@ const Questions = () => {
                       {question}
                     </span>
                     <Image
-                      src={ArrowUpImg}
-                      alt=""
+                      src="/assets/images/svg/arrow-upward.svg"
+                      alt="arrow"
+                      width="28"
+                      height="14"
                       aria-hidden="true"
                       className={`shrink-0 w-[clamp(18px,2vw,28px)] h-auto transition-transform duration-300 ease-in-out ${
                         isOpen ? "rotate-0" : "rotate-180"
