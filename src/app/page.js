@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Swipper from "../components/swipper"
+// import Image from "next/image";
+// import Swipper from "../components/swipper"
 import Testimonials from "@/components/home/Testimonials";
 import Hero from "@/components/home/Hero";
 import ServicesPreview from "@/components/home/ServicesPreview";
