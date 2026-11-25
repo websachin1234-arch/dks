@@ -16,19 +16,6 @@ export default function TestimonialsSection() {
       className="reviews-section relative w-full overflow-hidden bg-white"
       aria-labelledby="loved-heading"
     >
-      <div
-        className="pointer-events-none absolute -left-75 sm:-left-87.5 lg:-left-105 -top-30 sm:-top-20 w-200 sm:w-250 lg:w-300.75 h-200 sm:h-250 lg:h-300.75 select-none z-0"
-        aria-hidden="true"
-      >
-        <Image
-          src="/assets/images/svg/bg-curves.svg"
-          alt=""
-          width={1203}
-          height={1203}
-          className="w-full h-full object-contain"
-          priority
-        />
-      </div>
       <div className="relative z-10 w-full">
         <div className="max-w-285 mx-auto px-4 sm:px-6 lg:px-8">
           <header className="flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-40 mb-6 sm:mb-8 lg:mb-8">
@@ -163,12 +150,12 @@ export default function TestimonialsSection() {
           {/* Floating Navigation Buttons (Figma Group 2085662873) */}
           <div className="pointer-events-none absolute inset-y-0 inset-x-0 mx-auto max-w-360 px-4 sm:px-6 lg:px-8 flex items-center justify-between z-20">
             <button
-              className="review-nav-prev pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-0 bg-[#19ae1a] text-white shadow-[0_6px_16px_rgba(25,174,26,0.45)] transition-[transform,box-shadow,background-color,border-color,color] duration-200 hover:scale-[1.06] hover:bg-[#159b16] hover:shadow-[0_6px_16px_rgba(25,174,26,0.45)] active:scale-[0.96] sm:h-15 sm:w-15"
+              className="review-nav-prev pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-[#19ae1a] bg-[#fafafa] text-[#19ae1a] shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[transform,box-shadow,background-color,border-color,color] duration-200 hover:scale-[1.06] hover:border-[#19ae1a] hover:bg-[#19ae1a] hover:text-white hover:shadow-[0_6px_16px_rgba(25,174,26,0.45)] active:scale-[0.96] sm:h-15 sm:w-15"
               type="button"
               aria-label="Previous testimonial"
             >
               <div className="w-4.5 h-4.5  flex items-center justify-center">
-                <Icon name="lessThan" className="h-full w-full" />
+                <Icon name="lessThan" className="h-7.75 w-3.75" />
               </div>
             </button>
 
@@ -178,7 +165,7 @@ export default function TestimonialsSection() {
               aria-label="Next testimonial"
             >
               <div className="w-4.5 h-4.5 flex items-center justify-center">
-                <Icon name="lessThan" className="h-full rotate-180 w-full" />
+                <Icon name="lessThan" className="h-7.75 w-3.75 rotate-180" />
               </div>
             </button>
           </div>

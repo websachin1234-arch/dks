@@ -57,7 +57,7 @@ body {
 .testimonial-slide {
   width: 500px !important;
   max-width: 88vw !important;
-  height: auto;
+  height: 320px !important;
   box-sizing: border-box;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -73,8 +73,8 @@ body {
 .testimonial-card {
   box-sizing: border-box;
   width: 100%;
-  min-height: 282px;
   height: 100%;
+  min-height: 320px;
   border-radius: 12px;
   background: #fafafa;
   border: 1px solid rgba(1, 1, 1, 0.16);
@@ -89,7 +89,6 @@ body {
 @media (max-width: 639px) {
   .testimonial-card {
     padding: 24px;
-    min-height: 282px;
   }
 }
 

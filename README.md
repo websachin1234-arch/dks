@@ -74,15 +74,13 @@ dks/
 │   │   │   ├── Icons.jsx
 │   │   │   ├── Input.jsx
 │   │   │   ├── Navbar.jsx
-│   │   │   ├── SectionHeading.jsx
-│   │   │   └── ServiceCard.jsx
+│   │   │   └── SectionHeading.jsx
 │   │   └── home/
 │   │       ├── AboutSection.jsx
 │   │       ├── CTASection.jsx
 │   │       ├── FAQSection.jsx
 │   │       ├── HeroSection.jsx
 │   │       ├── ProcessSection.jsx
-│   │       ├── ServicesSection.jsx
 │   │       └── TestimonialsSection.jsx
 │   └── utils/
 │       └── helper.js
