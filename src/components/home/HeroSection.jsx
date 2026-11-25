@@ -1,4 +1,4 @@
-export default function Hero() {
+export default function HeroSection() {
   return (
     <section className="px-6 py-20 text-center">
       <h1 className="text-5xl font-semibold">DKS Upholstery</h1>

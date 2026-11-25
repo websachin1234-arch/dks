@@ -1,21 +1,21 @@
-import Testimonials from "@/components/home/Testimonials";
-import Hero from "@/components/home/Hero";
-import ServicesPreview from "@/components/home/ServicesPreview";
-import AboutPreview from "@/components/home/AboutPreview";
-import Process from "@/components/home/Process";
-import FAQ from "@/components/home/FAQ";
-import CTA from "@/components/home/CTA";
+import HeroSection from "@/components/home/HeroSection";
+import ServicesSection from "@/components/home/ServicesSection";
+import AboutSection from "@/components/home/AboutSection";
+import ProcessSection from "@/components/home/ProcessSection";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
+import FAQSection from "@/components/home/FAQSection";
+import CTASection from "@/components/home/CTASection";
 
 export default function Home() {
   return (
     <main>
-      <Hero />
-      <ServicesPreview />
-      <AboutPreview />
-      <Process />
-      <Testimonials />
-      <FAQ />
-      <CTA />
+      <HeroSection />
+      <ServicesSection />
+      <AboutSection />
+      <ProcessSection />
+      <TestimonialsSection />
+      <FAQSection />
+      <CTASection />
     </main>
   );
 }

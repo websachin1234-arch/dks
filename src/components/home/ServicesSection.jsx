@@ -1,6 +1,6 @@
 import ServiceCard from "@/components/common/ServiceCard";
 
-export default function ServicesPreview() {
+export default function ServicesSection() {
   return (
     <section className="px-6 py-16">
       <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-3">

@@ -4,66 +4,18 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import Icon from "@/components/common/Icons";
+import { testimonials } from "@/utils/helper";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const testimonials = [
-  {
-    id: 1,
-    quote:
-      "My sofa looks brand new! Quick, professional, and high quality work. Couldn’t be happier.",
-    clientType: "Residential Customer",
-    name: "Aarav M.",
-    role: "Operations Manager",
-    avatar: "/assets/images/png/avatar-aarav.png",
-  },
-  {
-    id: 2,
-    quote:
-      "They handled our office lounge seating perfectly. Stylish, durable, and on time!",
-    clientType: "",
-    name: "David K.",
-    role: "Facility Director",
-    avatar: "/assets/images/png/avatar-david.png",
-  },
-  {
-    id: 3,
-    quote:
-      "Excellent service from start to finish. They helped me choose the perfect fabric, and the results are stunning!",
-    clientType: "",
-    name: "Rina S.",
-    role: "Sustainability Lead",
-    avatar: "/assets/images/png/avatar-rina.png",
-  },
-  {
-    id: 4,
-    quote:
-      "Very happy with the result. Quick response, clear communication, and beautiful finishing on all our dining chairs.",
-    clientType: "Residential Customer",
-    name: "Grace T.",
-    role: "Interior Stylist",
-    avatar: "/assets/images/png/avatar-rina.png",
-  },
-  {
-    id: 5,
-    quote:
-      "Our lounge chairs were restored beautifully and delivered exactly as promised. The craftsmanship is second to none.",
-    clientType: "Commercial Customer",
-    name: "Daniel L.",
-    role: "Business Owner",
-    avatar: "/assets/images/png/avatar-david.png",
-  },
-];
-
-export default function LovedBySlider() {
+export default function TestimonialsSection() {
   return (
     <section
       className="reviews-section relative w-full overflow-hidden bg-white"
       aria-labelledby="loved-heading"
     >
-      {/* Decorative concentric background curves from Figma (Group 2085662823) */}
       <div
         className="pointer-events-none absolute -left-75 sm:-left-87.5 lg:-left-105 -top-30 sm:-top-20 w-200 sm:w-250 lg:w-300.75 h-200 sm:h-250 lg:h-300.75 select-none z-0"
         aria-hidden="true"
@@ -77,9 +29,7 @@ export default function LovedBySlider() {
           priority
         />
       </div>
-
       <div className="relative z-10 w-full">
-        {/* Header Container: exact 1140px width centered */}
         <div className="max-w-285 mx-auto px-4 sm:px-6 lg:px-8">
           <header className="flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-40 mb-6 sm:mb-8 lg:mb-8">
             <h2

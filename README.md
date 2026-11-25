@@ -77,14 +77,13 @@ dks/
 │   │   │   ├── SectionHeading.jsx
 │   │   │   └── ServiceCard.jsx
 │   │   └── home/
-│   │       ├── AboutPreview.jsx
-│   │       ├── CTA.jsx
-│   │       ├── FAQ.jsx
-│   │       ├── Hero.jsx
-│   │       ├── LovedBySlider.jsx
-│   │       ├── Process.jsx
-│   │       ├── ServicesPreview.jsx
-│   │       └── Testimonials.jsx
+│   │       ├── AboutSection.jsx
+│   │       ├── CTASection.jsx
+│   │       ├── FAQSection.jsx
+│   │       ├── HeroSection.jsx
+│   │       ├── ProcessSection.jsx
+│   │       ├── ServicesSection.jsx
+│   │       └── TestimonialsSection.jsx
 │   └── utils/
 │       └── helper.js
 ├── AGENTS.md
