@@ -213,22 +213,22 @@ export default function LovedBySlider() {
           {/* Floating Navigation Buttons (Figma Group 2085662873) */}
           <div className="pointer-events-none absolute inset-y-0 inset-x-0 mx-auto max-w-360 px-4 sm:px-6 lg:px-8 flex items-center justify-between z-20">
             <button
-              className="review-nav-btn review-nav-prev pointer-events-auto"
+              className="review-nav-prev pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-0 bg-[#19ae1a] text-white shadow-[0_6px_16px_rgba(25,174,26,0.45)] transition-[transform,box-shadow,background-color,border-color,color] duration-200 hover:scale-[1.06] hover:bg-[#159b16] hover:shadow-[0_6px_16px_rgba(25,174,26,0.45)] active:scale-[0.96] sm:h-15 sm:w-15"
               type="button"
               aria-label="Previous testimonial"
             >
-              <div className="w-4.5 h-4.5 rotate-180 flex items-center justify-center">
-                <Icon name="chevron" className="h-full w-full" />
+              <div className="w-4.5 h-4.5  flex items-center justify-center">
+                <Icon name="lessThan" className="h-full w-full" />
               </div>
             </button>
 
             <button
-              className="review-nav-btn review-nav-next pointer-events-auto"
+              className="review-nav-next pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-[#19ae1a] bg-[#fafafa] text-[#19ae1a] shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[transform,box-shadow,background-color,border-color,color] duration-200 hover:scale-[1.06] hover:border-[#19ae1a] hover:bg-[#19ae1a] hover:text-white hover:shadow-[0_6px_16px_rgba(25,174,26,0.45)] active:scale-[0.96] sm:h-15 sm:w-15"
               type="button"
               aria-label="Next testimonial"
             >
               <div className="w-4.5 h-4.5 flex items-center justify-center">
-                <Icon name="chevron" className="h-full w-full" />
+                <Icon name="lessThan" className="h-full rotate-180 w-full" />
               </div>
             </button>
           </div>
