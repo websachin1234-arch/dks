@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const articles = [
   {
@@ -38,17 +39,17 @@ export default function Tips() {
               sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
               className="aspect-[1.17] w-full rounded-2xl object-cover"
             />
-            <article className="flex  aspect-[1.17] flex-col rounded-2xl shadow-blogcard bg-white p-6">
-              <h2 className="text-xl w-81 font-semibold leading-120 text-rich-black">
+            <article className="flex  aspect-[1.17] flex-col rounded-2xl transition-all duration-300 ease-in-out cursor-pointer hover:shadow-blogcard bg-white p-6">
+              <h2 className="text-xl max-w-81 font-semibold leading-120 text-rich-black">
                 Best Upholstery Fabrics 2025
               </h2>
-              <p className="mt-1.5 w-81 text-lg leading-160 text-[#555555] font-normal">
+              <p className="mt-1.5 max-w-81 text-lg leading-160 text-[#555555] font-normal">
                 Explore the top trending and durable fabrics for sofas and
                 chairs in 2025.
               </p>
               <a
                 href="/blog"
-                className="mt-auto inline-flex w-fit items-center gap-1 leading-[145%] text-base font-semibold text-[#19AE1A] transition-colors hover:text-green-700"
+                className="mt-auto inline-flex w-fit items-center gap-1 leading-[145%] text-base font-semibold text-custom-green"
               >
                 {" "}
                 Learn More
@@ -71,12 +72,20 @@ export default function Tips() {
             />
           </div>
           <div className="mt-7.5 flex justify-center">
-            <button
-              type="button"
-              className="rounded-full bg-[#19AE1A] px-7 py-3 text-base leading-160 font-semibold text-white transition-colors hover:bg-green-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-            >
-              Show More
-            </button>
+            <Link href="/blog">
+              <button
+                type="button"
+                className="relative overflow-hidden active:scale-80 group rounded-full bg-[#19AE1A] px-7 py-3 text-base leading-160 font-semibold text-white border border-transparent cursor-pointer transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+                  Show More
+                </span>
+
+                <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(190,255,220,0.4),transparent_75%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+
+                <span className="absolute inset-y-0 left-[-80%] w-1/2 skew-x-[-25deg] bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:left-[140%] transition-all duration-1000 ease-in-out"></span>
+              </button>
+            </Link>
           </div>
         </div>
       </div>

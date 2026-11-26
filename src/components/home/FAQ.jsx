@@ -80,8 +80,14 @@ const Questions = () => {
           </div>
         </div>
         <div className="w-full items-center justify-center flex mt-[clamp(24px,4vw,50px)]">
-          <button className="max-w-45.5 w-full bg-custom-green h-11.25 flex items-center justify-center rounded-full text-white font-semibold text-sm leading-150 cursor-pointer transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5">
-            {homepageCopy.faq.moreAnswersLabel}
+          <button className="relative overflow-hidden active:scale-80 group max-w-45.5 w-full bg-custom-green h-11.25 flex items-center justify-center rounded-full text-white font-semibold text-sm leading-150 cursor-pointer border border-transparent transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)]">
+            <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+              {homepageCopy.faq.moreAnswersLabel}
+            </span>
+
+            <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(190,255,220,0.4),transparent_75%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+
+            <span className="absolute inset-y-0 left-[-80%] w-1/2 skew-x-[-25deg] bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:left-[140%] transition-all duration-1000 ease-in-out"></span>
           </button>
         </div>
       </div>
