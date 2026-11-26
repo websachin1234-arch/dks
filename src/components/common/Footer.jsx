@@ -325,7 +325,7 @@ const Footer = () => {
                   <a
                     href={item.href}
                     className="
-                                            text-rich-black
+                                            text-dark-gray
                                             font-normal
                                             text-base
                                             leading-163
