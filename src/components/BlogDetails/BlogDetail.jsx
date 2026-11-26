@@ -92,7 +92,7 @@ const BlogDetail = ({ post }) => {
   };
 
   return (
-    <main className="bg-custom-white pb-20 text-rich-black">
+    <main className="bg-custom-white pb-15 md:pb-20 text-rich-black">
       <section ref={heroRef} className="scroll-mt-20 pt-8 sm:pt-12.5">
         <div className="mx-auto w-full max-w-295 px-5">
           <div

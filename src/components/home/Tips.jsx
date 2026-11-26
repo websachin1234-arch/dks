@@ -19,9 +19,9 @@ export default function Tips() {
         <div className="w-full">
           <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-start justify-between">
             <div>
-              <h1 className="max-w-112.75 font-semibold font-poppins text-5xl text-rich-black leading-120 ">
+              <h1 className="max-w-112.75 font-semibold font-poppins text-[clamp(28px,4vw,48px)] text-rich-black leading-120 ">
                 Upholstery Tips,{" "}
-                <span className="text-[#19AE1A]">Care & Inspiration</span>
+                <span className="text-custom-green">Care & Inspiration</span>
               </h1>
             </div>
             <p className="max-w-106.75 text-base leading-160 font-normal text-dark-gray">
