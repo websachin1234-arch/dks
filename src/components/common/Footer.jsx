@@ -352,6 +352,7 @@ const Footer = () => {
             </div>
 
             <div
+              id="gallery"
               className="
                                 gap-3.75
                                 flex

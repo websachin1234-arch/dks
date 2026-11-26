@@ -8,6 +8,7 @@
   --color-soft-black: #0101011f;
   --color-custom-gray: #afafaf;
   --color-custom-green: #19ae1a;
+  --color-custom-green-nav: #19ae1a;
   --color-light-green: #20ae190f;
   --color-dark-gray: #4d4d4d;
   --color-soft-black: #0101011f;
@@ -25,18 +26,11 @@
   --shadow-blogcard: 0px 4px 25px 0px #0101011a;
 }
 
-
 @keyframes marquee {
   to {
     transform: translateX(-50%);
   }
 }
-
-
-
-
-
-
 
 body {
   font-family: "Poppins", sans-serif;
@@ -76,7 +70,9 @@ body {
   max-width: 88vw !important;
   height: 320px !important;
   box-sizing: border-box;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 @media (max-width: 639px) {
@@ -100,7 +96,10 @@ body {
   flex-direction: column;
   justify-content: space-between;
   text-align: left;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 @media (max-width: 639px) {
@@ -136,7 +135,10 @@ body {
   background: #20ae19 !important;
   opacity: 0.16 !important;
   border-radius: 50%;
-  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    background-color 0.25s ease;
   cursor: pointer;
 }
 
@@ -145,5 +147,3 @@ body {
   opacity: 1 !important;
   transform: scale(1.05);
 }
-
-

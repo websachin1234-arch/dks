@@ -60,7 +60,11 @@ export default function TestimonialsSection() {
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
               }}
-              speed={650}
+              speed={850}
+              style={{
+                "--swiper-wrapper-transition-timing-function":
+                  "cubic-bezier(0.22, 1, 0.36, 1)",
+              }}
               navigation={{
                 nextEl: ".review-nav-next",
                 prevEl: ".review-nav-prev",
@@ -151,17 +155,17 @@ export default function TestimonialsSection() {
           {/* Floating Navigation Buttons (Figma Group 2085662873) */}
           <div className="pointer-events-none absolute inset-y-0 inset-x-0 mx-auto max-w-360 px-4 sm:px-6 lg:px-8 flex items-center justify-between z-20">
             <button
-              className="review-nav-prev pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-custom-green bg-[#fafafa] text-custom-green shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[transform,box-shadow,background-color,border-color,color] duration-200 hover:scale-[1.06] hover:border-custom-green hover:bg-custom-green hover:text-white hover:shadow-[0_6px_16px_rgba(25,174,26,0.45)] active:scale-[0.96] sm:h-15 sm:w-15"
+              className="review-nav-prev group pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-custom-green bg-[#fafafa] text-custom-green shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[transform,box-shadow,background-color,border-color,color] duration-300 ease-out hover:scale-[1.06] hover:border-custom-green hover:bg-custom-green hover:text-white hover:shadow-[0_6px_16px_rgba(25,174,26,0.45)] active:scale-[0.96] motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100 sm:h-15 sm:w-15"
               type="button"
               aria-label={copy.previousLabel}
             >
-              <div className="w-4.5 h-4.5  flex items-center justify-center">
+              <div className="w-4.5 h-4.5 flex items-center justify-center">
                 <Icon name="lessThan" className="h-7.75 w-3.75" />
               </div>
             </button>
 
             <button
-              className="review-nav-next pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-custom-green bg-[#fafafa] text-custom-green shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[transform,box-shadow,background-color,border-color,color] duration-200 hover:scale-[1.06] hover:border-custom-green hover:bg-custom-green hover:text-white hover:shadow-[0_6px_16px_rgba(25,174,26,0.45)] active:scale-[0.96] sm:h-15 sm:w-15"
+              className="review-nav-next group pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-custom-green bg-[#fafafa] text-custom-green shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[transform,box-shadow,background-color,border-color,color] duration-300 ease-out hover:scale-[1.06] hover:border-custom-green hover:bg-custom-green hover:text-white hover:shadow-[0_6px_16px_rgba(25,174,26,0.45)] active:scale-[0.96] motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:active:scale-100 sm:h-15 sm:w-15"
               type="button"
               aria-label={copy.nextLabel}
             >

@@ -140,6 +140,15 @@ export const footerServiceGroups = [
   ["Repairs & On Site", "Outdoor & Commercial", "Cleaning", "Revarnishing"],
 ];
 
+export const services = footerServiceGroups.flat().map((name) => ({
+  name,
+  slug: name
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, ""),
+}));
+
 export const footerAddress = {
   icon: "/assets/images/svg/location_icon.svg",
   alt: "location",
