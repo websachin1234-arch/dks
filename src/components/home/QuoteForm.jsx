@@ -29,7 +29,6 @@ export default function QuoteForm() {
       newErrors.name = copy.errors.nameRequired;
     } else if (!/^[A-Za-z]+(\s[A-Za-z]+)*$/.test(name)) {
       newErrors.name = copy.errors.invalidName;
-
     }
 
     if (contact === "") {
@@ -70,40 +69,51 @@ export default function QuoteForm() {
       <div className="flex flex-col md:flex-row gap-5">
         <div className="w-full md:w-1/3">
           <label className="font-semibold flex gap-1.5 items-center">
-            <Image src={assets.name} alt="" height="18" width="18"  />{copy.nameLabel}</label>
+            <Image src={assets.name} alt="" height="18" width="18" />
+            {copy.nameLabel}
+          </label>
           <input
             type="text"
             name="user_name"
             placeholder={copy.namePlaceholder}
-            className="w-full mt-2 px-4 py-3 border border-[#DCDCDC] rounded-full text-sm  placeholder:text-[#4D4D4D]"
+            className="w-full mt-2 px-4 py-3 border border-[#DCDCDC] rounded-full text-sm  placeholder:text-dark-gray"
           />
           <p className="text-red-500 text-xs mt-1">{errors.name}</p>
         </div>
 
         <div className="w-full md:w-1/3">
-          <label className="font-semibold flex gap-1.5 items-center">  <Image src={assets.contact} alt="" height="18" width="18"/> {copy.contactLabel}</label>
+          <label className="font-semibold flex gap-1.5 items-center">
+            {" "}
+            <Image src={assets.contact} alt="" height="18" width="18" />{" "}
+            {copy.contactLabel}
+          </label>
           <input
             type="tel"
             name="user_contact"
             placeholder={copy.contactPlaceholder}
-            className="w-full mt-2 px-4 py-3 border border-[#DCDCDC] rounded-full text-sm placeholder:text-[#4D4D4D]"
+            className="w-full mt-2 px-4 py-3 border border-[#DCDCDC] rounded-full text-sm placeholder:text-dark-gray"
           />
           <p className="text-red-500 text-xs mt-1">{errors.contact}</p>
         </div>
 
         <div className="w-full md:w-1/3">
-          <label className="font-semibold flex gap-1.5 items-center"> <Image src={assets.upload} alt="" height="18" width="18"/>   {copy.uploadLabel}</label>
-          <label className="flex items-center gap-2 w-full mt-2 px-4 py-3 border border-dashed border-[#DCDCDC] rounded-full text-sm text-[#4D4D4D] cursor-pointer">
-           <Image src={assets.photo} alt="" height="20" width="20"/>{copy.uploadPrompt}
-  <input type="file" name="user_photo" className="hidden" />
-</label>
+          <label className="font-semibold flex gap-1.5 items-center">
+            {" "}
+            <Image src={assets.upload} alt="" height="18" width="18" />{" "}
+            {copy.uploadLabel}
+          </label>
+          <label className="flex items-center gap-2 w-full mt-2 px-4 py-3 border border-dashed border-[#DCDCDC] rounded-full text-sm text-dark-gray cursor-pointer">
+            <Image src={assets.photo} alt="" height="20" width="20" />
+            {copy.uploadPrompt}
+            <input type="file" name="user_photo" className="hidden" />
+          </label>
         </div>
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full mt-6 py-3 bg-custom-green text-white font-semibold rounded-full disabled:opacity-60"
+        className="w-full mt-6 py-3 bg-custom-green text-white font-semibold rounded-full disabled:opacity-60 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
       >
         {loading ? copy.sendingLabel : copy.submitLabel}
       </button>

@@ -50,7 +50,7 @@ export const faqItems = [
   {
     question: "How much does reupholstery cost in Singapore?",
     answer:
-      "A dining chair with a seat cushion typically starts from $75 per chair, while a fixed-cushion three-seater sofa starts from $1,380. The final price depends on size, design, foam, and fabric.",
+      "A dining chair with a seat cushion typically starts from $75 per chair, while a fixed cushion 3 seater sofa starts from $1380. Prices vary depending on size, design, and material (fabric, leather, or foam). The best way to get an accurate quote is to send us a photo of your furniture.",
   },
   {
     question: "How long does the upholstery process take?",
@@ -78,7 +78,8 @@ export const faqItems = [
       "A 12-month workmanship warranty reflects normal wear and the working life of upholstery components. Fabric, leather, misuse, and accidental damage are handled according to the specific terms provided.",
   },
   {
-    question: "Why does reupholstery cost almost the same as buying a new sofa?",
+    question:
+      "Why does reupholstery cost almost the same as buying a new sofa?",
     answer:
       "Quality reupholstery includes removal of old materials, frame repairs, new foam, handwork, fabric, and finishing. It preserves a well-made or sentimental frame that may be more durable than a low-cost replacement.",
   },

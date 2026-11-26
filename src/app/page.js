@@ -1,7 +1,8 @@
+import Questions from "@/components/home/FAQ";
+import TrustedService from "@/components/home/TrustedService";
+import Upholstery from "@/components/home/Hero";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
-import Upholstery from "@/components/HomePage/Upholstery";
-import TrustedService from "@/components/HomePage/TrustedService";
-import Questions from "@/components/HomePage/Questions";
+import Tips from "@/components/home/Tips";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <TrustedService />
       <TestimonialsSection />
       <Questions />
+      <Tips />
     </main>
   );
 }

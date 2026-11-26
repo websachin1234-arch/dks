@@ -23,6 +23,8 @@ const LogoGroup = ({ hidden = false }) => (
             alt={hidden ? "" : homepageCopy.trustedServices.logoAlt}
             fill
             sizes="152px"
+            // width={w}
+            // height={h}
             className="object-contain pointer-events-none"
           />
         </div>

@@ -43,7 +43,12 @@ export default function Navigation() {
             >
               {link.name}
               {link.hasArrow && (
-                <Image src="/assets/images/svg/arrow.svg" alt="arrow" width="20" height="20" />
+                <Image
+                  src="/assets/images/svg/arrow.svg"
+                  alt="arrow"
+                  width="20"
+                  height="20"
+                />
               )}
             </Link>
           ))}
@@ -97,7 +102,14 @@ export default function Navigation() {
               }`}
             >
               {link.name}
-              {link.hasArrow && <Image src="/assets/images/svg/arrow.svg" alt="arrow" width="20" height="20"  />}
+              {link.hasArrow && (
+                <Image
+                  src="/assets/images/svg/arrow.svg"
+                  alt="arrow"
+                  width="20"
+                  height="20"
+                />
+              )}
             </Link>
           ))}
           <button className="bg-custom-green text-white px-7 py-3 text-base font-semibold w-full rounded-full leading-160 cursor-pointer">

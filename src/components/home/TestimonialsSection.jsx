@@ -23,14 +23,14 @@ export default function TestimonialsSection() {
           <header className="flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-40 mb-6 sm:mb-8 lg:mb-8">
             <h2
               id="loved-heading"
-              className="text-[32px] sm:text-[40px] lg:text-[48px] font-semibold text-[#010101] leading-[1.2] tracking-tight max-w-138.25"
+              className="text-[32px] sm:text-[40px] lg:text-[48px] font-semibold text-rich-black leading-[1.2] tracking-tight max-w-138.25"
             >
               {copy.heading}{" "}
               <span className="text-custom-green block">
                 {copy.headingAccent}
               </span>
             </h2>
-            <p className="text-[#4D4D4D] text-[15px] sm:text-[16px] leading-[1.6] max-w-106.75 lg:pt-1">
+            <p className="text-dark-gray text-[15px] sm:text-[16px] leading-[1.6] max-w-106.75 lg:pt-1">
               {copy.description}
             </p>
           </header>
@@ -83,10 +83,10 @@ export default function TestimonialsSection() {
                       </div>
 
                       {/* Testimonial Quote */}
-                      <p className="testimonial-quote text-[15px] sm:text-[16px] leading-[1.6] text-[#4D4D4D] transition-colors">
+                      <p className="testimonial-quote text-[15px] sm:text-[16px] leading-[1.6] text-dark-gray transition-colors">
                         &ldquo;{testimonial.quote}&rdquo;{" "}
                         {testimonial.clientType && (
-                          <span className="text-[#4D4D4D]/90">
+                          <span className="text-dark-gray/90">
                             {testimonial.clientType}
                           </span>
                         )}
@@ -95,10 +95,10 @@ export default function TestimonialsSection() {
                       {/* Author Info */}
                       <div className="flex items-center justify-between w-full pt-2">
                         <div className="flex flex-col gap-1">
-                          <h3 className="text-[20px] sm:text-[24px] font-semibold text-[#010101] leading-[1.3]">
+                          <h3 className="text-[20px] sm:text-[24px] font-semibold text-rich-black leading-[1.3]">
                             {testimonial.name}
                           </h3>
-                          <p className="text-[14px] sm:text-[16px] text-[#010101]/70 leading-[1.6]">
+                          <p className="text-[14px] sm:text-[16px] text-rich-black/70 leading-[1.6]">
                             {testimonial.role}
                           </p>
                         </div>

@@ -10,7 +10,7 @@ const Questions = () => {
   const toggle = (i) => setOpenIndex((prev) => (prev === i ? null : i));
 
   return (
-    <section className="min-h-fit w-full px-4 xl:min-h-248.25 lg:pb-35 md:pb-20 pb-15">
+    <section className="min-h-fit w-full px-4 xl:min-h-248.25 lg:py-35 md:py-20 py-15">
       <div className="container max-w-285 w-full mx-auto">
         <div className="row w-full flex flex-col min-[992px]:flex-row gap-[clamp(24px,3.5vw,40px)] justify-center min-[992]:items-start items-center">
           <div className="right max-w-108.75 w-full">
@@ -69,7 +69,7 @@ const Questions = () => {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="px-[clamp(12px,1.5vw,16px)] pb-[clamp(12px,1.5vw,16px)] max-w-126.5 w-full text-black text-[clamp(14px,1.3vw,16px)] leading-143">
+                      <p className="px-[clamp(12px,1.5vw,16px)] pb-[clamp(12px,1.5vw,16px)] max-w-142.75 w-full text-black text-[clamp(14px,1.3vw,16px)] leading-143">
                         {answer}
                       </p>
                     </div>
@@ -80,7 +80,7 @@ const Questions = () => {
           </div>
         </div>
         <div className="w-full items-center justify-center flex mt-[clamp(24px,4vw,50px)]">
-          <button className="max-w-45.5 w-full bg-custom-green h-11.25 flex items-center justify-center rounded-full text-white font-semibold text-sm leading-150 cursor-pointer">
+          <button className="max-w-45.5 w-full bg-custom-green h-11.25 flex items-center justify-center rounded-full text-white font-semibold text-sm leading-150 cursor-pointer transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5">
             {homepageCopy.faq.moreAnswersLabel}
           </button>
         </div>
