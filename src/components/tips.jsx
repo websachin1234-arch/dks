@@ -14,13 +14,13 @@ const articles = [
 export default function Tips() {
   return (
     <section className="w-full bg-white text-[#111111]">
-      <div className="mx-auto flex min-h-[558px] max-w-[1180px]  flex-col py-20 px-5 lg:py-[140px]">
+      <div className="mx-auto flex min-h-139.5 max-w-295  flex-col py-20 px-5 lg:py-35">
         <div className="w-full">
           <div className="mb-14 flex flex-col gap-5 md:flex-row md:items-start justify-between">
             <div>
-              <h1 className="max-w-[451px] font-semibold font-poppins text-5xl text-[#010101] leading-[120%] ">Upholstery Tips, <span className="text-[#19AE1A]">Care & Inspiration</span></h1>
+              <h1 className="max-w-112.75 font-semibold font-poppins text-5xl text-[#010101] leading-[120%] ">Upholstery Tips, <span className="text-[#19AE1A]">Care & Inspiration</span></h1>
             </div>
-            <p className="max-w-[427px] text-base leading-[160%] font-normal text-[#4D4D4D]">
+            <p className="max-w-106.75 text-base leading-[160%] font-normal text-[#4D4D4D]">
               Refresh your sofa with the right fabrics, foam, and expert advice plus a breakdown of reupholstery costs in Singapore.
             </p>
           </div>
