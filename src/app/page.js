@@ -1,10 +1,11 @@
 import Footer from "@/components/footer/Footer";
-import Image from "next/image";
+import Tips from "@/components/tips";
 
 export default function Home() {
   return (
     <>
-    <Footer />
+      <Tips />
+      <Footer />
     </>
   );
 }
