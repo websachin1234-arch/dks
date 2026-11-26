@@ -2,8 +2,11 @@
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import Image from "next/image";
+import { homepageAssets, homepageCopy } from "@/utils/helper";
 
 export default function QuoteForm() {
+  const copy = homepageCopy.quoteForm;
+  const assets = homepageAssets.quoteForm;
   const form = useRef();
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -23,15 +26,15 @@ export default function QuoteForm() {
     const newErrors = {};
 
     if (name === "") {
-      newErrors.name = "Name is required";
+      newErrors.name = copy.errors.nameRequired;
     } else if (!/^[A-Za-z]+(\s[A-Za-z]+)*$/.test(name)) {
-      newErrors.name = "Enter a valid name (letters only)";
+      newErrors.name = copy.errors.invalidName;
     }
 
     if (contact === "") {
-      newErrors.contact = "Contact is required";
+      newErrors.contact = copy.errors.contactRequired;
     } else if (!/^[6-9]\d{9}$/.test(contact)) {
-      newErrors.contact = "Enter valid 10 digit mobile number";
+      newErrors.contact = copy.errors.invalidContact;
     }
 
     setErrors(newErrors);
@@ -66,18 +69,13 @@ export default function QuoteForm() {
       <div className="flex flex-col md:flex-row gap-5">
         <div className="w-full md:w-1/3">
           <label className="font-semibold flex gap-1.5 items-center">
-            <Image
-              src={"/assets/images/svg/name.svg"}
-              alt=""
-              height="18"
-              width="18"
-            />
-            Name*
+            <Image src={assets.name} alt="" height="18" width="18" />
+            {copy.nameLabel}
           </label>
           <input
             type="text"
             name="user_name"
-            placeholder="Enter First and Last Name"
+            placeholder={copy.namePlaceholder}
             className="w-full mt-2 px-4 py-3 border border-[#DCDCDC] rounded-full text-sm  placeholder:text-dark-gray"
           />
           <p className="text-red-500 text-xs mt-1">{errors.name}</p>
@@ -86,18 +84,13 @@ export default function QuoteForm() {
         <div className="w-full md:w-1/3">
           <label className="font-semibold flex gap-1.5 items-center">
             {" "}
-            <Image
-              src={"/assets/images/svg/contact.svg"}
-              alt=""
-              height="18"
-              width="18"
-            />{" "}
-            Contact*
+            <Image src={assets.contact} alt="" height="18" width="18" />{" "}
+            {copy.contactLabel}
           </label>
           <input
             type="tel"
             name="user_contact"
-            placeholder="Enter Mobile"
+            placeholder={copy.contactPlaceholder}
             className="w-full mt-2 px-4 py-3 border border-[#DCDCDC] rounded-full text-sm placeholder:text-dark-gray"
           />
           <p className="text-red-500 text-xs mt-1">{errors.contact}</p>
@@ -106,22 +99,12 @@ export default function QuoteForm() {
         <div className="w-full md:w-1/3">
           <label className="font-semibold flex gap-1.5 items-center">
             {" "}
-            <Image
-              src={"/assets/images/svg/upload.svg"}
-              alt=""
-              height="18"
-              width="18"
-            />{" "}
-            Upload Photos
+            <Image src={assets.upload} alt="" height="18" width="18" />{" "}
+            {copy.uploadLabel}
           </label>
           <label className="flex items-center gap-2 w-full mt-2 px-4 py-3 border border-dashed border-[#DCDCDC] rounded-full text-sm text-dark-gray cursor-pointer">
-            <Image
-              src={"/assets/images/svg/photo.svg"}
-              alt=""
-              height="20"
-              width="20"
-            />
-            Drop your image
+            <Image src={assets.photo} alt="" height="20" width="20" />
+            {copy.uploadPrompt}
             <input type="file" name="user_photo" className="hidden" />
           </label>
         </div>
@@ -130,17 +113,19 @@ export default function QuoteForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full cursor-pointer mt-6 py-3 bg-custom-green text-white font-semibold rounded-full disabled:opacity-60"
+        className="w-full mt-6 py-3 bg-custom-green text-white font-semibold rounded-full disabled:opacity-60"
       >
-        {loading ? "Sending..." : "Get Free Quote"}
+        {loading ? copy.sendingLabel : copy.submitLabel}
       </button>
 
       {status === "success" && (
-        <p className="text-green-600 text-sm mt-3 text-center">Thank you!</p>
+        <p className="text-green-600 text-sm mt-3 text-center">
+          {copy.successMessage}
+        </p>
       )}
       {status === "error" && (
         <p className="text-red-500 text-sm mt-3 text-center">
-          Something Went Wrong
+          {copy.errorMessage}
         </p>
       )}
     </form>

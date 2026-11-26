@@ -3,96 +3,35 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import Icon from "@/components/common/Icons";
+import { homepageAssets, homepageCopy, testimonials } from "@/utils/helper";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const testimonials = [
-  {
-    id: 1,
-    quote:
-      "My sofa looks brand new! Quick, professional, and high quality work. Couldn’t be happier.",
-    clientType: "Residential Customer",
-    name: "Aarav M.",
-    role: "Operations Manager",
-    avatar: "/reviews/avatar-aarav.png",
-  },
-  {
-    id: 2,
-    quote:
-      "They handled our office lounge seating perfectly. Stylish, durable, and on time!",
-    clientType: "",
-    name: "David K.",
-    role: "Facility Director",
-    avatar: "/reviews/avatar-david.png",
-  },
-  {
-    id: 3,
-    quote:
-      "Excellent service from start to finish. They helped me choose the perfect fabric, and the results are stunning!",
-    clientType: "",
-    name: "Rina S.",
-    role: "Sustainability Lead",
-    avatar: "/reviews/avatar-rina.png",
-  },
-  {
-    id: 4,
-    quote:
-      "Very happy with the result. Quick response, clear communication, and beautiful finishing on all our dining chairs.",
-    clientType: "Residential Customer",
-    name: "Grace T.",
-    role: "Interior Stylist",
-    avatar: "/reviews/avatar-rina.png",
-  },
-  {
-    id: 5,
-    quote:
-      "Our lounge chairs were restored beautifully and delivered exactly as promised. The craftsmanship is second to none.",
-    clientType: "Commercial Customer",
-    name: "Daniel L.",
-    role: "Business Owner",
-    avatar: "/reviews/avatar-david.png",
-  },
-];
+export default function TestimonialsSection() {
+  const copy = homepageCopy.testimonials;
 
-export default function LovedBySlider() {
   return (
     <section
       className="reviews-section relative w-full overflow-hidden bg-white"
       aria-labelledby="loved-heading"
     >
-      {/* Decorative concentric background curves from Figma (Group 2085662823) */}
-      <div
-        className="pointer-events-none absolute -left-75 sm:-left-87.5 lg:-left-105 -top-30 sm:-top-20 w-200 sm:w-250 lg:w-300.75 h-200 sm:h-250 lg:h-300.75 select-none z-0"
-        aria-hidden="true"
-      >
-        <Image
-          src="/reviews/bg-curves.svg"
-          alt=""
-          width={1203}
-          height={1203}
-          className="w-full h-full object-contain"
-          priority
-        />
-      </div>
-
       <div className="relative z-10 w-full">
-        {/* Header Container: exact 1140px width centered */}
         <div className="max-w-285 mx-auto px-4 sm:px-6 lg:px-8">
           <header className="flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-40 mb-6 sm:mb-8 lg:mb-8">
             <h2
               id="loved-heading"
               className="text-[32px] sm:text-[40px] lg:text-[48px] font-semibold text-rich-black leading-[1.2] tracking-tight max-w-138.25"
             >
-              Loved by Singapore{" "}
+              {copy.heading}{" "}
               <span className="text-custom-green block">
-                Homes &amp; Businesses
+                {copy.headingAccent}
               </span>
             </h2>
             <p className="text-dark-gray text-[15px] sm:text-[16px] leading-[1.6] max-w-106.75 lg:pt-1">
-              Over 100 five star reviews from customers who transformed their
-              sofas, chairs, and spaces with DKS Upholstery.
+              {copy.description}
             </p>
           </header>
         </div>
@@ -131,7 +70,7 @@ export default function LovedBySlider() {
                 clickable: true,
               }}
               className="reviews-swiper"
-              aria-label="Customer testimonials"
+              aria-label={copy.sliderLabel}
             >
               {testimonials.map((testimonial) => (
                 <SwiperSlide key={testimonial.id} className="testimonial-slide">
@@ -140,13 +79,7 @@ export default function LovedBySlider() {
                     <div className="flex flex-col gap-5 sm:gap-6">
                       {/* Quote SVG */}
                       <div className="w-[25.2px] h-[17.1px] relative shrink-0">
-                        <Image
-                          src="/reviews/quote.svg"
-                          alt=""
-                          width={26}
-                          height={18}
-                          className="w-full h-full object-contain"
-                        />
+                        <Icon name="quote" className="h-full w-full" />
                       </div>
 
                       {/* Testimonial Quote */}
@@ -185,8 +118,8 @@ export default function LovedBySlider() {
                     <div className="flex items-center gap-2.5 shrink-0 pt-6">
                       <div className="w-6 h-6 shrink-0 relative flex items-center justify-center">
                         <Image
-                          src="/reviews/google-icon.png"
-                          alt="Google Review"
+                          src={homepageAssets.testimonials.googleReview}
+                          alt={copy.googleReviewAlt}
                           width={24}
                           height={24}
                           className="w-full h-full object-contain"
@@ -194,12 +127,12 @@ export default function LovedBySlider() {
                       </div>
                       <div
                         className="flex items-center gap-1"
-                        aria-label="5 out of 5 stars"
+                        aria-label={copy.ratingLabel}
                       >
-                        {[...Array(5)].map((_, i) => (
+                        {[...Array(copy.starCount)].map((_, i) => (
                           <div key={i} className="w-5 h-5 shrink-0">
                             <Image
-                              src="/reviews/star.svg"
+                              src={homepageAssets.testimonials.star}
                               alt=""
                               width={20}
                               height={20}
@@ -218,46 +151,22 @@ export default function LovedBySlider() {
           {/* Floating Navigation Buttons (Figma Group 2085662873) */}
           <div className="pointer-events-none absolute inset-y-0 inset-x-0 mx-auto max-w-360 px-4 sm:px-6 lg:px-8 flex items-center justify-between z-20">
             <button
-              className="review-nav-btn review-nav-prev pointer-events-auto"
+              className="review-nav-prev pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-custom-green bg-[#fafafa] text-custom-green shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[transform,box-shadow,background-color,border-color,color] duration-200 hover:scale-[1.06] hover:border-custom-green hover:bg-custom-green hover:text-white hover:shadow-[0_6px_16px_rgba(25,174,26,0.45)] active:scale-[0.96] sm:h-15 sm:w-15"
               type="button"
-              aria-label="Previous testimonial"
+              aria-label={copy.previousLabel}
             >
-              <div className="w-4.5 h-4.5 rotate-180 flex items-center justify-center">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 60 60"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-full h-full"
-                >
-                  <path
-                    d="M35.6533 31.3191L28.2195 38.753L26.3613 36.8949L32.8661 30.39L26.3613 23.8852L28.2195 22.0271L35.6533 29.461C35.8997 29.7074 36.0381 30.0416 36.0381 30.39C36.0381 30.7385 35.8997 31.0727 35.6533 31.3191Z"
-                    fill="currentColor"
-                  />
-                </svg>
+              <div className="w-4.5 h-4.5  flex items-center justify-center">
+                <Icon name="lessThan" className="h-7.75 w-3.75" />
               </div>
             </button>
 
             <button
-              className="review-nav-btn review-nav-next pointer-events-auto"
+              className="review-nav-next pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-custom-green bg-[#fafafa] text-custom-green shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[transform,box-shadow,background-color,border-color,color] duration-200 hover:scale-[1.06] hover:border-custom-green hover:bg-custom-green hover:text-white hover:shadow-[0_6px_16px_rgba(25,174,26,0.45)] active:scale-[0.96] sm:h-15 sm:w-15"
               type="button"
-              aria-label="Next testimonial"
+              aria-label={copy.nextLabel}
             >
               <div className="w-4.5 h-4.5 flex items-center justify-center">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 60 60"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-full h-full"
-                >
-                  <path
-                    d="M35.6533 31.3191L28.2195 38.753L26.3613 36.8949L32.8661 30.39L26.3613 23.8852L28.2195 22.0271L35.6533 29.461C35.8997 29.7074 36.0381 30.0416 36.0381 30.39C36.0381 30.7385 35.8997 31.0727 35.6533 31.3191Z"
-                    fill="currentColor"
-                  />
-                </svg>
+                <Icon name="lessThan" className="h-7.75 w-3.75 rotate-180" />
               </div>
             </button>
           </div>
@@ -265,7 +174,7 @@ export default function LovedBySlider() {
           {/* Pagination Dots (Figma Frame 2147227155) */}
           <div
             className="reviews-pagination"
-            aria-label="Testimonial pagination"
+            aria-label={copy.paginationLabel}
           />
         </div>
       </div>

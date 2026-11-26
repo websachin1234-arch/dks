@@ -2,9 +2,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+
 import { usePathname } from "next/navigation";
 
-export default function Navbar() {
+export default function Navigation() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -23,7 +24,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/">
           <Image
-            src="/assets/images/png/logo.png"
+            src="/assets/images/svg/logo.svg"
             alt="logo"
             width="193"
             height="41"
@@ -54,7 +55,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop button */}
-        <button className="hidden lg:block ml-4 bg-custom-green text-white px-7 py-3 text-base font-semibold max-w-44.25 w-full rounded-full leading-160 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">
+        <button className="hidden lg:block ml-4 bg-custom-green text-white text-nowrap px-7 py-3 text-base font-semibold max-w-44.25 w-full rounded-full leading-160 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">
           Get Free Quote
         </button>
 

@@ -2,115 +2,16 @@
 
 import React from "react";
 import Image from "next/image";
-
-const FOOTER_NAV = [
-  "Home",
-  "Services",
-  "Gallery",
-  "About Us",
-  "Blog",
-  "FAQs",
-  "Contact",
-];
-
-const FOOTER_GALLERY = [
-  "/assets/images/png/footer_img.png",
-  "/assets/images/png/footer_img_1.png",
-  "/assets/images/png/footer_img_2.png",
-  "/assets/images/png/footer_img_3.png",
-  "/assets/images/png/footer_img_4.png",
-  "/assets/images/png/footer_img_5.png",
-];
-
-const FOOTER_SERVICES_1 = [
-  "Reupholstery",
-  "Covers & Cushions",
-  "Foam & Filling",
-];
-
-const FOOTER_SERVICES_2 = [
-  "Beds & Headboards",
-  "Built Ins",
-  "Custom Furniture",
-];
-
-const FOOTER_SERVICES_3 = [
-  "Repairs & On Site",
-  "Outdoor & Commercial",
-  "Cleaning",
-  "Revarnishing",
-];
-
-const FOOTER_ADDRESS = {
-  icon: "/assets/images/svg/Location_icon.svg",
-  alt: "location",
-  text: "Defu Industrial Estate Address: 37 Defu Lane 10, #01/41, Singapore 539214",
-};
-
-const FOOTER_SOCIALS = [
-  {
-    name: "Instagram",
-    href: "https://www.instagram.com",
-    icon: "/assets/images/svg/instagram_icon.svg",
-  },
-  {
-    name: "Facebook",
-    href: "https://www.facebook.com/",
-    icon: "/assets/images/svg/facebook_icon.svg",
-  },
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com",
-    icon: "/assets/images/svg/linkdin_icon.svg",
-  },
-];
-
-const FOOTER_CONTACT = [
-  {
-    type: "phone",
-    icon: "/assets/images/svg/whatsapp_icon.svg",
-    iconWidth: 16,
-    iconHeight: 16,
-    links: [
-      {
-        text: "98385685,",
-        href: "tel:98385685",
-      },
-      {
-        text: "93832006",
-        href: "tel:93832006",
-      },
-    ],
-  },
-  {
-    type: "phone",
-    icon: "/assets/images/svg/coll_icon.svg",
-    iconWidth: 15,
-    iconHeight: 15,
-    links: [
-      {
-        text: "62844186",
-        href: "tel:62844186",
-      },
-    ],
-  },
-  {
-    type: "email",
-    icon: "/assets/images/svg/dm_icon.svg",
-    iconWidth: 13,
-    iconHeight: 13,
-    links: [
-      {
-        text: "info@dksinternational.com",
-        href: "mailto:info@dksinternational.com",
-      },
-      {
-        text: "dks.int@live.com",
-        href: "mailto:dks.int@live.com",
-      },
-    ],
-  },
-];
+import {
+  footerAddress,
+  footerAssets,
+  footerContacts,
+  footerCopy,
+  footerGallery,
+  footerNavigation,
+  footerServiceGroups,
+  footerSocials,
+} from "@/utils/helper";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -167,8 +68,8 @@ const Footer = () => {
                 <Image
                   width={193}
                   height={41}
-                  src="/assets/images/svg/logo.svg"
-                  alt="DKS International"
+                  src={footerAssets.logo}
+                  alt={footerCopy.logoAlt}
                   className="
                                         w-48.25
                                         h-auto
@@ -193,9 +94,7 @@ const Footer = () => {
                                     max-sm:text-sm
                                 "
               >
-                At DKS, we specialize in expert upholstery, custom furniture,
-                and repairs combining craftsmanship with care to bring new life
-                to your furniture.
+                {footerCopy.introduction}
               </p>
             </div>
 
@@ -232,8 +131,8 @@ const Footer = () => {
                 >
                   <div className="min-w-5 h-5">
                     <Image
-                      src={FOOTER_ADDRESS.icon}
-                      alt={FOOTER_ADDRESS.alt}
+                      src={footerAddress.icon}
+                      alt={footerAddress.alt}
                       width="11"
                       height="16"
                     />
@@ -249,7 +148,7 @@ const Footer = () => {
                                             max-sm:text-sm
                                         "
                   >
-                    {FOOTER_ADDRESS.text}
+                    {footerAddress.text}
                   </p>
                 </div>
 
@@ -269,18 +168,18 @@ const Footer = () => {
                       <Image
                         width={16}
                         height={14}
-                        src="/assets/images/svg/follow_icon.svg"
-                        alt="follow"
+                        src={footerAssets.followIcon}
+                        alt={footerCopy.followIconAlt}
                       />
                     </div>
 
                     <p className="text-rich-black font-medium text-base max-sm:text-sm leading-163">
-                      Follow Us
+                      {footerCopy.followUs}
                     </p>
                   </div>
 
                   <div className="flex gap-3">
-                    {FOOTER_SOCIALS.map((social) => (
+                    {footerSocials.map((social) => (
                       <a
                         key={social.name}
                         href={social.href}
@@ -323,7 +222,7 @@ const Footer = () => {
                                     max-md:max-w-full
                                 "
               >
-                {FOOTER_CONTACT.map((contact) => (
+                {footerContacts.map((contact) => (
                   <div
                     key={contact.icon}
                     className={`
@@ -421,10 +320,10 @@ const Footer = () => {
                                 max-sm:gap-2
                             "
             >
-              {FOOTER_NAV.map((item, index) => (
-                <React.Fragment key={item}>
+              {footerNavigation.map((item, index) => (
+                <React.Fragment key={item.label}>
                   <a
-                    href="#"
+                    href={item.href}
                     className="
                                             text-rich-black
                                             font-normal
@@ -436,15 +335,15 @@ const Footer = () => {
                                             max-sm:text-sm
                                         "
                   >
-                    {item}
+                    {item.label}
                   </a>
 
-                  {index !== FOOTER_NAV.length - 1 && (
+                  {index !== footerNavigation.length - 1 && (
                     <Image
                       width={1}
                       height={20}
-                      src="/assets/images/svg/footer_line.svg"
-                      alt="line"
+                      src={footerAssets.divider}
+                      alt={footerCopy.dividerAlt}
                       className="max-sm:h-4"
                     />
                   )}
@@ -471,7 +370,7 @@ const Footer = () => {
                                 max-sm:pb-5
                             "
             >
-              {FOOTER_GALLERY.map((img, index) => (
+              {footerGallery.map((img, index) => (
                 <div
                   key={img}
                   className="
@@ -485,7 +384,7 @@ const Footer = () => {
                     width={81}
                     height={70}
                     src={img}
-                    alt={`Gallery ${index + 1}`}
+                    alt={`${footerCopy.galleryAltPrefix} ${index + 1}`}
                     className="
                                             w-20.25
                                             h-17.5
@@ -526,7 +425,7 @@ const Footer = () => {
                                 hover:text-vivid-green
                             "
             >
-              {FOOTER_SERVICES_1.map((item, index) => (
+              {footerServiceGroups[0].map((item, index) => (
                 <React.Fragment key={item}>
                   <a
                     href="#"
@@ -544,12 +443,12 @@ const Footer = () => {
                     {item}
                   </a>
 
-                  {index !== FOOTER_SERVICES_1.length - 1 && (
+                  {index !== footerServiceGroups[0].length - 1 && (
                     <Image
                       width={1}
                       height={20}
-                      src="/assets/images/svg/footer_line.svg"
-                      alt="line"
+                      src={footerAssets.divider}
+                      alt={footerCopy.dividerAlt}
                       className="max-sm:h-4"
                     />
                   )}
@@ -571,7 +470,7 @@ const Footer = () => {
                                 hover:text-vivid-green
                             "
             >
-              {FOOTER_SERVICES_2.map((item, index) => (
+              {footerServiceGroups[1].map((item, index) => (
                 <React.Fragment key={item}>
                   <a
                     href="#"
@@ -589,12 +488,12 @@ const Footer = () => {
                     {item}
                   </a>
 
-                  {index !== FOOTER_SERVICES_2.length - 1 && (
+                  {index !== footerServiceGroups[1].length - 1 && (
                     <Image
                       width={1}
                       height={20}
-                      src="/assets/images/svg/footer_line.svg"
-                      alt="line"
+                      src={footerAssets.divider}
+                      alt={footerCopy.dividerAlt}
                       className="max-sm:h-4"
                     />
                   )}
@@ -603,7 +502,7 @@ const Footer = () => {
             </div>
 
             <div className="gap-2.5 flex pb-3 flex-wrap items-center max-sm:gap-2">
-              {FOOTER_SERVICES_3.map((item, index) => (
+              {footerServiceGroups[2].map((item, index) => (
                 <React.Fragment key={item}>
                   <a
                     href="#"
@@ -621,12 +520,12 @@ const Footer = () => {
                     {item}
                   </a>
 
-                  {index !== FOOTER_SERVICES_3.length - 1 && (
+                  {index !== footerServiceGroups[2].length - 1 && (
                     <Image
                       width={1}
                       height={20}
-                      src="/assets/images/svg/footer_line.svg"
-                      alt=""
+                      src={footerAssets.divider}
+                      alt={footerCopy.dividerAlt}
                       className="max-sm:h-4"
                     />
                   )}
@@ -648,7 +547,7 @@ const Footer = () => {
                                 max-sm:text-sm
                             "
             >
-              Terms of Service
+              {footerCopy.termsOfService}
             </a>
           </div>
         </div>
@@ -679,8 +578,7 @@ const Footer = () => {
                         max-sm:text-xs
                     "
         >
-          Copyright © {currentYear} DKS Upholstery Pte Ltd | DKS International
-          Supplier & Services. All Rights Reserved.
+          {footerCopy.copyrightPrefix} {currentYear} {footerCopy.copyright}
         </p>
       </div>
     </footer>
