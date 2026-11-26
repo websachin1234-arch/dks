@@ -1,21 +1,13 @@
-import Testimonials from "@/components/home/Testimonials";
-import Hero from "@/components/home/Hero";
-import ServicesPreview from "@/components/home/ServicesPreview";
-import AboutPreview from "@/components/home/AboutPreview";
-import Process from "@/components/home/Process";
-import FAQ from "@/components/home/FAQ";
-import CTA from "@/components/home/CTA";
+import Questions from "@/components/HomePage/Questions";
+import TrustedService from "@/components/HomePage/TrustedService";
+import Upholstery from "@/components/HomePage/Upholstery";
 
 export default function Home() {
   return (
     <main>
-      <Hero />
-      <ServicesPreview />
-      <AboutPreview />
-      <Process />
-      <Testimonials />
-      <FAQ />
-      <CTA />
+      <Upholstery />
+      <TrustedService />
+      <Questions />
     </main>
   );
 }

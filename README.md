@@ -1,13 +1,17 @@
 # DKS Upholstery
 
-## links
+## NOTES (imp)
+
+-- PLEASE GET YOUR FOLDER STR UPDATED!!!!!!!!!
+
+## Links
 1. live link:- 
 2. repo link:- https://github.com/websachin1234-arch/dks
 3. figma link:- https://www.figma.com/design/rEtLMnofNSilt6KHhWo5Oz/DKS-Upholstery--Copy-?node-id=1658-3161&t=pZN8z7admkEc6fnd-0
 
 ## Description
 
-Write your project description here.
+DKS Upholstery specializes in high-quality upholstery solutions, combining expert craftsmanship, premium materials, and stylish designs to transform furniture and interiors with comfort, elegance, and durability.
 
 ## Technologies
 
