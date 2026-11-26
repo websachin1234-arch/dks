@@ -1,7 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
+import { blogPosts } from "@/utils/helper";
 
 const SIZES = "(min-width: 1024px) 364px, (min-width: 640px) 50vw, 100vw";
+
+const tileImages = [
+  {
+    src: "/assets/images/webp/men-working.webp",
+    alt: "Men working on upholstery",
+  },
+  {
+    src: "/assets/images/webp/women-working.webp",
+    alt: "Women working on upholstery",
+  },
+  { src: "/assets/images/webp/sofa.webp", alt: "Reupholstered sofa" },
+  { src: "/assets/images/webp/bored.webp", alt: "Sofa foam and padding" },
+  { src: "/assets/images/webp/pillow.webp", alt: "Upholstered pillow" },
+];
 
 const ImageTile = ({ src, alt }) => (
   <div className="group relative w-full aspect-364/312 overflow-hidden rounded-2xl">
@@ -15,7 +30,35 @@ const ImageTile = ({ src, alt }) => (
   </div>
 );
 
+const PostCard = ({ post }) => (
+  <article className="relative flex h-full w-full flex-col items-center rounded-2xl bg-white p-[clamp(20px,2.4vw,28px)] text-center transition-all duration-300 ease-in-out hover:shadow-blogcard sm:items-start sm:text-left">
+    <h2 className="text-balance text-[clamp(18px,1.2vw+12px,22px)] font-semibold leading-[1.2] text-black">
+      {post.title}
+    </h2>
+    <p className="mt-2 text-pretty text-[clamp(14px,1vw+10px,18px)] leading-[1.6] text-dark-gray">
+      {post.description}
+    </p>
+
+    <Link
+      href={`/blog/${post.slug}`}
+      className="group/link mt-auto inline-flex items-center gap-1 pt-[clamp(24px,4vw,40px)] text-base font-medium text-custom-green after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-custom-green"
+    >
+      Learn More
+      <Image
+        src="/assets/images/svg/green-arrow.svg"
+        alt=""
+        aria-hidden="true"
+        width={24}
+        height={24}
+        className="transition-transform duration-300 group-hover/link:translate-x-1 motion-reduce:transition-none"
+      />
+    </Link>
+  </article>
+);
+
 const UpholsteryTips = () => {
+  const [firstImage, ...restImages] = tileImages;
+
   return (
     <section className="w-full min-h-fit lg:pt-30 lg:pb-35 md:py-20 py-15">
       <Image
@@ -39,58 +82,21 @@ const UpholsteryTips = () => {
         </div>
 
         <div className="mt-[clamp(28px,4vw,50px)] grid w-full grid-cols-1 gap-[clamp(16px,2vw,24px)] sm:grid-cols-2 lg:grid-cols-3">
-          <ImageTile
-            src="/assets/images/webp/men-working.webp"
-            alt="Men working on upholstery"
-          />
+          <ImageTile src={firstImage.src} alt={firstImage.alt} />
 
-          <article className="flex h-full w-full flex-col items-center rounded-2xl bg-white p-[clamp(20px,2.4vw,28px)] text-center transition-all duration-300 ease-in-out cursor-pointer hover:shadow-blogcard sm:items-start sm:text-left">
-            <h2 className="text-balance text-[clamp(18px,1.2vw+12px,22px)] font-semibold leading-[1.2] text-black">
-              Best Upholstery Fabrics 2025
-            </h2>
-            <p className="mt-2 text-pretty text-[clamp(14px,1vw+10px,18px)] leading-[1.6] text-dark-gray">
-              Explore the top trending and durable fabrics for sofas and chairs
-              in 2025.
-            </p>
+          {blogPosts.map((post) => (
+            <PostCard key={post.slug} post={post} />
+          ))}
 
-            <Link
-              href="/"
-              className="group/link mt-auto inline-flex items-center gap-1 pt-[clamp(24px,4vw,40px)] text-base font-medium text-custom-green focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-custom-green"
-            >
-              Learn More
-              <Image
-                src="/assets/images/svg/green-arrow.svg"
-                alt=""
-                aria-hidden="true"
-                width={24}
-                height={24}
-                className="transition-transform duration-300 group-hover/link:translate-x-1 motion-reduce:transition-none"
-              />
-            </Link>
-          </article>
-
-          <ImageTile
-            src="/assets/images/webp/women-working.webp"
-            alt="Women working on upholstery"
-          />
-          <ImageTile
-            src="/assets/images/webp/sofa.webp"
-            alt="Reupholstered sofa"
-          />
-          <ImageTile
-            src="/assets/images/webp/bored.webp"
-            alt="Sofa foam and padding"
-          />
-          <ImageTile
-            src="/assets/images/webp/pillow.webp"
-            alt="Upholstered pillow"
-          />
+          {restImages.map((img) => (
+            <ImageTile key={img.src} src={img.src} alt={img.alt} />
+          ))}
         </div>
 
         <div className="flex items-center justify-center">
-          <button
-            type="button"
-            className="relative md:mt-7.5 mt-4 overflow-hidden active:scale-80 group rounded-full bg-[#19AE1A] px-7 py-3 text-base leading-160 font-semibold text-white border border-transparent cursor-pointer transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          <Link
+            href={`/blog/${blogPosts[0].slug}`}
+            className="relative md:mt-7.5 mt-4 overflow-hidden active:scale-80 group rounded-full bg-custom-green px-7 py-3 text-base leading-160 font-semibold text-white border border-transparent cursor-pointer transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           >
             <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
               Show More
@@ -99,9 +105,8 @@ const UpholsteryTips = () => {
             <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(190,255,220,0.4),transparent_75%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
 
             <span className="absolute inset-y-0 left-[-80%] w-1/2 skew-x-[-25deg] bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:left-[140%] transition-all duration-1000 ease-in-out"></span>
-          </button>
+          </Link>
         </div>
-
       </div>
     </section>
   );

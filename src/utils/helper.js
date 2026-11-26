@@ -292,3 +292,86 @@ export const homepageCopy = {
     description: "Expert upholstery restoration for homes and businesses.",
   },
 };
+
+export const blogPosts = [
+  {
+    slug: "best-upholstery-fabrics-2025",
+    title: "Best Upholstery Fabrics 2025",
+    highlight: "Fabrics 2025", // part of the title shown in green
+    description:
+      "Explore the top trending and durable fabrics for sofas and chairs in 2025.",
+    image: "/assets/images/webp/blog-banner.webp",
+
+    // each item becomes a button in "Table of content" + a section in the article
+    sections: [
+      {
+        id: "performance-fabrics",
+        title: "Performance Fabrics",
+        highlight: "Fabrics",
+        description:
+          "Performance fabrics are still leading the charts in 2025. They are engineered to resist stains, spills, and wear perfect for families, homes with pets, or high traffic areas.",
+        image: "/assets/images/webp/blog-performance.webp",
+        points: [],
+      },
+      {
+        id: "eco-friendly-sustainable-fabrics",
+        title: "Eco Friendly & Sustainable Fabrics",
+        highlight: "Fabrics",
+        description:
+          "Sustainability is no longer just a trend it’s a lifestyle choice. Fabrics made from organic cotton, recycled polyester, hemp, and bamboo blends are gaining popularity.",
+        image: "/assets/images/webp/blog-eco.webp",
+        points: [
+          {
+            label: "Pros",
+            text: "Environmentally friendly, breathable, soft texture.",
+          },
+          {
+            label: "Trends",
+            text: "Earthy tones, natural textures, and raw finishes.",
+          },
+          {
+            label: "Best For",
+            text: "Eco conscious buyers who want style with responsibility.",
+          },
+        ],
+      },
+      {
+        id: "boucle-textured-fabrics",
+        title: "Bouclé & Textured Fabrics",
+        highlight: "Fabrics",
+        description:
+          "Bouclé continues to dominate 2025, adding texture and warmth to modern interiors. Its cozy looped yarns bring a luxurious and tactile feel.",
+        image: "/assets/images/webp/blog-boucle.webp",
+        points: [
+          { label: "Pros", text: "Soft, adds character to simple furniture." },
+          {
+            label: "Trends",
+            text: "Cream, ivory, and pastel hues are widely used.",
+          },
+          {
+            label: "Best For",
+            text: "Accent chairs, statement sofas, and chic spaces.",
+          },
+        ],
+      },
+      {
+        id: "leather-faux-leather",
+        title: "Leather & Faux Leather",
+        highlight: "Leather",
+        description:
+          "Leather never goes out of style. In 2025, sustainable leather alternatives and vegan leather are gaining more traction.",
+        image: "", // no image in the design; the banner shows when clicked
+        points: [],
+      },
+    ],
+
+    conclusion: {
+      title: "Conclusion:",
+      text: "In 2025, the best upholstery fabrics combine style, durability, and sustainability. Whether you want the plush luxury of velvet, the eco friendly charm of linen, or the practicality of performance fabrics, the choices are more versatile than ever. The right fabric not only elevates your sofa but also enhances your lifestyle.",
+    },
+  },
+];
+
+export const getAllPosts = () => blogPosts;
+
+export const getPostBySlug = (slug) => blogPosts.find((p) => p.slug === slug);

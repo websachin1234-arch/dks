@@ -36,9 +36,7 @@ export default function TestimonialsSection() {
           </header>
         </div>
 
-        {/* Swiper Slider with side navigation buttons */}
         <div className="relative w-full">
-          {/* Swiper Cards Container */}
           <div className="w-full overflow-hidden">
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
@@ -75,14 +73,11 @@ export default function TestimonialsSection() {
               {testimonials.map((testimonial) => (
                 <SwiperSlide key={testimonial.id} className="testimonial-slide">
                   <article className="testimonial-card">
-                    {/* Top Section: Quote Icon, Text, Author */}
                     <div className="flex flex-col gap-5 sm:gap-6">
-                      {/* Quote SVG */}
                       <div className="w-[25.2px] h-[17.1px] relative shrink-0">
                         <Icon name="quote" className="h-full w-full" />
                       </div>
 
-                      {/* Testimonial Quote */}
                       <p className="testimonial-quote text-[15px] sm:text-[16px] leading-[1.6] text-dark-gray transition-colors">
                         &ldquo;{testimonial.quote}&rdquo;{" "}
                         {testimonial.clientType && (
@@ -92,7 +87,6 @@ export default function TestimonialsSection() {
                         )}
                       </p>
 
-                      {/* Author Info */}
                       <div className="flex items-center justify-between w-full pt-2">
                         <div className="flex flex-col gap-1">
                           <h3 className="text-[20px] sm:text-[24px] font-semibold text-rich-black leading-[1.3]">
@@ -102,7 +96,7 @@ export default function TestimonialsSection() {
                             {testimonial.role}
                           </p>
                         </div>
-                        <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-full overflow-hidden shrink-0 border border-black/5 bg-[#FAFAFA]">
+                        <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-full overflow-hidden shrink-0 border border-black/5 bg-custom-white">
                           <Image
                             src={testimonial.avatar}
                             alt={testimonial.name}
@@ -114,7 +108,6 @@ export default function TestimonialsSection() {
                       </div>
                     </div>
 
-                    {/* Bottom Section: Google Badge + 5 Gold Stars */}
                     <div className="flex items-center gap-2.5 shrink-0 pt-6">
                       <div className="w-6 h-6 shrink-0 relative flex items-center justify-center">
                         <Image
@@ -148,10 +141,9 @@ export default function TestimonialsSection() {
             </Swiper>
           </div>
 
-          {/* Floating Navigation Buttons (Figma Group 2085662873) */}
           <div className="pointer-events-none absolute inset-y-0 inset-x-0 mx-auto max-w-360 px-4 sm:px-6 lg:px-8 flex items-center justify-between z-20">
             <button
-              className="review-nav-prev pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-custom-green bg-[#fafafa] text-custom-green shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[background-color,color,box-shadow] duration-500 ease-in-out hover:bg-custom-green hover:text-white hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),0_4px_14px_rgba(25,174,26,0.22)] active:bg-[#148d15] sm:h-15 sm:w-15"
+              className="review-nav-prev pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-custom-green bg-custom-white text-custom-green shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[background-color,color,box-shadow] duration-500 ease-in-out hover:bg-custom-green hover:text-white hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),0_4px_14px_rgba(25,174,26,0.22)] active:bg-[#148d15] sm:h-15 sm:w-15"
               type="button"
               aria-label={copy.previousLabel}
             >
@@ -164,7 +156,7 @@ export default function TestimonialsSection() {
             </button>
 
             <button
-              className="review-nav-next pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-custom-green bg-[#fafafa] text-custom-green shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[background-color,color,box-shadow] duration-500 ease-in-out hover:bg-custom-green hover:text-white hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),0_4px_14px_rgba(25,174,26,0.22)] active:bg-[#148d15] sm:h-15 sm:w-15"
+              className="review-nav-next pointer-events-auto flex h-11 w-11 cursor-pointer select-none items-center justify-center rounded-full border-[0.76px] border-custom-green bg-custom-white text-custom-green shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-[background-color,color,box-shadow] duration-500 ease-in-out hover:bg-custom-green hover:text-white hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),0_4px_14px_rgba(25,174,26,0.22)] active:bg-[#148d15] sm:h-15 sm:w-15"
               type="button"
               aria-label={copy.nextLabel}
             >
@@ -177,7 +169,6 @@ export default function TestimonialsSection() {
             </button>
           </div>
 
-          {/* Pagination Dots (Figma Frame 2147227155) */}
           <div
             className="reviews-pagination"
             aria-label={copy.paginationLabel}

@@ -13,7 +13,6 @@ const Upholstery = () => {
         }}
       >
         <div className="flex flex-col lg:flex-row items-center lg:items-start max-w-285 mx-auto px-4 sm:px-6 xl:px-0 gap-10 lg:gap-12 xl:gap-55.25">
-          {/* Left content */}
           <div className="pt-28 sm:pt-36 lg:pt-40 xl:pt-50.25 w-full lg:w-auto">
             <div className="max-w-107.75 mx-auto lg:mx-0 text-center lg:text-left">
               <h1 className="text-base font-medium leading-120 flex flex-col gap-1.5 items-center lg:items-start">
@@ -66,7 +65,6 @@ const Upholstery = () => {
             </div>
           </div>
 
-          {/* Right image */}
           <div className="lg:pt-5.75 w-full max-w-sm sm:max-w-md lg:max-w-119.75 shrink-0">
             <Image
               src="/assets/images/png/before-after.png"

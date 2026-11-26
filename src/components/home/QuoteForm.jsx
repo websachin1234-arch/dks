@@ -100,7 +100,6 @@ export default function QuoteForm() {
       newErrors.contact = copy.errors.invalidContact;
     }
 
-    // keep existing file error if any
     if (errors.photo) newErrors.photo = errors.photo;
 
     setErrors(newErrors);
@@ -108,7 +107,6 @@ export default function QuoteForm() {
 
     setLoading(true);
 
-    // loading popup while the email is sending
     Swal.fire({
       title: copy.sendingLabel || "Sending...",
       allowOutsideClick: false,
@@ -155,7 +153,6 @@ export default function QuoteForm() {
       className="bg-white py-6 px-5 sm:py-8 sm:px-8 lg:py-10 lg:px-12.5 rounded-2xl w-full max-w-282.25 mx-auto shadow-[0px_4px_25px_0px_#0101011A] mt-6 lg:mt-0 lg:-mt-16 xl:-mt-24 2xl:-mt-29 relative z-10"
     >
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-5">
-        {/* NAME */}
         <div className="w-full lg:w-1/3">
           <label className="font-semibold flex gap-1.5 items-center text-sm sm:text-base">
             <Image src={assets.name} alt="" height="18" width="18" />
@@ -173,7 +170,6 @@ export default function QuoteForm() {
           <p className="text-red-500 text-xs mt-1 min-h-4">{errors.name}</p>
         </div>
 
-        {/* CONTACT */}
         <div className="w-full lg:w-1/3">
           <label className="font-semibold flex gap-1.5 items-center text-sm sm:text-base">
             <Image src={assets.contact} alt="" height="18" width="18" />
@@ -196,7 +192,6 @@ export default function QuoteForm() {
           <p className="text-red-500 text-xs mt-1 min-h-4">{errors.contact}</p>
         </div>
 
-        {/* UPLOAD */}
         <div className="w-full lg:w-1/3">
           <label className="font-semibold flex gap-1.5 items-center text-sm sm:text-base">
             <Image src={assets.upload} alt="" height="18" width="18" />
