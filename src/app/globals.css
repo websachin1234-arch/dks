@@ -12,14 +12,17 @@
   --color-dark-gray: #4d4d4d;
   --color-soft-black: #0101011f;
 
+  --leading-120: 120%;
   --leading-121: 121%;
   --leading-143: 143%;
   --leading-150: 150%;
   --leading-160: 160%;
-  --color-vivid-green: #19AE1A;
+  --color-vivid-green: #19ae1a;
   --leading-163: 163%;
 
   --animate-marquee: marquee 40s linear infinite;
+
+  --shadow-blogcard: 0px 4px 25px 0px #0101011a;
 }
 
 @keyframes marquee {

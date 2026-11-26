@@ -20,7 +20,7 @@ const Upholstery = () => {
                   src={"/assets/images/svg/google.svg"}
                   width="194"
                   height="32"
-                  alt=""
+                  alt="google"
                 />
               </h1>
               <h2 className="text-5xl font-semibold leading-121 mt-4">
