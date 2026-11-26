@@ -80,6 +80,8 @@ const UpholsteryTips = () => {
             alt="Upholstered pillow"
           />
         </div>
+
+        <button className="max-w-36.25 w-full h-12.5 bg-custom-green text-white rounded-full flex items-center justify-center leading-160 text-base mt-4 mx-auto cursor-pointer transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 md:mt-7.5">Show More</button>
       </div>
     </section>
   );
