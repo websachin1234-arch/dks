@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function Navbar() {
+export default function Navigation() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
