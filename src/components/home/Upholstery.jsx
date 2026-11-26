@@ -31,7 +31,7 @@ const Upholstery = () => {
               <p className="text-base font-normal leading-163 mt-4 max-w-107.25">
                 {homepageCopy.hero.description}
               </p>
-              <button className="flex gap-2.5 mt-7.5 bg-custom-green py-3 px-7 rounded-full text-white leading-160">
+              <button className="flex gap-2.5 mt-7.5 bg-custom-green py-3 px-7 rounded-full text-white leading-160 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5">
                 <Image
                   src={homepageAssets.whatsapp}
                   width="24"

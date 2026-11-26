@@ -113,7 +113,7 @@ export default function QuoteForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full mt-6 py-3 bg-custom-green text-white font-semibold rounded-full disabled:opacity-60"
+        className="w-full mt-6 py-3 bg-custom-green text-white font-semibold rounded-full disabled:opacity-60 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
       >
         {loading ? copy.sendingLabel : copy.submitLabel}
       </button>
