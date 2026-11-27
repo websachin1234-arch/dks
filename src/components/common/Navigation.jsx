@@ -22,10 +22,10 @@ export default function Navigation() {
   ];
 
   const servicesLinks = [
-    { name: "Service One", href: "/services/service-one" },
-    { name: "Service Two", href: "/services/service-two" },
-    { name: "Service Three", href: "/services/service-three" },
-    { name: "Service Four", href: "/services/service-four" },
+    { name: "Reupholstery", href: "/services/reupholstery" },
+    { name: "Covers & Cushions", href: "/services/covers-and-cushions" },
+    { name: "Foam & Fillings", href: "/services/foam-and-fillings" },
+    { name: "Built Ins", href: "/services/built-ins" },
   ];
 
   const closeSidebar = () => {
