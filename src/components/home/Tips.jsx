@@ -6,12 +6,17 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { blogPosts } from "@/utils/helper";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const MOTION_OK = "(prefers-reduced-motion: no-preference)";
 
 const articles = [
+  {
+    image: "/assets/images/webp/men-working.webp",
+    alt: "Craftsperson working on an upholstered sofa",
+  },
   {
     image: "/assets/images/webp/men-working.webp",
     alt: "Craftsperson working on an upholstered sofa",
@@ -24,6 +29,7 @@ const articles = [
 
 export default function Tips() {
   const sectionRef = useRef(null);
+  const featuredPost = blogPosts[0];
 
   useGSAP(
     () => {
@@ -128,50 +134,43 @@ export default function Tips() {
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-            <Image
-              data-tip-tile
-              src={articles[0].image}
-              alt={articles[0].alt}
-              width={800}
-              height={686}
-              sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
-              className="aspect-[1.17] w-full rounded-2xl object-cover"
-            />
-            <article
-              data-tip-tile
-              className="flex  aspect-[1.17] flex-col rounded-2xl transition-shadow duration-300 ease-in-out cursor-pointer hover:shadow-blogcard bg-white p-6"
-            >
-              <h2 className="text-xl max-w-81 font-semibold leading-120 text-rich-black">
-                Best Upholstery Fabrics 2025
-              </h2>
-              <p className="mt-1.5 max-w-81 text-lg leading-160 text-[#555555] font-normal">
-                Explore the top trending and durable fabrics for sofas and
-                chairs in 2025.
-              </p>
-              <Link
-                href="/blog"
-                className="mt-auto inline-flex w-fit items-center gap-1 leading-[145%] text-base font-semibold text-custom-green"
-              >
-                {" "}
-                Learn More
-                <Image
-                  src="/assets/images/svg/green-arrow.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                  aria-hidden="true"
-                />
-              </Link>
-            </article>
-            <Image
-              data-tip-tile
-              src={articles[1].image}
-              alt={articles[1].alt}
-              width={800}
-              height={686}
-              sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
-              className="aspect-[1.17] w-full rounded-2xl object-cover"
-            />
+            {articles.map((article, index) => {
+              return (
+                <Link
+                  key={`${article.image}-${index}`}
+                  href={`/blog/${featuredPost.slug}`}
+                  aria-label={`Read ${featuredPost.title}`}
+                  data-tip-tile
+                  className="group relative block aspect-[1.17] w-full overflow-hidden rounded-2xl transition-shadow duration-300 ease-in-out hover:shadow-blogcard focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-custom-green"
+                >
+                  <Image
+                    src={article.image}
+                    alt={article.alt}
+                    fill
+                    sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+                    className="object-cover transition-opacity duration-500 ease-out lg:group-hover:opacity-0 lg:group-focus-visible:opacity-0 motion-reduce:transition-none"
+                  />
+                  <div className="absolute inset-0 flex flex-col justify-end bg-white p-6 opacity-100 transition-opacity duration-500 ease-out lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100 motion-reduce:transition-none max-lg:bg-gradient-to-t max-lg:from-black/85 max-lg:via-black/35 max-lg:to-transparent">
+                    <h2 className="max-w-81 text-xl font-semibold leading-120 text-rich-black max-lg:text-white">
+                      {featuredPost.title}
+                    </h2>
+                    <p className="mt-1.5 max-w-81 text-lg font-normal leading-160 text-[#555555] max-lg:text-white">
+                      {featuredPost.description}
+                    </p>
+                    <span className="mt-auto inline-flex w-fit items-center gap-1 pt-6 text-base font-semibold leading-[145%] text-custom-green max-lg:text-white">
+                      Learn More
+                      <Image
+                        src="/assets/images/svg/green-arrow.svg"
+                        alt=""
+                        width={24}
+                        height={24}
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
           <div data-tip-cta className="mt-7.5 flex justify-center">
             <Link href="/blog">

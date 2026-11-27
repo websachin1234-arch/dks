@@ -28,48 +28,48 @@ const tileImages = [
   { src: "/assets/images/webp/pillow.webp", alt: "Upholstered pillow" },
 ];
 
-const ImageTile = ({ src, alt }) => (
-  <div
+const TipCard = ({ src, alt, post }) => (
+  <Link
+    href={`/blog/${post.slug}`}
+    aria-label={`Read ${post.title}`}
     data-tile
-    className="group relative w-full aspect-364/312 overflow-hidden rounded-2xl"
+    className="group relative block w-full aspect-364/312 overflow-hidden rounded-2xl transition-shadow duration-300 ease-in-out hover:shadow-blogcard focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-custom-green"
   >
     <Image
       src={src}
       alt={alt}
       fill
       sizes={SIZES}
-      className="object-cover cursor-pointer transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+      className="object-cover transition-opacity duration-500 ease-out lg:group-hover:opacity-0 lg:group-focus-visible:opacity-0 motion-reduce:transition-none"
     />
-  </div>
+    <div className="absolute inset-0 flex flex-col justify-end bg-white p-[clamp(20px,2.4vw,28px)] text-left opacity-100 transition-opacity duration-500 ease-out lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100 motion-reduce:transition-none max-lg:bg-gradient-to-t max-lg:from-black/85 max-lg:via-black/35 max-lg:to-transparent">
+      <h2 className="text-balance text-[clamp(18px,1.2vw+12px,22px)] font-semibold leading-[1.2] text-black max-lg:text-white">
+        {post.title}
+      </h2>
+      <p className="mt-2 text-pretty text-[clamp(14px,1vw+10px,18px)] leading-[1.6] text-dark-gray max-lg:text-white">
+        {post.description}
+      </p>
+      <span className="mt-auto inline-flex items-center gap-1 pt-[clamp(24px,4vw,40px)] text-base font-medium text-custom-green max-lg:text-white">
+        Learn More
+        <Image
+          src="/assets/images/svg/green-arrow.svg"
+          alt=""
+          aria-hidden="true"
+          width={24}
+          height={24}
+          className="transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+        />
+      </span>
+    </div>
+  </Link>
+);
+
+const ImageTile = ({ src, alt, post }) => (
+  <TipCard src={src} alt={alt} post={post} />
 );
 
 const PostCard = ({ post }) => (
-  <article
-    data-tile
-    className="relative flex h-full w-full flex-col items-center rounded-2xl bg-white p-[clamp(20px,2.4vw,28px)] text-center transition-shadow duration-300 ease-in-out hover:shadow-blogcard sm:items-start sm:text-left"
-  >
-    <h2 className="text-balance text-[clamp(18px,1.2vw+12px,22px)] font-semibold leading-[1.2] text-black">
-      {post.title}
-    </h2>
-    <p className="mt-2 text-pretty text-[clamp(14px,1vw+10px,18px)] leading-[1.6] text-dark-gray">
-      {post.description}
-    </p>
-
-    <Link
-      href={`/blog/${post.slug}`}
-      className="group/link mt-auto inline-flex items-center gap-1 pt-[clamp(24px,4vw,40px)] text-base font-medium text-custom-green after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-custom-green"
-    >
-      Learn More
-      <Image
-        src="/assets/images/svg/green-arrow.svg"
-        alt=""
-        aria-hidden="true"
-        width={24}
-        height={24}
-        className="transition-transform duration-300 group-hover/link:translate-x-1 motion-reduce:transition-none"
-      />
-    </Link>
-  </article>
+  <TipCard src={tileImages[0].src} alt={tileImages[0].alt} post={post} />
 );
 
 const UpholsteryTips = () => {
@@ -186,14 +186,19 @@ const UpholsteryTips = () => {
         </div>
 
         <div className="mt-[clamp(28px,4vw,50px)] grid w-full grid-cols-1 gap-[clamp(16px,2vw,24px)] sm:grid-cols-2 lg:grid-cols-3">
-          <ImageTile src={firstImage.src} alt={firstImage.alt} />
+          <ImageTile src={firstImage.src} alt={firstImage.alt} post={blogPosts[0]} />
 
           {blogPosts.map((post) => (
             <PostCard key={post.slug} post={post} />
           ))}
 
           {restImages.map((img) => (
-            <ImageTile key={img.src} src={img.src} alt={img.alt} />
+            <ImageTile
+              key={img.src}
+              src={img.src}
+              alt={img.alt}
+              post={blogPosts[0]}
+            />
           ))}
         </div>
 
