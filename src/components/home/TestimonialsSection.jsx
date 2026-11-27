@@ -1,8 +1,12 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import Icon from "@/components/common/Icons";
 import { homepageAssets, homepageCopy, testimonials } from "@/utils/helper";
 
@@ -10,11 +14,75 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const MOTION_OK = "(prefers-reduced-motion: no-preference)";
+
 export default function TestimonialsSection() {
   const copy = homepageCopy.testimonials;
+  const sectionRef = useRef(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: `(min-width: 1024px) and ${MOTION_OK}`,
+          isMobile: `(max-width: 1023px) and ${MOTION_OK}`,
+        },
+        (ctx) => {
+          const { isDesktop } = ctx.conditions;
+          const clear = "transform,opacity";
+
+          gsap
+            .timeline({
+              defaults: { ease: "power3.out" },
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: isDesktop ? "top 75%" : "top 88%",
+                once: true,
+              },
+            })
+            .from("[data-rev-title]", {
+              ...(isDesktop ? { x: -60 } : { y: 30 }),
+              opacity: 0,
+              duration: 0.9,
+              clearProps: clear,
+            })
+            .from(
+              "[data-rev-copy]",
+              {
+                ...(isDesktop ? { x: 60 } : { y: 24 }),
+                opacity: 0,
+                duration: 0.9,
+                clearProps: clear,
+              },
+              "<0.1",
+            )
+            .from(
+              "[data-rev-slider]",
+              {
+                y: isDesktop ? 60 : 36,
+                opacity: 0,
+                duration: 1,
+                clearProps: clear,
+              },
+              "-=0.5",
+            );
+        },
+      );
+
+      document.fonts?.ready.then(() => ScrollTrigger.refresh());
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
 
   return (
     <section
+      ref={sectionRef}
       className="reviews-section relative w-full overflow-hidden bg-white"
       aria-labelledby="loved-heading"
     >
@@ -22,6 +90,7 @@ export default function TestimonialsSection() {
         <div className="max-w-285 mx-auto px-4 sm:px-6 lg:px-8">
           <header className="flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-40 mb-6 sm:mb-8 lg:mb-8">
             <h2
+              data-rev-title
               id="loved-heading"
               className="text-[32px] sm:text-[40px] lg:text-[48px] font-semibold text-rich-black leading-[1.2] tracking-tight max-w-138.25"
             >
@@ -30,13 +99,16 @@ export default function TestimonialsSection() {
                 {copy.headingAccent}
               </span>
             </h2>
-            <p className="text-dark-gray text-[15px] sm:text-[16px] leading-[1.6] max-w-106.75 lg:pt-1">
+            <p
+              data-rev-copy
+              className="text-dark-gray text-[15px] sm:text-[16px] leading-[1.6] max-w-106.75 lg:pt-1"
+            >
               {copy.description}
             </p>
           </header>
         </div>
 
-        <div className="relative w-full">
+        <div data-rev-slider className="relative w-full">
           <div className="w-full overflow-hidden">
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}

@@ -101,18 +101,18 @@ export const faqItems = [
 ];
 
 export const trustedClientLogos = [
-  { src: "/assets/images/svg/nightclub.svg", width: 111, height: 37 },
-  { src: "/assets/images/svg/smu.svg", width: 111, height: 37 },
-  { src: "/assets/images/svg/tsui wah.svg", width: 85, height: 69 },
-  { src: "/assets/images/svg/education.svg", width: 85, height: 69 },
-  { src: "/assets/images/svg/pancakes.svg", width: 64, height: 62 },
-  { src: "/assets/images/svg/ronzet.svg", width: 124, height: 36 },
-  { src: "/assets/images/svg/parliament.svg", width: 142, height: 77 },
-  { src: "/assets/images/svg/apsn.svg", width: 152, height: 40 },
-  { src: "/assets/images/svg/dnata.svg", width: 123, height: 55 },
-  { src: "/assets/images/svg/grand mercure.svg", width: 114, height: 66 },
-  { src: "/assets/images/svg/chloe.svg", width: 121, height: 40 },
-  { src: "/assets/images/svg/embassy.svg", width: 85, height: 78 },
+  { src: "/assets/images/png/nightclub.png", width: 111, height: 37 },
+  { src: "/assets/images/png/smu.png", width: 111, height: 37 },
+  { src: "/assets/images/png/tsui wah.png", width: 85, height: 69 },
+  { src: "/assets/images/png/education.png", width: 85, height: 69 },
+  { src: "/assets/images/png/pancakes.png", width: 64, height: 62 },
+  { src: "/assets/images/png/roznet.png", width: 124, height: 36 },
+  { src: "/assets/images/png/parliament.png", width: 142, height: 77 },
+  { src: "/assets/images/png/apsn.png", width: 152, height: 40 },
+  { src: "/assets/images/png/dnata.png", width: 123, height: 55 },
+  { src: "/assets/images/png/grand mercure.png", width: 114, height: 66 },
+  { src: "/assets/images/png/chloe.png", width: 121, height: 40 },
+  { src: "/assets/images/png/embassy.png", width: 85, height: 78 },
 ];
 
 export const footerNavigation = [
@@ -297,12 +297,11 @@ export const blogPosts = [
   {
     slug: "best-upholstery-fabrics-2025",
     title: "Best Upholstery Fabrics 2025",
-    highlight: "Fabrics 2025", // part of the title shown in green
+    highlight: "Fabrics 2025",
     description:
       "Explore the top trending and durable fabrics for sofas and chairs in 2025.",
     image: "/assets/images/webp/blog-banner.webp",
 
-    // each item becomes a button in "Table of content" + a section in the article
     sections: [
       {
         id: "performance-fabrics",
@@ -360,7 +359,7 @@ export const blogPosts = [
         highlight: "Leather",
         description:
           "Leather never goes out of style. In 2025, sustainable leather alternatives and vegan leather are gaining more traction.",
-        image: "", // no image in the design; the banner shows when clicked
+        image: "",
         points: [],
       },
     ],

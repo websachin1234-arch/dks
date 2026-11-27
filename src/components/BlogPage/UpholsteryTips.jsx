@@ -1,6 +1,16 @@
+"use client";
+
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { blogPosts } from "@/utils/helper";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const MOTION_OK = "(prefers-reduced-motion: no-preference)";
 
 const SIZES = "(min-width: 1024px) 364px, (min-width: 640px) 50vw, 100vw";
 
@@ -19,7 +29,10 @@ const tileImages = [
 ];
 
 const ImageTile = ({ src, alt }) => (
-  <div className="group relative w-full aspect-364/312 overflow-hidden rounded-2xl">
+  <div
+    data-tile
+    className="group relative w-full aspect-364/312 overflow-hidden rounded-2xl"
+  >
     <Image
       src={src}
       alt={alt}
@@ -31,7 +44,10 @@ const ImageTile = ({ src, alt }) => (
 );
 
 const PostCard = ({ post }) => (
-  <article className="relative flex h-full w-full flex-col items-center rounded-2xl bg-white p-[clamp(20px,2.4vw,28px)] text-center transition-all duration-300 ease-in-out hover:shadow-blogcard sm:items-start sm:text-left">
+  <article
+    data-tile
+    className="relative flex h-full w-full flex-col items-center rounded-2xl bg-white p-[clamp(20px,2.4vw,28px)] text-center transition-shadow duration-300 ease-in-out hover:shadow-blogcard sm:items-start sm:text-left"
+  >
     <h2 className="text-balance text-[clamp(18px,1.2vw+12px,22px)] font-semibold leading-[1.2] text-black">
       {post.title}
     </h2>
@@ -58,9 +74,91 @@ const PostCard = ({ post }) => (
 
 const UpholsteryTips = () => {
   const [firstImage, ...restImages] = tileImages;
+  const sectionRef = useRef(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: `(min-width: 1024px) and ${MOTION_OK}`,
+          isMobile: `(max-width: 1023px) and ${MOTION_OK}`,
+        },
+        (ctx) => {
+          const { isDesktop } = ctx.conditions;
+          const dist = isDesktop ? 50 : 28;
+
+          gsap
+            .timeline({
+              defaults: { ease: "power3.out" },
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: isDesktop ? "top 75%" : "top 85%",
+                once: true,
+              },
+            })
+            .from("[data-tips-title]", {
+              y: dist,
+              opacity: 0,
+              duration: 0.8,
+              clearProps: "transform,opacity",
+            })
+            .from(
+              "[data-tips-copy]",
+              {
+                y: dist * 0.7,
+                opacity: 0,
+                duration: 0.7,
+                clearProps: "transform,opacity",
+              },
+              "-=0.5",
+            );
+
+          gsap.set("[data-tile]", { y: dist, opacity: 0 });
+
+          ScrollTrigger.batch("[data-tile]", {
+            start: isDesktop ? "top 88%" : "top 92%",
+            once: true,
+            onEnter: (batch) =>
+              gsap.to(batch, {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: "power3.out",
+                stagger: 0.12,
+                overwrite: true,
+                clearProps: "transform,opacity",
+              }),
+          });
+
+          gsap.from("[data-tips-cta]", {
+            y: dist * 0.6,
+            opacity: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            clearProps: "transform,opacity",
+            scrollTrigger: {
+              trigger: "[data-tips-cta]",
+              start: "top 95%",
+              once: true,
+            },
+          });
+        },
+      );
+
+      document.fonts?.ready.then(() => ScrollTrigger.refresh());
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
 
   return (
-    <section className="w-full min-h-fit lg:pt-30 lg:pb-35 md:py-20 py-15">
+    <section
+      ref={sectionRef}
+      className="w-full min-h-fit lg:pt-30 lg:pb-35 md:py-20 py-15"
+    >
       <Image
         src="/assets/images/svg/design-right.svg"
         className="absolute top-1/2 -z-10"
@@ -70,12 +168,18 @@ const UpholsteryTips = () => {
       />
       <div className="mx-auto w-full max-w-293 px-4">
         <div className="flex w-full flex-col items-center gap-[clamp(12px,2vw,30px)] text-center lg:flex-row lg:items-end lg:justify-between lg:text-left">
-          <h1 className="w-full max-w-100.75 text-balance text-[clamp(26px,3.2vw+8px,38px)] font-semibold leading-[1.21] lg:max-w-105">
+          <h1
+            data-tips-title
+            className="w-full max-w-100.75 text-balance text-[clamp(26px,3.2vw+8px,38px)] font-semibold leading-[1.21] lg:max-w-105"
+          >
             Upholstery Tips,{" "}
             <span className="text-custom-green">Care &amp; Inspiration</span>
           </h1>
 
-          <p className="w-full max-w-130 text-pretty text-[clamp(14px,1.2vw+9px,16px)] leading-[1.6] text-dark-gray lg:max-w-106.75">
+          <p
+            data-tips-copy
+            className="w-full max-w-130 text-pretty text-[clamp(14px,1.2vw+9px,16px)] leading-[1.6] text-dark-gray lg:max-w-106.75"
+          >
             Refresh your sofa with the right fabrics, foam, and expert advice
             plus a breakdown of reupholstery costs in Singapore.
           </p>
@@ -93,7 +197,7 @@ const UpholsteryTips = () => {
           ))}
         </div>
 
-        <div className="flex items-center justify-center">
+        <div data-tips-cta className="flex items-center justify-center">
           <Link
             href={`/blog/${blogPosts[0].slug}`}
             className="relative md:mt-7.5 mt-4 overflow-hidden active:scale-80 group rounded-full bg-custom-green px-7 py-3 text-base leading-160 font-semibold text-white border border-transparent cursor-pointer transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"

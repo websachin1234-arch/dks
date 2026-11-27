@@ -1,20 +1,133 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { faqItems, homepageAssets, homepageCopy } from "@/utils/helper";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const MOTION_OK = "(prefers-reduced-motion: no-preference)";
 
 const Questions = () => {
   const [openIndex, setOpenIndex] = useState(0);
+  const sectionRef = useRef(null);
+  const prevIndexRef = useRef(undefined);
 
   const toggle = (i) => setOpenIndex((prev) => (prev === i ? null : i));
 
+  useGSAP(
+    () => {
+      const panels = gsap.utils.toArray("[data-faq-panel]");
+      const arrows = gsap.utils.toArray("[data-faq-arrow]");
+      const prev = prevIndexRef.current;
+      const first = prev === undefined;
+      const instant = first || !window.matchMedia(MOTION_OK).matches;
+
+      panels.forEach((panel, i) => {
+        const open = i === openIndex;
+        if (!first && open === (i === prev)) return;
+
+        gsap.to(panel, {
+          height: open ? "auto" : 0,
+          opacity: open ? 1 : 0,
+          duration: instant ? 0 : 0.5,
+          ease: "power3.inOut",
+          overwrite: "auto",
+          onComplete: () => ScrollTrigger.refresh(),
+        });
+
+        gsap.to(arrows[i], {
+          rotation: open ? 0 : 180,
+          duration: instant ? 0 : 0.4,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
+      });
+
+      prevIndexRef.current = openIndex;
+    },
+    { scope: sectionRef, dependencies: [openIndex] },
+  );
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: `(min-width: 992px) and ${MOTION_OK}`,
+          isMobile: `(max-width: 991px) and ${MOTION_OK}`,
+        },
+        (ctx) => {
+          const { isDesktop } = ctx.conditions;
+
+          gsap.from("[data-faq-title]", {
+            ...(isDesktop ? { x: -50 } : { y: 30 }),
+            opacity: 0,
+            duration: 0.9,
+            ease: "power3.out",
+            clearProps: "transform,opacity",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: isDesktop ? "top 70%" : "top 85%",
+              once: true,
+            },
+          });
+
+          gsap.set("[data-faq-item]", { y: isDesktop ? 36 : 24, opacity: 0 });
+
+          ScrollTrigger.batch("[data-faq-item]", {
+            start: isDesktop ? "top 90%" : "top 94%",
+            once: true,
+            onEnter: (batch) =>
+              gsap.to(batch, {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                ease: "power3.out",
+                stagger: 0.09,
+                overwrite: true,
+                clearProps: "transform,opacity",
+              }),
+          });
+
+          gsap.from("[data-faq-cta]", {
+            y: 24,
+            opacity: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            clearProps: "transform,opacity",
+            scrollTrigger: {
+              trigger: "[data-faq-cta]",
+              start: "top 95%",
+              once: true,
+            },
+          });
+        },
+      );
+
+      document.fonts?.ready.then(() => ScrollTrigger.refresh());
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
+
   return (
-    <section className="min-h-fit w-full px-4 xl:min-h-248.25 lg:py-35 md:py-20 py-15">
+    <section
+      ref={sectionRef}
+      className="min-h-fit w-full px-4 xl:min-h-248.25 lg:py-35 md:py-20 py-15"
+    >
       <div className="container max-w-285 w-full mx-auto">
         <div className="row w-full flex flex-col min-[992px]:flex-row gap-[clamp(24px,3.5vw,40px)] justify-center min-[992]:items-start items-center">
           <div className="right max-w-108.75 w-full">
-            <h1 className="text-black font-semibold text-[clamp(28px,4vw,48px)] leading-121 min-[992px]:text-left text-center">
+            <h1
+              data-faq-title
+              className="text-black font-semibold text-[clamp(28px,4vw,48px)] leading-121 min-[992px]:text-left text-center"
+            >
               {homepageCopy.faq.heading}{" "}
               <span className="text-custom-green">
                 {homepageCopy.faq.headingAccent}
@@ -29,6 +142,7 @@ const Questions = () => {
               return (
                 <div
                   key={i}
+                  data-faq-item
                   className={`w-full rounded-xl border transition-colors duration-300 ${
                     isOpen ? "bg-light-green border-black" : "border-black/12"
                   }`}
@@ -47,39 +161,40 @@ const Questions = () => {
                       {question}
                     </span>
                     <Image
+                      data-faq-arrow
                       src={homepageAssets.faqArrow}
                       alt=""
                       width={28}
                       height={20}
                       aria-hidden="true"
-                      className={`shrink-0 w-[clamp(18px,2vw,28px)] h-auto transition-transform duration-300 ease-in-out ${
-                        isOpen ? "rotate-0" : "rotate-180"
-                      }`}
+                      style={
+                        i === 0 ? undefined : { transform: "rotate(180deg)" }
+                      }
+                      className="shrink-0 w-[clamp(18px,2vw,28px)] h-auto"
                     />
                   </button>
 
                   <div
+                    data-faq-panel
                     id={`faq-panel-${i}`}
                     role="region"
                     aria-labelledby={`faq-btn-${i}`}
-                    className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
-                      isOpen
-                        ? "grid-rows-[1fr] opacity-100"
-                        : "grid-rows-[0fr] opacity-0"
-                    }`}
+                    style={i === 0 ? undefined : { height: 0, opacity: 0 }}
+                    className="overflow-hidden"
                   >
-                    <div className="overflow-hidden">
-                      <p className="px-[clamp(12px,1.5vw,16px)] pb-[clamp(12px,1.5vw,16px)] max-w-142.75 w-full text-black text-[clamp(14px,1.3vw,16px)] leading-143">
-                        {answer}
-                      </p>
-                    </div>
+                    <p className="px-[clamp(12px,1.5vw,16px)] pb-[clamp(12px,1.5vw,16px)] max-w-142.75 w-full text-black text-[clamp(14px,1.3vw,16px)] leading-143">
+                      {answer}
+                    </p>
                   </div>
                 </div>
               );
             })}
           </div>
         </div>
-        <div className="w-full items-center justify-center flex mt-[clamp(24px,4vw,50px)]">
+        <div
+          data-faq-cta
+          className="w-full items-center justify-center flex mt-[clamp(24px,4vw,50px)]"
+        >
           <button className="relative overflow-hidden active:scale-80 group max-w-45.5 w-full bg-custom-green h-11.25 flex items-center justify-center rounded-full text-white font-semibold text-sm leading-150 cursor-pointer border border-transparent transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)]">
             <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
               {homepageCopy.faq.moreAnswersLabel}

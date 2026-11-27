@@ -3,8 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import Swal from "sweetalert2";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { homepageAssets, homepageCopy } from "@/utils/helper";
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const MOTION_OK = "(prefers-reduced-motion: no-preference)";
 const MAX_FILE_MB = 2;
 const BRAND_GREEN = "#19AE1A";
 
@@ -13,6 +19,7 @@ export default function QuoteForm() {
   const assets = homepageAssets.quoteForm;
   const form = useRef();
   const fileInputRef = useRef();
+  const prevErrorsRef = useRef({});
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
@@ -28,6 +35,117 @@ export default function QuoteForm() {
       if (preview) URL.revokeObjectURL(preview);
     };
   }, [preview]);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: `(min-width: 1024px) and ${MOTION_OK}`,
+          isMobile: `(max-width: 1023px) and ${MOTION_OK}`,
+        },
+        (ctx) => {
+          const { isDesktop } = ctx.conditions;
+          const clear = "transform,opacity";
+
+          gsap
+            .timeline({
+              defaults: { ease: "power3.out" },
+              scrollTrigger: {
+                trigger: form.current,
+                start: "top 92%",
+                once: true,
+              },
+            })
+            .from(form.current, {
+              y: isDesktop ? 60 : 36,
+              opacity: 0,
+              duration: 0.9,
+              clearProps: clear,
+            })
+            .from(
+              "[data-qf-field]",
+              {
+                y: 24,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.12,
+                clearProps: clear,
+              },
+              "-=0.45",
+            )
+            .from(
+              "[data-qf-submit]",
+              { y: 20, opacity: 0, duration: 0.6, clearProps: clear },
+              "-=0.3",
+            );
+        },
+      );
+
+      return () => mm.revert();
+    },
+    { scope: form },
+  );
+
+  useGSAP(
+    () => {
+      const prev = prevErrorsRef.current;
+      const motionOk = window.matchMedia(MOTION_OK).matches;
+
+      Object.entries(errors).forEach(([key, message]) => {
+        if (!message || prev[key] === message || !motionOk) return;
+
+        const input = form.current.querySelector(`[data-qf-input="${key}"]`);
+        const text = form.current.querySelector(`[data-qf-error="${key}"]`);
+
+        if (input) {
+          gsap.fromTo(
+            input,
+            { x: 0 },
+            {
+              keyframes: { x: [-8, 8, -6, 6, -3, 3, 0] },
+              duration: 0.45,
+              ease: "power2.out",
+              clearProps: "transform",
+            },
+          );
+        }
+
+        if (text) {
+          gsap.fromTo(
+            text,
+            { y: -6, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.35,
+              ease: "power2.out",
+              clearProps: "transform,opacity",
+            },
+          );
+        }
+      });
+
+      prevErrorsRef.current = errors;
+    },
+    { scope: form, dependencies: [errors] },
+  );
+
+  useGSAP(
+    () => {
+      if (!preview || !window.matchMedia(MOTION_OK).matches) return;
+
+      gsap.from("[data-qf-preview]", {
+        scale: 0.5,
+        opacity: 0,
+        duration: 0.5,
+        ease: "back.out(2)",
+        clearProps: "transform,opacity",
+      });
+    },
+    { scope: form, dependencies: [preview] },
+  );
 
   const clearError = (field) => {
     setErrors((prev) => (prev[field] ? { ...prev, [field]: "" } : prev));
@@ -102,6 +220,7 @@ export default function QuoteForm() {
 
     if (errors.photo) newErrors.photo = errors.photo;
 
+    prevErrorsRef.current = {};
     setErrors(newErrors);
     if (Object.keys(newErrors).some((k) => newErrors[k])) return;
 
@@ -153,12 +272,13 @@ export default function QuoteForm() {
       className="bg-white py-6 px-5 sm:py-8 sm:px-8 lg:py-10 lg:px-12.5 rounded-2xl w-full max-w-282.25 mx-auto shadow-[0px_4px_25px_0px_#0101011A] mt-6 lg:mt-0 lg:-mt-16 xl:-mt-24 2xl:-mt-29 relative z-10"
     >
       <div className="flex flex-col lg:flex-row gap-4 lg:gap-5">
-        <div className="w-full lg:w-1/3">
+        <div data-qf-field className="w-full lg:w-1/3">
           <label className="font-semibold flex gap-1.5 items-center text-sm sm:text-base">
             <Image src={assets.name} alt="" height="18" width="18" />
             {copy.nameLabel}
           </label>
           <input
+            data-qf-input="name"
             type="text"
             name="user_name"
             placeholder={copy.namePlaceholder}
@@ -167,38 +287,47 @@ export default function QuoteForm() {
               errors.name ? "border-red-500" : "border-[#DCDCDC]"
             }`}
           />
-          <p className="text-red-500 text-xs mt-1 min-h-4">{errors.name}</p>
+          <p data-qf-error="name" className="text-red-500 text-xs mt-1 min-h-4">
+            {errors.name}
+          </p>
         </div>
 
-        <div className="w-full lg:w-1/3">
+        <div data-qf-field className="w-full lg:w-1/3">
           <label className="font-semibold flex gap-1.5 items-center text-sm sm:text-base">
             <Image src={assets.contact} alt="" height="18" width="18" />
             {copy.contactLabel}
           </label>
           <input
+            data-qf-input="contact"
             type="tel"
             name="user_contact"
             inputMode="numeric"
             maxLength={10}
             placeholder={copy.contactPlaceholder}
             onChange={(e) => {
-              e.target.value = e.target.value.replace(/\D/g, ""); // digits only
+              e.target.value = e.target.value.replace(/\D/g, "");
               clearError("contact");
             }}
             className={`w-full mt-2 px-4 py-3 border rounded-full text-sm placeholder:text-dark-gray outline-custom-green ${
               errors.contact ? "border-red-500" : "border-[#DCDCDC]"
             }`}
           />
-          <p className="text-red-500 text-xs mt-1 min-h-4">{errors.contact}</p>
+          <p
+            data-qf-error="contact"
+            className="text-red-500 text-xs mt-1 min-h-4"
+          >
+            {errors.contact}
+          </p>
         </div>
 
-        <div className="w-full lg:w-1/3">
+        <div data-qf-field className="w-full lg:w-1/3">
           <label className="font-semibold flex gap-1.5 items-center text-sm sm:text-base">
             <Image src={assets.upload} alt="" height="18" width="18" />
             {copy.uploadLabel}
           </label>
 
           <div
+            data-qf-input="photo"
             onDragOver={onDragOver}
             onDragEnter={onDragOver}
             onDragLeave={onDragLeave}
@@ -216,6 +345,7 @@ export default function QuoteForm() {
               <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
+                  data-qf-preview
                   src={preview}
                   alt="Selected preview"
                   className="h-8 w-8 rounded-full object-cover shrink-0"
@@ -251,21 +381,25 @@ export default function QuoteForm() {
               onChange={(e) => handleFile(e.target.files?.[0])}
             />
           </div>
-          <p className="text-red-500 text-xs mt-1 min-h-4">{errors.photo}</p>
+          <p data-qf-error="photo" className="text-red-500 text-xs mt-1 min-h-4">
+            {errors.photo}
+          </p>
         </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="relative overflow-hidden active:scale-95 group w-full mt-4 lg:mt-6 py-3 bg-custom-green text-white font-semibold rounded-full border border-transparent transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
-      >
-        <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
-          {loading ? copy.sendingLabel : copy.submitLabel}
-        </span>
-        <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(190,255,220,0.4),transparent_75%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-        <span className="absolute inset-y-0 left-[-80%] w-1/2 skew-x-[-25deg] bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:left-[140%] transition-all duration-1000 ease-in-out"></span>
-      </button>
+      <div data-qf-submit>
+        <button
+          type="submit"
+          disabled={loading}
+          className="relative overflow-hidden active:scale-95 group w-full mt-4 lg:mt-6 py-3 bg-custom-green text-white font-semibold rounded-full border border-transparent transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+        >
+          <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+            {loading ? copy.sendingLabel : copy.submitLabel}
+          </span>
+          <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(190,255,220,0.4),transparent_75%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+          <span className="absolute inset-y-0 left-[-80%] w-1/2 skew-x-[-25deg] bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:left-[140%] transition-all duration-1000 ease-in-out"></span>
+        </button>
+      </div>
     </form>
   );
 }
