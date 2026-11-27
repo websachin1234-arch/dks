@@ -199,7 +199,7 @@ const UpholsteryTips = () => {
 
         <div data-tips-cta className="flex items-center justify-center">
           <Link
-            href={`/blog/${blogPosts[0].slug}`}
+            href="/blog"
             className="relative md:mt-7.5 mt-4 overflow-hidden active:scale-80 group rounded-full bg-custom-green px-7 py-3 text-base leading-160 font-semibold text-white border border-transparent cursor-pointer transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           >
             <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
