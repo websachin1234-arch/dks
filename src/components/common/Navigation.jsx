@@ -8,8 +8,8 @@ import { usePathname } from "next/navigation";
 export default function Navigation() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false); 
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false); 
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const servicesRef = useRef(null);
 
   const navLinks = [
@@ -59,6 +59,7 @@ export default function Navigation() {
         setServicesOpen(false);
       }
     };
+
     const handleKey = (e) => {
       if (e.key === "Escape") {
         setServicesOpen(false);
@@ -66,8 +67,10 @@ export default function Navigation() {
         setMobileServicesOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClick);
     document.addEventListener("keydown", handleKey);
+
     return () => {
       document.removeEventListener("mousedown", handleClick);
       document.removeEventListener("keydown", handleKey);
@@ -76,12 +79,14 @@ export default function Navigation() {
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
+
     const handleChange = (e) => {
       if (e.matches) {
         setOpen(false);
         setMobileServicesOpen(false);
       }
     };
+
     mq.addEventListener("change", handleChange);
     return () => mq.removeEventListener("change", handleChange);
   }, []);
@@ -107,18 +112,12 @@ export default function Navigation() {
         <div className="hidden lg:flex gap-8 items-center max-w-133 w-full border border-black/12 rounded-[46px] px-5 py-2 text-base font-normal leading-160">
           {navLinks.map((link) =>
             link.hasArrow ? (
-              <div
-                key={link.name}
-                ref={servicesRef}
-                className="relative"
-                onMouseEnter={() => setServicesOpen(true)}
-                onMouseLeave={() => setServicesOpen(false)}
-              >
+              <div key={link.name} ref={servicesRef} className="relative">
                 <button
                   type="button"
                   aria-haspopup="true"
                   aria-expanded={servicesOpen}
-                  onClick={() => setServicesOpen(!servicesOpen)}
+                  onClick={() => setServicesOpen((prev) => !prev)}
                   className="flex items-center text-nowrap gap-1 cursor-pointer transition-colors duration-300 hover:text-custom-green"
                 >
                   {link.name}
@@ -171,7 +170,6 @@ export default function Navigation() {
             ),
           )}
         </div>
-
 
         <button className="hidden lg:block ml-4 relative overflow-hidden active:scale-80 group bg-custom-green text-white text-nowrap px-7 py-3 text-base font-semibold max-w-44.25 w-full rounded-full leading-160 cursor-pointer border border-transparent transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)]">
           <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
@@ -232,6 +230,7 @@ export default function Navigation() {
           <nav className="relative flex flex-col px-6 pt-4">
             {navLinks.map((link, i) => {
               const anim = itemAnim(i);
+
               return (
                 <div
                   key={link.name}
@@ -243,9 +242,7 @@ export default function Navigation() {
                       <button
                         type="button"
                         aria-expanded={mobileServicesOpen}
-                        onClick={() =>
-                          setMobileServicesOpen(!mobileServicesOpen)
-                        }
+                        onClick={() => setMobileServicesOpen((prev) => !prev)}
                         className="flex items-center justify-center gap-1 py-4 text-lg cursor-pointer transition-colors duration-300 hover:text-custom-green"
                       >
                         {link.name}
