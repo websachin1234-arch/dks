@@ -15,22 +15,22 @@ export default function TestimonialsSection() {
 
   return (
     <section
-      className="reviews-section relative w-full overflow-hidden bg-white"
+      className="reviews-section relative w-full overflow-hidden bg-white lg:p-0 py-4"
       aria-labelledby="loved-heading"
     >
       <div className="relative z-10 w-full">
-        <div className="max-w-285 mx-auto px-4 sm:px-6 lg:px-8">
-          <header className="flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-40 mb-6 sm:mb-8 lg:mb-8">
+        <div className="max-w-293 mx-auto px-4 sm:px-6 lg:px-4">
+          <header className="flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-40 mb-6 sm:mb-8 lg:mb-12.5">
             <h2
               id="loved-heading"
-              className="text-[32px] sm:text-[40px] lg:text-[48px] font-semibold text-rich-black leading-[1.2] tracking-tight max-w-138.25"
+              className="text-[32px] sm:text-[40px] lg:text-[48px] text-rich-black leading-[1.2] tracking-tight max-w-138.25 font-semibold"
             >
               {copy.heading}{" "}
               <span className="text-custom-green block">
                 {copy.headingAccent}
               </span>
             </h2>
-            <p className="text-dark-gray text-[15px] sm:text-[16px] leading-[1.6] max-w-106.75 lg:pt-1">
+            <p className="text-dark-gray text-[15px] sm:text-[16px] leading-[1.6] max-w-106.75 font-normal">
               {copy.description}
             </p>
           </header>
