@@ -138,7 +138,9 @@ const Footer = () => {
                     />
                   </div>
 
-                  <p
+                  <a
+                    target="_blank"
+                    href="https://maps.app.goo.gl/YqqPAhexhqE1hoku9"
                     className="
                                             font-normal
                                             text-base
@@ -149,7 +151,7 @@ const Footer = () => {
                                         "
                   >
                     {footerAddress.text}
-                  </p>
+                  </a>
                 </div>
 
                 <div

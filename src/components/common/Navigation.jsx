@@ -1,323 +1,329 @@
 "use client";
-
-import { useEffect, useRef, useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { gsap } from "gsap";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { services } from "@/utils/helper";
 
-gsap.registerPlugin(ScrollToPlugin);
+import { usePathname } from "next/navigation";
 
 export default function Navigation() {
   const pathname = usePathname();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const pendingScroll = useRef(null);
-  const scrollTween = useRef(null);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const servicesRef = useRef(null);
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About Us", href: "/" },
-    { name: "Services", href: "/services", hasDropdown: true },
-    { name: "Gallery", href: "/#gallery" },
-    { name: "FAQ", href: "/#faq" },
-    { name: "Blog", href: "/blog" },
+    { name: "Home", href: "/", hasArrow: false },
+    { name: "About Us", href: "/", hasArrow: false },
+    { name: "Services", href: "/services", hasArrow: true },
+    { name: "Gallery", href: "/", hasArrow: false },
+    { name: "FAQ", href: "/", hasArrow: false },
+    { name: "Blog", href: "/blog", hasArrow: false },
   ];
 
-  const isActive = (link) =>
-    link.name === "Home"
-      ? pathname === "/"
-      : link.href !== "/" &&
-        !link.href.includes("#") &&
-        pathname.startsWith(link.href);
+  const servicesLinks = [
+    { name: "Reupholstery", href: "/services/reupholstery" },
+    { name: "Covers & Cushions", href: "/services/covers-and-cushions" },
+    { name: "Foam & Fillings", href: "/services/reupholstery" },
+    { name: "Built Ins", href: "/services/built-ins" },
+  ];
 
-  const animateScroll = (target) => {
-    scrollTween.current?.kill();
-    scrollTween.current = gsap.to(window, {
-      scrollTo: { y: target, autoKill: true },
-      duration: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? 0
-        : 1,
-      ease: "power2.inOut",
-      overwrite: true,
-    });
-  };
-
-  const handleSmoothNavigation = (event, href) => {
-    if (
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    ) {
-      return;
-    }
-
-    const destination = new URL(href, window.location.href);
-    if (destination.origin !== window.location.origin) {
-      return;
-    }
-
-    event.preventDefault();
+  const closeSidebar = () => {
     setOpen(false);
-    setServicesOpen(false);
-
-    const targetId = destination.hash
-      ? decodeURIComponent(destination.hash.slice(1))
-      : null;
-    const route = `${destination.pathname}${destination.hash}`;
-
-    if (destination.pathname === pathname) {
-      pendingScroll.current = null;
-      router.push(route, { scroll: false });
-      animateScroll(
-        targetId ? document.getElementById(targetId) || 0 : 0,
-      );
-      return;
-    }
-
-    pendingScroll.current = {
-      pathname: destination.pathname,
-      targetId,
-    };
-    router.push(route, { scroll: false });
+    setMobileServicesOpen(false);
   };
+
+  const itemAnim = (i) => ({
+    className: `transition-all duration-500 ease-out ${
+      open ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
+    }`,
+    style: { transitionDelay: open ? `${180 + i * 70}ms` : "0ms" },
+  });
 
   useEffect(() => {
-    const destination = pendingScroll.current;
-    if (!destination || destination.pathname !== pathname) {
-      return;
+    if (open) {
+      const prevBody = document.body.style.overflow;
+      const prevHtml = document.documentElement.style.overflow;
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prevBody;
+        document.documentElement.style.overflow = prevHtml;
+      };
     }
+  }, [open]);
 
-    pendingScroll.current = null;
-    animateScroll(
-      destination.targetId
-        ? document.getElementById(destination.targetId) || 0
-        : 0,
-    );
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (servicesRef.current && !servicesRef.current.contains(e.target)) {
+        setServicesOpen(false);
+      }
+    };
+
+    const handleKey = (e) => {
+      if (e.key === "Escape") {
+        setServicesOpen(false);
+        setOpen(false);
+        setMobileServicesOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKey);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+
+    const handleChange = (e) => {
+      if (e.matches) {
+        setOpen(false);
+        setMobileServicesOpen(false);
+      }
+    };
+
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setServicesOpen(false);
+    setOpen(false);
+    setMobileServicesOpen(false);
   }, [pathname]);
-
-  useEffect(
-    () => () => {
-      scrollTween.current?.kill();
-    },
-    [],
-  );
 
   return (
     <div className="relative">
       <div className="max-w-285 mx-auto px-4 py-3.75 flex items-center justify-between lg:justify-start lg:gap-27.75">
-        <Link
-          href="/"
-          aria-label="DKS Upholstery home"
-          onClick={(event) => handleSmoothNavigation(event, "/")}
-        >
+        <Link href="/">
           <Image
             src="/assets/images/svg/logo.svg"
-            alt="DKS Upholstery"
+            alt="logo"
             width="193"
             height="41"
           />
         </Link>
 
-        <nav
-          aria-label="Main navigation"
-          className="hidden lg:flex gap-8 items-center max-w-133 w-full border border-black/12 rounded-[46px] px-5 py-2 text-base font-normal leading-160"
-        >
+        <div className="hidden lg:flex gap-8 items-center max-w-133 w-full border border-black/12 rounded-[46px] px-5 py-2 text-base font-normal leading-160">
           {navLinks.map((link) =>
-            link.hasDropdown ? (
-              <div key={link.name} className="relative group">
-                <Link
-                  href={link.href}
+            link.hasArrow ? (
+              <div key={link.name} ref={servicesRef} className="relative">
+                <button
+                  type="button"
                   aria-haspopup="true"
-                  className={`flex items-center text-nowrap gap-1 transition-colors duration-300 hover:text-custom-green-nav ${
-                    isActive(link) ? "text-custom-green-nav font-semibold" : ""
-                  }`}
+                  aria-expanded={servicesOpen}
+                  onClick={() => setServicesOpen((prev) => !prev)}
+                  className="flex items-center text-nowrap gap-1 cursor-pointer transition-colors duration-300 hover:text-custom-green"
                 >
                   {link.name}
                   <Image
                     src="/assets/images/svg/arrow.svg"
-                    alt=""
-                    aria-hidden="true"
+                    alt="arrow"
                     width="20"
                     height="20"
+                    className={`transition-transform duration-300 ${
+                      servicesOpen ? "rotate-180" : ""
+                    }`}
                   />
-                </Link>
-                <div className="absolute left-0 top-full z-50 hidden w-64 pt-3 group-hover:block group-focus-within:block">
-                  <ul className="rounded-xl border border-black/12 bg-white p-2 shadow-lg">
-                    <li>
+                </button>
+
+                <div
+                  className={`absolute left-1/2 -translate-x-1/2 top-full pt-3 w-60 z-50 transition-all duration-300 ${
+                    servicesOpen
+                      ? "opacity-100 visible translate-y-0"
+                      : "opacity-0 invisible -translate-y-2"
+                  }`}
+                >
+                  <div className="bg-white border border-black/12 rounded-2xl shadow-lg py-2 overflow-hidden">
+                    {servicesLinks.map((item) => (
                       <Link
-                        href="/services"
-                        className="block rounded-lg px-3 py-2 text-sm font-semibold transition-colors hover:bg-light-green hover:text-custom-green-nav"
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => setServicesOpen(false)}
+                        className={`block px-5 py-2.5 text-base transition-colors duration-300 hover:bg-black/5 hover:text-custom-green ${
+                          pathname === item.href ? "text-custom-green" : ""
+                        }`}
                       >
-                        All Services
+                        {item.name}
                       </Link>
-                    </li>
-                    {services.map((service) => (
-                      <li key={service.slug}>
-                        <Link
-                          href={`/services/${service.slug}`}
-                          className="block rounded-lg px-3 py-2 text-sm transition-colors hover:bg-light-green hover:text-custom-green-nav"
-                        >
-                          {service.name}
-                        </Link>
-                      </li>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </div>
             ) : (
               <Link
                 key={link.name}
                 href={link.href}
-                onClick={(event) =>
-                  handleSmoothNavigation(event, link.href)
-                }
-                className={`flex items-center text-nowrap gap-1 transition-colors duration-300 hover:text-custom-green-nav ${
-                  isActive(link) ? "text-custom-green-nav font-semibold" : ""
+                className={`flex items-center text-nowrap gap-1 transition-colors duration-300 hover:text-custom-green ${
+                  pathname === link.href
+                    ? "text-custom-green font-semibold"
+                    : ""
                 }`}
               >
                 {link.name}
               </Link>
             ),
           )}
-        </nav>
+        </div>
 
-        <Link
-          href="/#quote-form"
-          onClick={(event) =>
-            handleSmoothNavigation(event, "/#quote-form")
-          }
-          className="hidden lg:block ml-4 bg-custom-green-nav text-white text-nowrap px-7 py-3 text-base font-semibold max-w-44.25 w-full rounded-full leading-160 text-center transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5"
-        >
-          Get Free Quote
-        </Link>
+        <button className="hidden lg:block ml-4 relative overflow-hidden active:scale-80 group bg-custom-green text-white text-nowrap px-7 py-3 text-base font-semibold max-w-44.25 w-full rounded-full leading-160 cursor-pointer border border-transparent transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)]">
+          <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+            Get Free Quote
+          </span>
+
+          <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(190,255,220,0.4),transparent_75%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+
+          <span className="absolute inset-y-0 left-[-80%] w-1/2 skew-x-[-25deg] bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:left-[140%] transition-all duration-1000 ease-in-out"></span>
+        </button>
 
         <button
-          type="button"
-          className="lg:hidden p-2"
-          onClick={() => {
-            setOpen((isOpen) => !isOpen);
-            setServicesOpen(false);
-          }}
-          aria-label={open ? "Close menu" : "Open menu"}
+          className="lg:hidden relative z-60 w-10 h-10 flex flex-col items-center justify-center gap-1.5 cursor-pointer"
+          onClick={() => (open ? closeSidebar() : setOpen(true))}
+          aria-label="Toggle menu"
           aria-expanded={open}
-          aria-controls="mobile-navigation"
         >
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            aria-hidden="true"
-          >
-            {open ? (
-              <path d="M6 6l12 12M18 6L6 18" />
-            ) : (
-              <path d="M3 6h18M3 12h18M3 18h18" />
-            )}
-          </svg>
+          <span
+            className={`block h-0.5 w-7 bg-current rounded-full transition-all duration-300 ease-in-out ${
+              open ? "translate-y-2 rotate-45" : ""
+            }`}
+          />
+          <span
+            className={`block h-0.5 w-7 bg-current rounded-full transition-all duration-300 ease-in-out ${
+              open ? "opacity-0 scale-x-0" : ""
+            }`}
+          />
+          <span
+            className={`block h-0.5 w-7 bg-current rounded-full transition-all duration-300 ease-in-out ${
+              open ? "-translate-y-2 -rotate-45" : ""
+            }`}
+          />
         </button>
       </div>
 
-      <nav
-        id="mobile-navigation"
-        aria-label="Mobile navigation"
-        className={`lg:hidden absolute top-full left-0 w-full bg-white shadow-md z-50 overflow-hidden transition-all duration-700 ease-in-out ${
-          open
-            ? "max-h-[80vh] overflow-y-auto opacity-100 border-t border-black/12"
-            : "max-h-0 opacity-0"
+      <div
+        onClick={closeSidebar}
+        aria-hidden="true"
+        className={`lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px] transition-all duration-500 ease-in-out ${
+          open ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+      />
+
+      <aside
+        aria-hidden={!open}
+        className={`lg:hidden fixed top-0 right-0 h-dvh w-[70%] bg-white z-50 shadow-2xl overflow-y-auto transition-all duration-500 ease-in-out ${
+          open ? "translate-x-0 visible" : "translate-x-full invisible"
         }`}
       >
-        <div className="flex flex-col gap-4 px-4 py-5">
-          {navLinks.map((link) =>
-            link.hasDropdown ? (
-              <div key={link.name}>
-                <button
-                  type="button"
-                  onClick={() => setServicesOpen((isOpen) => !isOpen)}
-                  aria-expanded={servicesOpen}
-                  aria-controls="mobile-services-menu"
-                  className={`flex w-full items-center gap-1 text-left text-base transition-colors duration-300 hover:text-custom-green-nav ${
-                    isActive(link) ? "text-custom-green-nav font-semibold" : ""
-                  }`}
+        <div className="relative min-h-full flex flex-col overflow-hidden">
+          <div className="pointer-events-none absolute -bottom-20 -right-20 size-56 rounded-full bg-custom-green/10" />
+          <div className="pointer-events-none absolute -bottom-6 -left-10 size-28 rounded-full bg-custom-green/10" />
+
+          <div className="h-17.75 px-6 flex items-center border-b border-black/12">
+            <span className="text-sm text-black/50">Menu</span>
+          </div>
+
+          <nav className="relative flex flex-col px-6 pt-4">
+            {navLinks.map((link, i) => {
+              const anim = itemAnim(i);
+
+              return (
+                <div
+                  key={link.name}
+                  className={`${anim.className} border-b border-black/10`}
+                  style={anim.style}
                 >
-                  {link.name}
-                  <Image
-                    src="/assets/images/svg/arrow.svg"
-                    alt=""
-                    aria-hidden="true"
-                    width="20"
-                    height="20"
-                    className={`transition-transform ${
-                      servicesOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                <ul
-                  id="mobile-services-menu"
-                  className={`mt-2 flex flex-col gap-2 pl-4 ${
-                    servicesOpen ? "" : "hidden"
-                  }`}
-                >
-                  <li>
-                    <Link
-                      href="/services"
-                      onClick={() => setOpen(false)}
-                      className="block py-1 text-sm font-semibold transition-colors hover:text-custom-green-nav"
-                    >
-                      All Services
-                    </Link>
-                  </li>
-                  {services.map((service) => (
-                    <li key={service.slug}>
-                      <Link
-                        href={`/services/${service.slug}`}
-                        onClick={() => {
-                          setOpen(false);
-                          setServicesOpen(false);
-                        }}
-                        className="block py-1 text-sm transition-colors hover:text-custom-green-nav"
+                  {link.hasArrow ? (
+                    <div className="flex flex-col items-center">
+                      <button
+                        type="button"
+                        aria-expanded={mobileServicesOpen}
+                        onClick={() => setMobileServicesOpen((prev) => !prev)}
+                        className="flex items-center justify-center gap-1 py-4 text-lg cursor-pointer transition-colors duration-300 hover:text-custom-green"
                       >
-                        {service.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={(event) =>
-                  handleSmoothNavigation(event, link.href)
-                }
-                className={`flex items-center gap-1 text-base transition-colors duration-300 hover:text-custom-green-nav ${
-                  isActive(link) ? "text-custom-green-nav font-semibold" : ""
-                }`}
-              >
-                {link.name}
-              </Link>
-            ),
-          )}
-          <Link
-            href="/#quote-form"
-            onClick={(event) =>
-              handleSmoothNavigation(event, "/#quote-form")
-            }
-            className="bg-custom-green text-white px-7 py-3 text-base font-semibold w-full rounded-full leading-160 text-center"
+                        {link.name}
+                        <Image
+                          src="/assets/images/svg/arrow.svg"
+                          alt="arrow"
+                          width="20"
+                          height="20"
+                          className={`transition-transform duration-300 ${
+                            mobileServicesOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+
+                      <div
+                        className={`w-full overflow-hidden transition-all duration-500 ease-in-out ${
+                          mobileServicesOpen
+                            ? "max-h-96 opacity-100 mb-4"
+                            : "max-h-0 opacity-0"
+                        }`}
+                      >
+                        <div className="flex flex-col items-center gap-3 rounded-2xl bg-black/4 py-4">
+                          {servicesLinks.map((item) => (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              onClick={closeSidebar}
+                              className={`text-base transition-colors duration-300 hover:text-custom-green ${
+                                pathname === item.href
+                                  ? "text-custom-green"
+                                  : "text-black/70"
+                              }`}
+                            >
+                              {item.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      onClick={closeSidebar}
+                      className={`block py-4 text-center text-lg transition-colors duration-300 hover:text-custom-green ${
+                        pathname === link.href
+                          ? "text-custom-green font-semibold"
+                          : ""
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+
+          <div
+            className={`relative mt-auto flex flex-col items-center gap-5 px-6 pt-8 pb-8 transition-all duration-500 ease-out ${
+              open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+            style={{
+              transitionDelay: open ? `${180 + navLinks.length * 70}ms` : "0ms",
+            }}
           >
-            Get Free Quote
-          </Link>
+            <button
+              onClick={closeSidebar}
+              className="relative overflow-hidden active:scale-80 group bg-custom-green text-white px-7 py-3 text-base font-semibold w-full rounded-full leading-160 cursor-pointer border border-transparent transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)]"
+            >
+              <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+                Get Free Quote
+              </span>
+
+              <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(190,255,220,0.4),transparent_75%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+
+              <span className="absolute inset-y-0 left-[-80%] w-1/2 skew-x-[-25deg] bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:left-[140%] transition-all duration-1000 ease-in-out"></span>
+            </button>
+          </div>
         </div>
-      </nav>
+      </aside>
     </div>
   );
 }

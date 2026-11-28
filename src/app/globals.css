@@ -12,16 +12,18 @@
   --color-light-green: #20ae190f;
   --color-dark-gray: #4d4d4d;
   --color-soft-black: #0101011f;
+  --color-custom-white: #fafafa;
+  --color-vivid-green: #19ae1a;
 
   --leading-120: 120%;
   --leading-121: 121%;
   --leading-143: 143%;
   --leading-150: 150%;
   --leading-160: 160%;
-  --color-vivid-green: #19ae1a;
   --leading-163: 163%;
 
   --animate-marquee: marquee 40s linear infinite;
+  --animate-fade-in: fade-in 0.4s ease;
 
   --shadow-blogcard: 0px 4px 25px 0px #0101011a;
 }
@@ -32,13 +34,19 @@
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 body {
   font-family: "Poppins", sans-serif;
 }
 
-/* ==========================================================================
-   Loved by Singapore Reviews Section - Figma Specification
-   ========================================================================== */
+
 
 .reviews-section {
   position: relative;
@@ -60,7 +68,6 @@ body {
   align-items: stretch;
 }
 
-/* 500px wide card on desktop as specified in Figma */
 .testimonial-slide {
   width: 500px !important;
   max-width: 88vw !important;
@@ -78,7 +85,6 @@ body {
   }
 }
 
-/* Testimonial Card */
 .testimonial-card {
   box-sizing: border-box;
   width: 100%;
@@ -104,7 +110,6 @@ body {
   }
 }
 
-/* Active slide card styling (Figma Frame 2147227783) */
 .reviews-swiper .swiper-slide-active .testimonial-card {
   background: rgba(32, 174, 25, 0.06);
   border-color: #010101;
@@ -115,7 +120,6 @@ body {
   color: #010101;
 }
 
-/* Pagination Dots (Figma Frame 2147227155) */
 .reviews-pagination {
   display: flex;
   align-items: center;

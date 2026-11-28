@@ -1,28 +1,209 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import Swal from "sweetalert2";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { homepageAssets, homepageCopy } from "@/utils/helper";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const MOTION_OK = "(prefers-reduced-motion: no-preference)";
+const MAX_FILE_MB = 2;
+const BRAND_GREEN = "#19AE1A";
 
 export default function QuoteForm() {
   const copy = homepageCopy.quoteForm;
   const assets = homepageAssets.quoteForm;
   const form = useRef();
+  const fileInputRef = useRef();
+  const prevErrorsRef = useRef({});
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("");
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState("");
+  const [dragging, setDragging] = useState(false);
 
   const SERVICE_ID = "service_cuv86z5";
   const TEMPLATE_ID = "template_0hbo76n";
   const PUBLIC_KEY = "IgobY-EGMqPYzD90V";
 
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: `(min-width: 1024px) and ${MOTION_OK}`,
+          isMobile: `(max-width: 1023px) and ${MOTION_OK}`,
+        },
+        (ctx) => {
+          const { isDesktop } = ctx.conditions;
+          const clear = "transform,opacity";
+
+          gsap
+            .timeline({
+              defaults: { ease: "power3.out" },
+              scrollTrigger: {
+                trigger: form.current,
+                start: "top 92%",
+                once: true,
+              },
+            })
+            .from(form.current, {
+              y: isDesktop ? 60 : 36,
+              opacity: 0,
+              duration: 0.9,
+              clearProps: clear,
+            })
+            .from(
+              "[data-qf-field]",
+              {
+                y: 24,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.12,
+                clearProps: clear,
+              },
+              "-=0.45",
+            )
+            .from(
+              "[data-qf-submit]",
+              { y: 20, opacity: 0, duration: 0.6, clearProps: clear },
+              "-=0.3",
+            );
+        },
+      );
+
+      return () => mm.revert();
+    },
+    { scope: form },
+  );
+
+  useGSAP(
+    () => {
+      const prev = prevErrorsRef.current;
+      const motionOk = window.matchMedia(MOTION_OK).matches;
+
+      Object.entries(errors).forEach(([key, message]) => {
+        if (!message || prev[key] === message || !motionOk) return;
+
+        const input = form.current.querySelector(`[data-qf-input="${key}"]`);
+        const text = form.current.querySelector(`[data-qf-error="${key}"]`);
+
+        if (input) {
+          gsap.fromTo(
+            input,
+            { x: 0 },
+            {
+              keyframes: { x: [-8, 8, -6, 6, -3, 3, 0] },
+              duration: 0.45,
+              ease: "power2.out",
+              clearProps: "transform",
+            },
+          );
+        }
+
+        if (text) {
+          gsap.fromTo(
+            text,
+            { y: -6, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.35,
+              ease: "power2.out",
+              clearProps: "transform,opacity",
+            },
+          );
+        }
+      });
+
+      prevErrorsRef.current = errors;
+    },
+    { scope: form, dependencies: [errors] },
+  );
+
+  useGSAP(
+    () => {
+      if (!preview || !window.matchMedia(MOTION_OK).matches) return;
+
+      gsap.from("[data-qf-preview]", {
+        scale: 0.5,
+        opacity: 0,
+        duration: 0.5,
+        ease: "back.out(2)",
+        clearProps: "transform,opacity",
+      });
+    },
+    { scope: form, dependencies: [preview] },
+  );
+
+  const clearError = (field) => {
+    setErrors((prev) => (prev[field] ? { ...prev, [field]: "" } : prev));
+  };
+
+  const removeFile = () => {
+    setFile(null);
+    setPreview("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    clearError("photo");
+  };
+
+  const handleFile = (selected) => {
+    if (!selected) return;
+
+    if (!selected.type.startsWith("image/")) {
+      setErrors((prev) => ({
+        ...prev,
+        photo: "Please upload an image file only",
+      }));
+      return;
+    }
+    if (selected.size > MAX_FILE_MB * 1024 * 1024) {
+      setErrors((prev) => ({
+        ...prev,
+        photo: `Image must be under ${MAX_FILE_MB}MB`,
+      }));
+      return;
+    }
+
+    const dt = new DataTransfer();
+    dt.items.add(selected);
+    fileInputRef.current.files = dt.files;
+
+    setFile(selected);
+    setPreview(URL.createObjectURL(selected));
+    clearError("photo");
+  };
+
+  const onDragOver = (e) => {
+    e.preventDefault();
+    setDragging(true);
+  };
+  const onDragLeave = (e) => {
+    e.preventDefault();
+    setDragging(false);
+  };
+  const onDrop = (e) => {
+    e.preventDefault();
+    setDragging(false);
+    handleFile(e.dataTransfer.files?.[0]);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus("");
 
     const name = form.current.user_name.value.trim();
     const contact = form.current.user_contact.value.trim();
-
     const newErrors = {};
 
     if (name === "") {
@@ -37,25 +218,49 @@ export default function QuoteForm() {
       newErrors.contact = copy.errors.invalidContact;
     }
 
-    setErrors(newErrors);
+    if (errors.photo) newErrors.photo = errors.photo;
 
-    if (Object.keys(newErrors).length > 0) {
-      return;
-    }
+    prevErrorsRef.current = {};
+    setErrors(newErrors);
+    if (Object.keys(newErrors).some((k) => newErrors[k])) return;
 
     setLoading(true);
+
+    Swal.fire({
+      title: copy.sendingLabel || "Sending...",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => Swal.showLoading(),
+    });
 
     emailjs
       .sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY)
       .then(() => {
         setLoading(false);
-        setStatus("success");
         form.current.reset();
+        setFile(null);
+        setPreview("");
+        setErrors({});
+
+        Swal.fire({
+          icon: "success",
+          title: "Submitted!",
+          text: copy.successMessage,
+          confirmButtonColor: BRAND_GREEN,
+          confirmButtonText: "OK",
+        });
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
-        setStatus("error");
+
+        Swal.fire({
+          icon: "error",
+          title: "Oops!",
+          text: copy.errorMessage,
+          confirmButtonColor: BRAND_GREEN,
+          confirmButtonText: "Try again",
+        });
       });
   };
 
@@ -65,70 +270,137 @@ export default function QuoteForm() {
       id="quote-form"
       onSubmit={handleSubmit}
       noValidate
-      className="bg-white py-10 px-12.5 rounded-2xl max-w-282.25 mx-auto shadow-[0px_4px_25px_0px_#0101011A] -mt-29"
+      className="bg-white py-6 px-5 sm:py-8 sm:px-8 lg:py-10 lg:px-12.5 rounded-2xl w-full max-w-282.25 mx-auto shadow-[0px_4px_25px_0px_#0101011A] mt-6 lg:mt-0 lg:-mt-16 xl:-mt-24 2xl:-mt-29 relative z-10"
     >
-      <div className="flex flex-col md:flex-row gap-5">
-        <div className="w-full md:w-1/3">
-          <label className="font-semibold flex gap-1.5 items-center">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-5">
+        <div data-qf-field className="w-full lg:w-1/3">
+          <label className="font-semibold flex gap-1.5 items-center text-sm sm:text-base">
             <Image src={assets.name} alt="" height="18" width="18" />
             {copy.nameLabel}
           </label>
           <input
+            data-qf-input="name"
             type="text"
             name="user_name"
             placeholder={copy.namePlaceholder}
-            className="w-full mt-2 px-4 py-3 border border-[#DCDCDC] rounded-full text-sm  placeholder:text-dark-gray"
+            onChange={() => clearError("name")}
+            className={`w-full mt-2 px-4 py-3 border rounded-full text-sm placeholder:text-dark-gray outline-custom-green ${
+              errors.name ? "border-red-500" : "border-[#DCDCDC]"
+            }`}
           />
-          <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+          <p data-qf-error="name" className="text-red-500 text-xs mt-1 min-h-4">
+            {errors.name}
+          </p>
         </div>
 
-        <div className="w-full md:w-1/3">
-          <label className="font-semibold flex gap-1.5 items-center">
-            {" "}
-            <Image src={assets.contact} alt="" height="18" width="18" />{" "}
+        <div data-qf-field className="w-full lg:w-1/3">
+          <label className="font-semibold flex gap-1.5 items-center text-sm sm:text-base">
+            <Image src={assets.contact} alt="" height="18" width="18" />
             {copy.contactLabel}
           </label>
           <input
+            data-qf-input="contact"
             type="tel"
             name="user_contact"
+            inputMode="numeric"
+            maxLength={10}
             placeholder={copy.contactPlaceholder}
-            className="w-full mt-2 px-4 py-3 border border-[#DCDCDC] rounded-full text-sm placeholder:text-dark-gray"
+            onChange={(e) => {
+              e.target.value = e.target.value.replace(/\D/g, "");
+              clearError("contact");
+            }}
+            className={`w-full mt-2 px-4 py-3 border rounded-full text-sm placeholder:text-dark-gray outline-custom-green ${
+              errors.contact ? "border-red-500" : "border-[#DCDCDC]"
+            }`}
           />
-          <p className="text-red-500 text-xs mt-1">{errors.contact}</p>
+          <p
+            data-qf-error="contact"
+            className="text-red-500 text-xs mt-1 min-h-4"
+          >
+            {errors.contact}
+          </p>
         </div>
 
-        <div className="w-full md:w-1/3">
-          <label className="font-semibold flex gap-1.5 items-center">
-            {" "}
-            <Image src={assets.upload} alt="" height="18" width="18" />{" "}
+        <div data-qf-field className="w-full lg:w-1/3">
+          <label className="font-semibold flex gap-1.5 items-center text-sm sm:text-base">
+            <Image src={assets.upload} alt="" height="18" width="18" />
             {copy.uploadLabel}
           </label>
-          <label className="flex items-center gap-2 w-full mt-2 px-4 py-3 border border-dashed border-[#DCDCDC] rounded-full text-sm text-dark-gray cursor-pointer">
-            <Image src={assets.photo} alt="" height="20" width="20" />
-            {copy.uploadPrompt}
-            <input type="file" name="user_photo" className="hidden" />
-          </label>
+
+          <div
+            data-qf-input="photo"
+            onDragOver={onDragOver}
+            onDragEnter={onDragOver}
+            onDragLeave={onDragLeave}
+            onDrop={onDrop}
+            onClick={() => !file && fileInputRef.current?.click()}
+            className={`flex items-center gap-2 w-full mt-2 px-4 py-2.5 border border-dashed rounded-full text-sm text-dark-gray transition-colors ${
+              dragging
+                ? "border-custom-green bg-green-50"
+                : errors.photo
+                  ? "border-red-500"
+                  : "border-[#DCDCDC]"
+            } ${file ? "" : "cursor-pointer"}`}
+          >
+            {preview ? (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  data-qf-preview
+                  src={preview}
+                  alt="Selected preview"
+                  className="h-8 w-8 rounded-full object-cover shrink-0"
+                />
+                <span className="truncate flex-1">{file?.name}</span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile();
+                  }}
+                  aria-label="Remove image"
+                  className="text-red-500 font-bold px-1 cursor-pointer"
+                >
+                  ✕
+                </button>
+              </>
+            ) : (
+              <>
+                <Image src={assets.photo} alt="" height="20" width="20" />
+                <span className="truncate">
+                  {dragging ? "Drop image here" : copy.uploadPrompt}
+                </span>
+              </>
+            )}
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              name="user_photo"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => handleFile(e.target.files?.[0])}
+            />
+          </div>
+          <p data-qf-error="photo" className="text-red-500 text-xs mt-1 min-h-4">
+            {errors.photo}
+          </p>
         </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full mt-6 py-3 bg-custom-green text-white font-semibold rounded-full disabled:opacity-60 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer"
-      >
-        {loading ? copy.sendingLabel : copy.submitLabel}
-      </button>
-
-      {status === "success" && (
-        <p className="text-green-600 text-sm mt-3 text-center">
-          {copy.successMessage}
-        </p>
-      )}
-      {status === "error" && (
-        <p className="text-red-500 text-sm mt-3 text-center">
-          {copy.errorMessage}
-        </p>
-      )}
+      <div data-qf-submit>
+        <button
+          type="submit"
+          disabled={loading}
+          className="relative overflow-hidden active:scale-95 group w-full mt-4 lg:mt-6 py-3 bg-custom-green text-white font-semibold rounded-full border border-transparent transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+        >
+          <span className="relative z-10 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+            {loading ? copy.sendingLabel : copy.submitLabel}
+          </span>
+          <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(190,255,220,0.4),transparent_75%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+          <span className="absolute inset-y-0 left-[-80%] w-1/2 skew-x-[-25deg] bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:left-[140%] transition-all duration-1000 ease-in-out"></span>
+        </button>
+      </div>
     </form>
   );
 }

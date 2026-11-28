@@ -1,59 +1,181 @@
-import React from "react";
+"use client";
+import React, { useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import QuoteForm from "./QuoteForm";
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+const MOTION_OK = "(prefers-reduced-motion: no-preference)";
+
 const Upholstery = () => {
+  const sectionRef = useRef(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: `(min-width: 1024px) and ${MOTION_OK}`,
+          isMobile: `(max-width: 1023px) and ${MOTION_OK}`,
+        },
+        (ctx) => {
+          const { isDesktop } = ctx.conditions;
+          const clear = "transform,opacity";
+
+          const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+          tl.fromTo(
+            "[data-up-badge]",
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.6, clearProps: clear },
+          )
+            .fromTo(
+              "[data-up-title]",
+              { y: isDesktop ? 44 : 28, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.9, clearProps: clear },
+              "-=0.35",
+            )
+            .fromTo(
+              "[data-up-copy]",
+              { y: 24, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.7, clearProps: clear },
+              "-=0.55",
+            )
+            .fromTo(
+              "[data-up-cta]",
+              { y: 24, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.7, clearProps: clear },
+              "-=0.45",
+            )
+            .fromTo(
+              "[data-up-visual]",
+              isDesktop
+                ? { x: 70, opacity: 0, scale: 0.96 }
+                : { y: 40, opacity: 0, scale: 0.97 },
+              {
+                x: 0,
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.1,
+                clearProps: "transform,opacity",
+              },
+              0.35,
+            );
+
+          if (isDesktop) {
+            gsap.to("[data-up-visual]", {
+              yPercent: 6,
+              ease: "none",
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top top",
+                end: "bottom top",
+                scrub: true,
+              },
+            });
+          }
+        },
+      );
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
+
   return (
     <>
       <section
-        className="xl:min-h-215.25 bg-cover bg-center bg-no-repeat"
+        ref={sectionRef}
+        className="xl:min-h-215.25 bg-cover bg-center bg-no-repeat pb-10 lg:pb-0"
         style={{
           backgroundImage: `url(${"/assets/images/png/Hero-section.png"})`,
         }}
       >
-        <div className="flex max-w-285 gap-55.25 mx-auto">
-          <div className="pt-50.25">
-            <div className="max-w-107.75 ">
-              <h1 className="text-base font-medium leading-120 flex flex-col gap-1.5">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start max-w-285 mx-auto px-4 sm:px-6 xl:px-0 gap-10 lg:gap-12 xl:gap-55.25">
+          <div className="pt-28 sm:pt-36 lg:pt-40 xl:pt-50.25 w-full lg:w-auto">
+            <div className="max-w-107.75 mx-auto lg:mx-0 text-center lg:text-left">
+              <h1
+                data-up-badge
+                className="text-base font-medium leading-120 flex flex-col gap-1.5 items-center lg:items-start"
+              >
                 Highly Rated on Google
                 <Image
                   src={"/assets/images/svg/google.svg"}
                   width="194"
                   height="32"
                   alt="google"
+                  className="w-36 sm:w-48.5 h-auto"
                 />
               </h1>
-              <h2 className="text-5xl font-semibold leading-121 mt-4">
-                {" "}
+
+              <h2
+                data-up-title
+                className="text-3xl sm:text-4xl xl:text-5xl font-semibold leading-121 mt-4"
+              >
                 <span className="text-custom-green">Upholstery Services </span>
                 Trusted Across Singapore
               </h2>
-              <p className="text-base font-normal leading-163 mt-4 max-w-107.25">
+
+              <p
+                data-up-copy
+                className="text-sm sm:text-base font-normal leading-163 mt-4 max-w-107.25 mx-auto lg:mx-0"
+              >
                 Complete upholstery solutions for homes and businesses sofas,
                 cushions, built ins, headboards, and more.
               </p>
-              <button className="flex gap-2.5 mt-7.5 bg-custom-green py-3 px-7 rounded-full text-white leading-160 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer">
-                <Image
-                  src={"/assets/images/svg/whatsapp.svg"}
-                  width="24"
-                  height="24"
-                  alt=""
-                />{" "}
-                WhatsApp Us Now
-              </button>
+
+              <div data-up-cta>
+                <button
+                  onClick={() =>
+                    window.open(
+                      `https://wa.me/918020903050?text=${encodeURIComponent(
+                        "Hi, I'm interested in your upholstery services",
+                      )}`,
+                      "_blank",
+                      "noopener,noreferrer",
+                    )
+                  }
+                  className="relative flex gap-2.5 items-center justify-center w-full sm:w-auto mt-7.5 overflow-hidden active:scale-80 group bg-custom-green py-3 px-7 rounded-full text-white leading-160 border border-transparent transition-all duration-500 hover:border-[#B7F5D5] hover:shadow-[0_0_0_3px_rgba(183,245,213,0.12),0_8px_30px_rgba(0,0,0,0.12)] cursor-pointer mx-auto lg:mx-0"
+                >
+                  <span className="relative z-10 flex items-center gap-2.5 transition-all duration-500 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+                    <Image
+                      src={"/assets/images/svg/whatsapp.svg"}
+                      width="24"
+                      height="24"
+                      alt=""
+                    />
+                    WhatsApp Us Now
+                  </span>
+
+                  <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(190,255,220,0.4),transparent_75%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+
+                  <span className="absolute inset-y-0 left-[-80%] w-1/2 skew-x-[-25deg] bg-linear-to-r from-transparent via-white/30 to-transparent group-hover:left-[140%] transition-all duration-1000 ease-in-out"></span>
+                </button>
+              </div>
             </div>
           </div>
-          <div className="pt-5.75">
+
+          <div
+            data-up-visual
+            className="lg:pt-5.75 w-full max-w-sm sm:max-w-md lg:max-w-119.75 shrink-0"
+          >
             <Image
               src="/assets/images/png/before-after.png"
               alt="before after"
               width="479"
               height="610"
+              className="w-full h-auto"
             />
           </div>
         </div>
       </section>
-      <div>
+
+      <div className="px-4 lg:px-0">
         <QuoteForm />
       </div>
     </>
